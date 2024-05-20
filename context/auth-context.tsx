@@ -70,6 +70,7 @@ export const AuthProvider = ({
 
   useEffect(() => {
     signIn();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>;

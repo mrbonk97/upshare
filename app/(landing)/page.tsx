@@ -18,7 +18,8 @@ const LandingPage = () => {
 
   useEffect(() => {
     if (auth.isLoggedIn) router.push('/home');
-  });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const variants = {
     initial: {

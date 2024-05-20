@@ -10,7 +10,8 @@ const TestLogin = () => {
   useEffect(() => {
     auth.testLogin();
     router.push('/home');
-  });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return <main className='h-full w-full'></main>;
 };

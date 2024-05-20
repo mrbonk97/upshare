@@ -13,7 +13,8 @@ const CallbackPage = () => {
       localStorage.setItem('access_token', access_token);
       auth.signIn();
     }
-  });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return <main></main>;
 };
