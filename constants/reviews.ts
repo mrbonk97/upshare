@@ -1,5 +1,3 @@
-import { icons } from 'lucide-react';
-
 export const Reviews = [
   {
     name: '김*석',
@@ -23,7 +21,7 @@ export const Reviews = [
   },
   {
     name: '김*우',
-    title: '정확하고 단호하게 저를 혼내주셨어요!',
+    title: '낄낄 몰라~레후',
     desc: '원드라이브는 여러 기기에서 파일을 쉽게 접근하고 공유할 수 있어 편리합니다. 특히 Windows 환경에서 매끄럽게 작동하며, Office 애플리케이션과의 통합 덕분에 문서 작업이 효율적입니다. 5GB의 무료 저장 공간도 유용하며, 유료 플랜은 더욱 많은 용량과 기능을 제공합니다.',
   },
   {
@@ -52,61 +50,3 @@ export const Reviews = [
     desc: '원드라이브는 여러 기기에서 파일을 쉽게 접근하고 공유할 수 있어 편리합니다. 특히 Windows 환경에서 매끄럽게 작동하며, Office 애플리케이션과의 통합 덕분에 문서 작업이 효율적입니다. 5GB의 무료 저장 공간도 유용하며, 유료 플랜은 더욱 많은 용량과 기능을 제공합니다.',
   },
 ];
-
-// import { RiBookmark2Line } from 'react-icons/ri';
-// import { RiPsychotherapyLine } from 'react-icons/ri';
-// import { BiDonateHeart } from 'react-icons/bi';
-// import { CgCommunity } from 'react-icons/cg';
-// import { IconType } from 'react-icons/lib';
-// import { RiUser3Line } from 'react-icons/ri';
-
-// type Menu = {
-//   name: string;
-//   key: string;
-//   icon: IconType;
-// };
-// export const Menus: Menu[] = [
-//   {
-//     name: '멘토',
-//     key: '/mentors',
-//     icon: RiPsychotherapyLine,
-//   },
-//   {
-//     name: '저장 목록',
-//     key: '/bookmark',
-//     icon: RiBookmark2Line,
-//   },
-//   {
-//     name: '나의 상담',
-//     key: '/counsels',
-//     icon: BiDonateHeart,
-//   },
-//   {
-//     name: '커뮤니티',
-//     key: '/community',
-//     icon: CgCommunity,
-//   },
-// ];
-
-// export const BottomMenus: Menu[] = [
-//   {
-//     name: '멘토',
-//     key: '/mentors',
-//     icon: RiPsychotherapyLine,
-//   },
-//   {
-//     name: '나의 상담',
-//     key: '/counsels',
-//     icon: BiDonateHeart,
-//   },
-//   {
-//     name: '커뮤니티',
-//     key: '/community',
-//     icon: CgCommunity,
-//   },
-//   {
-//     name: '마이페이지',
-//     key: '/profile',
-//     icon: RiUser3Line,
-//   },
-// ];

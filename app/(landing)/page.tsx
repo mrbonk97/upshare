@@ -9,7 +9,6 @@ import { useAuth } from '@/context/auth-context';
 import { useRouter } from 'next/navigation';
 import { MoveRight } from 'lucide-react';
 import { useEffect } from 'react';
-import { Logo } from '@/components/logo';
 import style from './landing.module.css';
 import Image from 'next/image';
 
@@ -19,7 +18,7 @@ const LandingPage = () => {
 
   useEffect(() => {
     if (auth.isLoggedIn) router.push('/home');
-  }, []);
+  });
 
   const variants = {
     initial: {

@@ -1,6 +1,5 @@
 'use client';
 import { useAuth } from '@/context/auth-context';
-import { api } from '@/lib/api';
 import { useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
 

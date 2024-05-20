@@ -10,7 +10,7 @@ const TestLogin = () => {
   useEffect(() => {
     auth.testLogin();
     router.push('/home');
-  }, []);
+  });
 
   return <main className='h-full w-full'></main>;
 };
