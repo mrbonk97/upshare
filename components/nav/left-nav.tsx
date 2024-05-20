@@ -1,9 +1,13 @@
-import { FileUploadModal } from "../modal/file-upload-modal";
+import { FileUploadModal } from '../modal/file-upload-modal';
+import { SpaceIndicator } from '../space-indicator';
 
 export const LeftNavbar = () => {
   return (
-    <aside className="fixed h-full w-96 px-10 bg-secondary text-secondary-foreground z-20 pt-20">
-      <FileUploadModal />
+    <aside className='fixed h-full pt-14 w-96'>
+      <div className='h-full bg-secondary/50 p-10 flex flex-col justify-between'>
+        <FileUploadModal />
+        <SpaceIndicator />
+      </div>
     </aside>
   );
 };

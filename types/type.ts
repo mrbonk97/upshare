@@ -2,7 +2,8 @@ export type user = {
   id: string;
   name: string;
   email: string;
-  profile_image: string;
+  imageUrl: string;
+  role: string;
 };
 
 export type File = {

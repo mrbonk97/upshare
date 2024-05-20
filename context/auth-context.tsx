@@ -1,13 +1,15 @@
-"use client";
-import { user } from "@/types/type";
-import { useRouter } from "next/navigation";
-import { createContext, useContext, useState } from "react";
+'use client';
+import { api } from '@/lib/api';
+import { user } from '@/types/type';
+import { useRouter } from 'next/navigation';
+import { createContext, useContext, useEffect, useState } from 'react';
 
 interface AuthContextProps {
   isLoggedIn: boolean;
   user: user | null;
   signIn: () => void;
   signOut: () => void;
+  testLogin: () => void;
 }
 
 const AuthContext = createContext<AuthContextProps>({
@@ -15,6 +17,7 @@ const AuthContext = createContext<AuthContextProps>({
   user: null,
   signIn: () => {},
   signOut: () => {},
+  testLogin: () => {},
 });
 
 export const useAuth = () => {
@@ -30,21 +33,31 @@ export const AuthProvider = ({
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState<user | null>(null);
 
-  const signIn = () => {
-    setIsLoggedIn(true);
-    setUser({
-      email: "hyunsuk1997@naver.com",
-      id: "1",
-      name: "김현석",
-      profile_image: "http://asdasd.com",
-    });
-    router.push("/main");
+  const signIn = async () => {
+    const result = await api.get('/users/me');
+    if (result.status === 200) {
+      setUser(result.data);
+      console.log(result.data.imageUrl);
+      setIsLoggedIn(true);
+      router.push('/home');
+    }
   };
 
   const signOut = () => {
     setIsLoggedIn(false);
     setUser(null);
-    router.push("/");
+    router.push('/');
+  };
+
+  const testLogin = () => {
+    setIsLoggedIn(true);
+    setUser({
+      id: 'USER01',
+      name: '테스트',
+      email: 'test@naver.com',
+      imageUrl: 'https://github.com/shadcn.png',
+      role: 'ROLE_USER',
+    });
   };
 
   const values = {
@@ -52,7 +65,12 @@ export const AuthProvider = ({
     user,
     signIn,
     signOut,
+    testLogin,
   };
+
+  useEffect(() => {
+    signIn();
+  }, []);
 
   return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>;
 };

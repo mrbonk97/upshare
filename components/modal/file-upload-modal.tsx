@@ -1,5 +1,5 @@
-"use client";
-import { Button } from "../ui/button";
+'use client';
+import { Button } from '../ui/button';
 import {
   Dialog,
   DialogContent,
@@ -8,18 +8,12 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
-import { Input } from "../ui/input";
-import * as z from "zod";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage,
-} from "../ui/form";
+} from '@/components/ui/dialog';
+import { Input } from '../ui/input';
+import * as z from 'zod';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Form, FormControl, FormField, FormItem, FormMessage } from '../ui/form';
 
 export const FileUploadModal = () => {
   const formSchema = z.object({
@@ -29,38 +23,36 @@ export const FileUploadModal = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      file: "",
+      file: '',
     },
   });
 
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button className="w-full py-7 flex2 gap-5 text-xl">파일 업로드</Button>
+        <Button className='w-full py-7 flex2 gap-5 text-xl'>파일 업로드</Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className='sm:max-w-[425px]'>
         <DialogHeader>
           <DialogTitle>파일 업로드</DialogTitle>
-          <DialogDescription>
-            업로드 버튼을 클릭하거나, 마우스로 드래그 해주세요
-          </DialogDescription>
+          <DialogDescription>업로드 버튼을 클릭해서 추가해주세요(최대 5mb)</DialogDescription>
         </DialogHeader>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit((e) => {})} className="space-y-8">
+          <form onSubmit={form.handleSubmit((e) => {})} className='space-y-8'>
             <FormField
               control={form.control}
-              name="file"
+              name='file'
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Input type="file" {...field} />
+                    <Input type='file' {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
             <DialogFooter>
-              <Button type="submit" className="w-full">
+              <Button type='submit' className='w-full'>
                 업로드
               </Button>
             </DialogFooter>
