@@ -78,6 +78,7 @@
 * {
   padding: 0;
   margin: 0;
+  /* border: 1px solid black; */
 }
 
 html,
@@ -85,4 +86,14 @@ body,
 #root {
   height: 100%;
   width: 100%;
+}
+
+.fade {
+  background: -webkit-linear-gradient(
+    left,
+    rgba(0, 0, 0, 0.65) 0%,
+    rgba(0, 0, 0, 0) 20%,
+    rgba(0, 0, 0, 0) 40%,
+    rgba(0, 0, 0, 0) 60%
+  );
 }
