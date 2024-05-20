@@ -96,7 +96,8 @@ body,
     rgba(0, 0, 0, 0) 40%,
     rgba(0, 0, 0, 0) 60%
   );
-  
+}
+
 .flex2 {
   display: flex;
   align-items: center;
