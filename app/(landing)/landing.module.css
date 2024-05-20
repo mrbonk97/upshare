@@ -1,0 +1,19 @@
+.box {
+  width: 24rem;
+  display: inline-block;
+}
+
+/*keyframe animations*/
+.box:first-child {
+  animation: bannermove 20s linear infinite;
+}
+
+@keyframes bannermove {
+  0% {
+    margin-left: 0px;
+    transform: translateX(0);
+  }
+  100% {
+    margin-left: -174rem;
+  }
+}
