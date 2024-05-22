@@ -1,14 +1,13 @@
-"use client";
-import { firebaseSignOut } from "@/firebase/auth";
-import { firebaseAuth } from "@/firebase/firebase";
-import { user } from "@/types/type";
-import { useRouter } from "next/navigation";
-import { createContext, useContext, useEffect, useState } from "react";
+'use client';
+import { api } from '@/lib/api';
+import { user } from '@/types/type';
+import { useRouter } from 'next/navigation';
+import { createContext, useContext, useEffect, useState } from 'react';
 
 interface AuthContextProps {
   isLoggedIn: boolean;
   user: user | null;
-  signIn: (user: user) => void;
+  signIn: () => void;
   signOut: () => void;
   testLogin: () => void;
 }
@@ -34,21 +33,31 @@ export const AuthProvider = ({
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState<user | null>(null);
 
-  const signIn = (user: user) => {
-    setUser(user);
-    console.log("로그인 성공! ", user.displayName);
-    router.push("/home");
+  const signIn = async () => {
+    const result = await api.get('/users/me');
+    if (result.status === 200) {
+      setUser(result.data);
+      console.log(result.data.imageUrl);
+      setIsLoggedIn(true);
+      router.push('/home');
+    }
   };
 
   const signOut = () => {
-    firebaseSignOut();
     setIsLoggedIn(false);
     setUser(null);
-    router.push("/");
+    router.push('/');
   };
 
   const testLogin = () => {
     setIsLoggedIn(true);
+    setUser({
+      id: 'USER01',
+      name: '테스트',
+      email: 'test@naver.com',
+      imageUrl: 'https://github.com/shadcn.png',
+      role: 'ROLE_USER',
+    });
   };
 
   const values = {
@@ -59,18 +68,10 @@ export const AuthProvider = ({
     testLogin,
   };
 
-  firebaseAuth.onAuthStateChanged((user) => {
-    if (user == null) {
-      setUser(null);
-      setIsLoggedIn(false);
-    }
-
-    if (user != null) {
-      setUser(user);
-      setIsLoggedIn(true);
-      console.log("새로고침 후 자동 로그인");
-    }
-  });
+  useEffect(() => {
+    signIn();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>;
 };
