@@ -1,9 +1,10 @@
 export type user = {
-  id: string;
-  name: string;
-  email: string;
-  imageUrl: string;
-  role: string;
+  displayName: string | null;
+  email: string | null;
+  phoneNumber: string | null;
+  photoURL: string | null;
+  providerId: string | null;
+  uid: string | null;
 };
 
 export type File = {
