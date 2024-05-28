@@ -22,43 +22,41 @@ import {
 } from "../ui/form";
 import { api } from "@/lib/api";
 import { useState } from "react";
+import { usePathname } from "next/navigation";
 
-export const FileUploadModal = () => {
-  const [isOpen, setIsOpen] = useState(false);
+export const FolderCreateModal = () => {
+  const pn = usePathname();
   const formSchema = z.object({
-    file: z.unknown().refine((f) => f?.length == 1, "파일을 선택해주세요"),
+    title: z.string().min(2).max(20),
   });
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
+    defaultValues: {
+      title: "",
+    },
   });
 
   const onSubmit = async (e: z.infer<typeof formSchema>) => {
-    let formData = new FormData();
-    formData.append("file", e.file[0]);
-    const result = await api.post("/files", formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
+    const parentId = pn.split("/home/")[1];
+    const response = await api.post("/folders", {
+      title: e.title,
+      parentFolderId: parentId,
     });
-    if (result.status == 200) {
-      setIsOpen(false);
+    if (response.status == 200) {
+      console.log("폴더 추가 완료");
     }
   };
 
-  const fileRef = form.register("file");
-
   return (
-    <Dialog onOpenChange={(e) => setIsOpen(e)} open={isOpen}>
+    <Dialog>
       <DialogTrigger asChild>
-        <Button className="w-full py-7 flex2 gap-5 text-xl">파일 업로드</Button>
+        <Button className="w-full py-7 flex2 gap-5 text-xl">폴더 추가</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>파일 업로드</DialogTitle>
-          <DialogDescription>
-            업로드 버튼을 클릭해서 추가해주세요(최대 5mb)
-          </DialogDescription>
+          <DialogTitle>폴더 추가</DialogTitle>
+          <DialogDescription>현재 경로에 폴더를 추가합니다.</DialogDescription>
         </DialogHeader>
         <Form {...form}>
           <form
@@ -67,11 +65,15 @@ export const FileUploadModal = () => {
           >
             <FormField
               control={form.control}
-              name="file"
+              name="title"
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Input type="file" {...fileRef} />
+                    <Input
+                      type="text"
+                      {...field}
+                      placeholder="폴더 이름을 입력해주세요"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -79,7 +81,7 @@ export const FileUploadModal = () => {
             />
             <DialogFooter>
               <Button type="submit" className="w-full">
-                업로드
+                추가
               </Button>
             </DialogFooter>
           </form>
