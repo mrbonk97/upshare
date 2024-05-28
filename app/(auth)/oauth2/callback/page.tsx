@@ -1,22 +1,33 @@
-'use client';
-import { useAuth } from '@/context/auth-context';
-import { useSearchParams } from 'next/navigation';
-import { useEffect } from 'react';
+"use client";
+import { Spinner } from "@/components/spinner";
+import { useAuth } from "@/context/auth-context";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect } from "react";
 
 const CallbackPage = () => {
+  const router = useRouter();
   const auth = useAuth();
-  const params = useSearchParams();
-  const access_token = params.get('access_token');
+  const access_token = useSearchParams().get("access_token");
+
+  const handleSignIn = () => {
+    const result = auth.signIn();
+    if (result) router.push("/home");
+  };
 
   useEffect(() => {
     if (access_token != null) {
-      localStorage.setItem('access_token', access_token);
-      auth.signIn();
+      localStorage.setItem("access_token", access_token);
+      handleSignIn();
+    } else {
+      router.push("/error");
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return <main></main>;
+  return (
+    <main>
+      <Spinner loading />
+    </main>
+  );
 };
 
 export default CallbackPage;
