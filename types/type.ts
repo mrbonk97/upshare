@@ -7,10 +7,22 @@ export type user = {
 };
 
 export type File = {
+  contentType: string;
   id: string;
-  type: string;
-  name: string;
+  originalFileName: string;
   size: number;
-  createdAt: string;
-  createdBy: string;
+  updatedAt: string;
+  type: "FILE" | "FOLDER";
 };
+
+export interface AuthContextProps {
+  isLoggedIn: boolean;
+  user: user | null;
+  signIn: () => Promise<boolean>;
+  signOut: () => void;
+  testLogin: () => void;
+}
+
+export interface LayoutProps {
+  children: React.ReactNode;
+}
