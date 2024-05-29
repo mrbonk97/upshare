@@ -44,7 +44,7 @@ export const FileUploadModal = () => {
     const formData = new FormData();
     console.log(e.file[0]);
     formData.append("file", e.file[0]);
-    formData.append("folderId", folderId);
+    if (folderId != null) formData.append("folderId", folderId);
     const isSuccess = await filesApi.createFile(formData);
 
     if (isSuccess) {
