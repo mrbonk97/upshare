@@ -46,8 +46,9 @@ import { File } from "@/types/type";
 import { ShareModal } from "./modal/share-modal";
 import { DeleteModal } from "./modal/delete-modal";
 import { api } from "@/lib/api";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { useFile } from "@/context/file-context";
+import { foldersApi } from "@/api/folders-api";
 
 const handleFileDownload = async (fileId: string, fileName: string) => {
   const response = await api.get(`/files/${fileId}`, { responseType: "blob" });
@@ -174,7 +175,14 @@ export const columns: ColumnDef<File>[] = [
   },
 ];
 
-export function DataTableDemo({ data }: { data: any }) {
+export function DataTableDemo({
+  data,
+  folderId,
+}: {
+  data: any;
+  folderId?: string;
+}) {
+  const { setFiles } = useFile();
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
@@ -192,7 +200,8 @@ export function DataTableDemo({ data }: { data: any }) {
       folderId: data[hoverRow].id,
     });
     if (response.status == 200) {
-      console.log;
+      const result = await foldersApi.getFolder(folderId);
+      if (result.status == 200) setFiles(result.data.files);
     }
   };
 

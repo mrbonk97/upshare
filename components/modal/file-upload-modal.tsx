@@ -20,13 +20,20 @@ import {
   FormItem,
   FormMessage,
 } from "../ui/form";
-import { api } from "@/lib/api";
 import { useState } from "react";
+import { useFile } from "@/context/file-context";
+import { usePathname } from "next/navigation";
+import { filesApi } from "@/api/files-api";
+import { foldersApi } from "@/api/folders-api";
 
 export const FileUploadModal = () => {
+  const fileContext = useFile();
+  const pathname = usePathname();
+  const folderId = pathname.split("/home/")[1];
   const [isOpen, setIsOpen] = useState(false);
+
   const formSchema = z.object({
-    file: z.unknown().refine((f) => f?.length == 1, "파일을 선택해주세요"),
+    file: z.any().refine((f) => f?.length == 1, "파일을 선택해주세요"),
   });
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -34,15 +41,18 @@ export const FileUploadModal = () => {
   });
 
   const onSubmit = async (e: z.infer<typeof formSchema>) => {
-    let formData = new FormData();
+    const formData = new FormData();
+    console.log(e.file[0]);
     formData.append("file", e.file[0]);
-    const result = await api.post("/files", formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
-    if (result.status == 200) {
-      setIsOpen(false);
+    formData.append("folderId", folderId);
+    const isSuccess = await filesApi.createFile(formData);
+
+    if (isSuccess) {
+      const result = await foldersApi.getFolder(folderId);
+      if (result.status == 200) {
+        fileContext.setFiles(result.data.files);
+        setIsOpen(false);
+      }
     }
   };
 
@@ -61,10 +71,7 @@ export const FileUploadModal = () => {
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit((e) => onSubmit(e))}
-            className="space-y-8"
-          >
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <FormField
               control={form.control}
               name="file"

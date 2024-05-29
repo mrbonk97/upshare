@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { AuthProvider } from "@/context/auth-context";
 import { Toaster } from "@/components/ui/toaster";
+import { FileProvider } from "@/context/file-context";
 
 const inter = Noto_Sans_KR({ subsets: ["latin"] });
 
@@ -28,8 +29,10 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <AuthProvider>
-            {children}
-            <Toaster />
+            <FileProvider>
+              {children}
+              <Toaster />
+            </FileProvider>
           </AuthProvider>
           <ThemeToggle />
         </ThemeProvider>

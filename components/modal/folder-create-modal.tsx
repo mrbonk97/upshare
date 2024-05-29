@@ -20,12 +20,17 @@ import {
   FormItem,
   FormMessage,
 } from "../ui/form";
-import { api } from "@/lib/api";
+import { useFile } from "@/context/file-context";
 import { useState } from "react";
+import { foldersApi } from "@/api/folders-api";
 import { usePathname } from "next/navigation";
 
 export const FolderCreateModal = () => {
-  const pn = usePathname();
+  const pathname = usePathname();
+  const folderId = pathname.split("/home/")[1];
+  const fileContext = useFile();
+  const [isOpen, setIsOpen] = useState(false);
+
   const formSchema = z.object({
     title: z.string().min(2).max(20),
   });
@@ -38,18 +43,22 @@ export const FolderCreateModal = () => {
   });
 
   const onSubmit = async (e: z.infer<typeof formSchema>) => {
-    const parentId = pn.split("/home/")[1];
-    const response = await api.post("/folders", {
+    const isSuccess = await foldersApi.createFolder({
       title: e.title,
-      parentFolderId: parentId,
+      folderId: folderId,
     });
-    if (response.status == 200) {
-      console.log("폴더 추가 완료");
+
+    if (isSuccess) {
+      const result = await foldersApi.getFolder(folderId);
+      if (result.status == 200) {
+        fileContext.setFiles(result.data.files);
+        setIsOpen(false);
+      }
     }
   };
 
   return (
-    <Dialog>
+    <Dialog onOpenChange={(e) => setIsOpen(e)} open={isOpen}>
       <DialogTrigger asChild>
         <Button className="w-full py-7 flex2 gap-5 text-xl">폴더 추가</Button>
       </DialogTrigger>
@@ -59,10 +68,7 @@ export const FolderCreateModal = () => {
           <DialogDescription>현재 경로에 폴더를 추가합니다.</DialogDescription>
         </DialogHeader>
         <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit((e) => onSubmit(e))}
-            className="space-y-8"
-          >
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <FormField
               control={form.control}
               name="title"
