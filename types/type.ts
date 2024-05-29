@@ -20,7 +20,6 @@ export interface AuthContextProps {
   user: user | null;
   signIn: () => Promise<boolean>;
   signOut: () => void;
-  testLogin: () => void;
 }
 
 export interface LayoutProps {

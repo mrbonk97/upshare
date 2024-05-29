@@ -9,18 +9,16 @@ const CallbackPage = () => {
   const auth = useAuth();
   const access_token = useSearchParams().get("access_token");
 
-  const handleSignIn = () => {
-    const result = auth.signIn();
-    if (result) router.push("/home");
+  const handleSignIn = async () => {
+    const isSuccess = await auth.signIn();
+    if (isSuccess) router.push("/home");
+    else router.push("/error");
   };
 
   useEffect(() => {
-    if (access_token != null) {
+    if (access_token != null)
       localStorage.setItem("access_token", access_token);
-      handleSignIn();
-    } else {
-      router.push("/error");
-    }
+    handleSignIn();
   }, []);
 
   return (

@@ -1,5 +1,5 @@
 "use client";
-import { api } from "@/lib/api";
+import { useUserInfo } from "@/hooks/userUserInfo";
 import { AuthContextProps, LayoutProps, user } from "@/types/type";
 import { useRouter } from "next/navigation";
 import { createContext, useContext, useEffect, useState } from "react";
@@ -9,7 +9,6 @@ const AuthContext = createContext<AuthContextProps>({
   user: null,
   signIn: async () => true,
   signOut: () => {},
-  testLogin: () => {},
 });
 
 export const useAuth = () => {
@@ -22,13 +21,17 @@ export const AuthProvider: React.FC<LayoutProps> = ({ children }) => {
   const [user, setUser] = useState<user | null>(null);
 
   const signIn = async () => {
-    const result = await api.get("/users/me");
-    if (result.status === 200) {
-      setUser(result.data);
-      setIsLoggedIn(true);
-      return true;
+    const userInfo = await useUserInfo();
+
+    if (userInfo == null) {
+      setUser(null);
+      setIsLoggedIn(false);
+      return false;
     }
-    return false;
+
+    setUser(userInfo);
+    setIsLoggedIn(true);
+    return true;
   };
 
   const signOut = () => {
@@ -37,28 +40,15 @@ export const AuthProvider: React.FC<LayoutProps> = ({ children }) => {
     router.push("/");
   };
 
-  const testLogin = () => {
-    setIsLoggedIn(true);
-    setUser({
-      id: "USER01",
-      name: "테스트",
-      email: "test@naver.com",
-      imageUrl: "https://github.com/shadcn.png",
-      role: "ROLE_USER",
-    });
-  };
-
   const values = {
     isLoggedIn,
     user,
     signIn,
     signOut,
-    testLogin,
   };
 
   useEffect(() => {
     signIn();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>;
