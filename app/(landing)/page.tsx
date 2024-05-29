@@ -87,7 +87,7 @@ const LandingPage = () => {
         viewport={{ once: true }}
       >
         <Link href={"/sign-in"}>
-          <div className="bg-secondary static flex2 sm:block sm:absolute h-16 w-64 sm:w-16 rounded-full bg-pc-500 peer group-hover:w-64 left-0 group-hover:left-4 duration-500 ease-[cubic-bezier(0.65,0,.076,1);] shadow-lg">
+          <div className="bg-secondary static flex2 sm:block sm:absolute h-16 w-64 sm:w-16 rounded-full bg-pc-500 peer group-hover:w-64 left-0 group-hover:left-4 duration-500 ease-in-out shadow-lg">
             <MoveRight className="text-primary-foreground sm:absolute sm:mt-3 ml-3 h-10 w-10 duration-300" />
             <button className="text-2xl font-bold text-primary-foreground ml-2 mr-5 sm:hidden">
               바로 시작하기
