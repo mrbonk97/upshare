@@ -16,8 +16,10 @@ const CallbackPage = () => {
   };
 
   useEffect(() => {
-    if (access_token != null)
+    if (access_token != null) {
       localStorage.setItem("access_token", access_token);
+    }
+
     handleSignIn();
   }, []);
 

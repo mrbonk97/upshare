@@ -1,21 +1,15 @@
 "use client";
-import { foldersApi } from "@/api/folders-api";
 import { FolderBreadCrumb } from "@/components/folder-breadcrumb";
 import { DataTableDemo } from "@/components/table";
 import { useFile } from "@/context/file-context";
 import { useEffect } from "react";
 
 const HomePage = () => {
-  const { files, setFiles } = useFile();
+  const { files, refreshFolder } = useFile();
 
   useEffect(() => {
-    const handleFileRequest = async () => {
-      const result = await foldersApi.getFolder();
-      if (result.status == 200) setFiles(result.data.files);
-    };
-
-    handleFileRequest();
-  }, [setFiles]);
+    refreshFolder();
+  }, []);
 
   return (
     <main className="h-full w-full pl-[400px] pt-16">
