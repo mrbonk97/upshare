@@ -12,7 +12,8 @@ export type File = {
   originalFileName: string;
   size: number;
   updatedAt: string;
-  type: "FILE" | "FOLDER";
+  type: 'FILE' | 'FOLDER';
+  code: string;
 };
 
 export interface AuthContextProps {

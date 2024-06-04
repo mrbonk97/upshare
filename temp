@@ -1,5 +1,4 @@
 'use client';
-
 import { useState } from 'react';
 import {
   ColumnDef,
@@ -14,7 +13,6 @@ import {
   useReactTable,
 } from '@tanstack/react-table';
 import { ArrowUpDown, LucideFileText, LucideFolder, MoreHorizontal } from 'lucide-react';
-
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -33,6 +31,7 @@ import Link from 'next/link';
 import { fileDownload, fileMoveFolder } from '@/api/file-api';
 import { useFile } from '@/context/file-context';
 import { folderMoveFolder } from '@/api/folder-api';
+import { Dialog } from './ui/dialog';
 
 export const columns: ColumnDef<File>[] = [
   {
@@ -85,24 +84,26 @@ export const columns: ColumnDef<File>[] = [
     enableHiding: false,
     cell: ({ row }) => {
       return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant='ghost' className='h-8 w-8 p-0'>
-              <span className='sr-only'>Open menu</span>
-              <MoreHorizontal className='h-4 w-4' />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align='end'>
-            <DropdownMenuLabel>메뉴</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              <ShareModal fileId={row.original.id} shareCode={row.original.code} />
-            </DropdownMenuItem>
-            <DropdownMenuItem>
+        <Dialog>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant='ghost' className='h-8 w-8 p-0'>
+                <span className='sr-only'>Open menu</span>
+                <MoreHorizontal className='h-4 w-4' />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align='end'>
+              <DropdownMenuLabel>메뉴</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>
+                <ShareModal fileId={row.original.id} shareCode={row.original.code} />
+              </DropdownMenuItem>
+              {/* <DropdownMenuItem asChild>
               <DeleteModal id={row.original.id} type={row.original.type} />
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+            </DropdownMenuItem> */}
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </Dialog>
       );
     },
   },
