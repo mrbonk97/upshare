@@ -1,14 +1,5 @@
 "use client";
 import { Button } from "../ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
 import { Input } from "../ui/input";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
@@ -21,18 +12,34 @@ import {
   FormMessage,
 } from "../ui/form";
 import { useFile } from "@/context/file-context";
-import { useState } from "react";
-import { foldersApi } from "@/api/folders-api";
 import { usePathname } from "next/navigation";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import { createFolder } from "@/api/folder-api";
 
 export const FolderCreateModal = () => {
   const pathname = usePathname();
   const folderId = pathname.split("/home/")[1];
-  const fileContext = useFile();
-  const [isOpen, setIsOpen] = useState(false);
+  const { refreshFolder } = useFile();
 
   const formSchema = z.object({
-    title: z.string().min(2).max(20),
+    title: z
+      .string()
+      .min(2, {
+        message: "2글자 이상 입력해주세요",
+      })
+      .max(20, {
+        message: "20자 이하로 입력해주세요",
+      }),
   });
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -43,30 +50,26 @@ export const FolderCreateModal = () => {
   });
 
   const onSubmit = async (e: z.infer<typeof formSchema>) => {
-    const isSuccess = await foldersApi.createFolder({
+    const isSuccess = await createFolder({
       title: e.title,
       folderId: folderId,
     });
-
-    if (isSuccess) {
-      const result = await foldersApi.getFolder(folderId);
-      if (result.status == 200) {
-        fileContext.setFiles(result.data.files);
-        setIsOpen(false);
-      }
-    }
+    if (isSuccess) refreshFolder();
+    form.reset();
   };
 
   return (
-    <Dialog onOpenChange={(e) => setIsOpen(e)} open={isOpen}>
-      <DialogTrigger asChild>
+    <AlertDialog>
+      <AlertDialogTrigger asChild>
         <Button className="w-full py-7 flex2 gap-5 text-xl">폴더 추가</Button>
-      </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader>
-          <DialogTitle>폴더 추가</DialogTitle>
-          <DialogDescription>현재 경로에 폴더를 추가합니다.</DialogDescription>
-        </DialogHeader>
+      </AlertDialogTrigger>
+      <AlertDialogContent className="sm:max-w-[425px]">
+        <AlertDialogHeader>
+          <AlertDialogTitle>폴더 추가</AlertDialogTitle>
+          <AlertDialogDescription>
+            현재 경로에 폴더를 추가합니다.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <FormField
@@ -85,14 +88,19 @@ export const FolderCreateModal = () => {
                 </FormItem>
               )}
             />
-            <DialogFooter>
-              <Button type="submit" className="w-full">
-                추가
-              </Button>
-            </DialogFooter>
+            <AlertDialogFooter>
+              <AlertDialogCancel
+                onClick={() => {
+                  form.reset();
+                }}
+              >
+                취소
+              </AlertDialogCancel>
+              <AlertDialogAction type="submit">추가</AlertDialogAction>
+            </AlertDialogFooter>
           </form>
         </Form>
-      </DialogContent>
-    </Dialog>
+      </AlertDialogContent>
+    </AlertDialog>
   );
 };

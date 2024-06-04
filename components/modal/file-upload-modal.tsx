@@ -22,14 +22,10 @@ import {
 } from "../ui/form";
 import { useState } from "react";
 import { useFile } from "@/context/file-context";
-import { usePathname } from "next/navigation";
-import { filesApi } from "@/api/files-api";
-import { foldersApi } from "@/api/folders-api";
+import { fileUpload } from "@/api/file-api";
 
 export const FileUploadModal = () => {
-  const fileContext = useFile();
-  const pathname = usePathname();
-  const folderId = pathname.split("/home/")[1];
+  const { folderId, refreshFolder } = useFile();
   const [isOpen, setIsOpen] = useState(false);
 
   const formSchema = z.object({
@@ -42,17 +38,12 @@ export const FileUploadModal = () => {
 
   const onSubmit = async (e: z.infer<typeof formSchema>) => {
     const formData = new FormData();
-    console.log(e.file[0]);
     formData.append("file", e.file[0]);
     if (folderId != null) formData.append("folderId", folderId);
-    const isSuccess = await filesApi.createFile(formData);
-
+    const isSuccess = await fileUpload(formData);
     if (isSuccess) {
-      const result = await foldersApi.getFolder(folderId);
-      if (result.status == 200) {
-        fileContext.setFiles(result.data.files);
-        setIsOpen(false);
-      }
+      refreshFolder();
+      setIsOpen(false);
     }
   };
 
