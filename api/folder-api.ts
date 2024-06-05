@@ -31,3 +31,9 @@ export const folderMoveFolder = async (
 
   return result.status === 200;
 };
+
+export const folderDepth = async (folderId: string) => {
+  const result = await api.get(`/folders/find-depth/${folderId}`);
+  if (result.status === 200) return result.data.toReversed();
+  else return [];
+};
