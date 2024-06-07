@@ -14,6 +14,7 @@ export type File = {
   updatedAt: string;
   type: "FILE" | "FOLDER";
   code: string;
+  username: string;
 };
 
 export interface AuthContextProps {
