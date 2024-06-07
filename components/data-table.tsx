@@ -39,7 +39,7 @@ export const DataTable2: React.FC<DataTableProps> = ({ data, modalOpen }) => {
 
   const handleClick = (id: string, type: string, filename: string) => {
     if (type == "FILE") fileDownload(id, filename);
-    if (type == "FOLDER") router.push(`/home/${id}`);
+    if (type == "FOLDER") router.push(`/folders/${id}`);
   };
 
   const handleFolderChange = async (e: any) => {

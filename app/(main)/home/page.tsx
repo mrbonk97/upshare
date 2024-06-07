@@ -1,5 +1,5 @@
 "use client";
-import FolderPage from "./[id]/page";
+import FolderPage from "@/app/(main)/folders/[id]/page";
 
 const HomePage = () => {
   return <FolderPage params={{ id: "" }} />;

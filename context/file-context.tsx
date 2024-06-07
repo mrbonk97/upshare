@@ -1,8 +1,8 @@
-'use client';
-import { getFolder } from '@/api/folder-api';
-import { File, LayoutProps } from '@/types/type';
-import { usePathname } from 'next/navigation';
-import { createContext, useContext, useState } from 'react';
+"use client";
+import { getFolder } from "@/api/folder-api";
+import { File, LayoutProps } from "@/types/type";
+import { usePathname } from "next/navigation";
+import { createContext, useContext, useState } from "react";
 
 interface FileContextProps {
   files: File[];
@@ -22,7 +22,7 @@ export const useFile = () => useContext(FileContext);
 
 export const FileProvider: React.FC<LayoutProps> = ({ children }) => {
   const pathname = usePathname();
-  const folderId = pathname.split('/home/')[1];
+  const folderId = pathname.split("/folders/")[1];
   const [files, setFiles] = useState<File[]>([]);
 
   const refreshFolder = async () => {
