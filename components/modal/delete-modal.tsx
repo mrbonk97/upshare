@@ -67,29 +67,32 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { useFile } from "@/context/file-context";
+import { File } from "@/types/type";
 
 interface DeleteModalProps {
-  id: string;
-  type: string;
+  file: File | null;
+  isOpen: boolean;
+  modalClose: () => void;
 }
 
-export const DeleteModal: React.FC<DeleteModalProps> = ({ id, type }) => {
+export const DeleteModal: React.FC<DeleteModalProps> = ({
+  file,
+  isOpen,
+  modalClose,
+}) => {
   const { refreshFolder } = useFile();
 
   const handleFileDelete = async () => {
+    if (file == null) return;
+
     let isSuccess = false;
-    if (type === "FOLDER") isSuccess = await deleteFolder(id);
-    if (type === "FILE") isSuccess = await deleteFile(id);
+    if (file.type === "FOLDER") isSuccess = await deleteFolder(file.id);
+    if (file.type === "FILE") isSuccess = await deleteFile(file.id);
     if (isSuccess) refreshFolder();
   };
 
   return (
-    <AlertDialog>
-      <AlertDialogTrigger asChild>
-        <Button variant={"ghost"} className="w-full">
-          삭제하기
-        </Button>
-      </AlertDialogTrigger>
+    <AlertDialog open={isOpen} onOpenChange={modalClose}>
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>정말로 삭제하시겠습니까?</AlertDialogTitle>

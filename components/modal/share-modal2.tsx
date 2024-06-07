@@ -6,54 +6,31 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
+  DialogTrigger,
 } from "@/components/ui/dialog";
 
 import { Copy } from "lucide-react";
 import { useToast } from "../ui/use-toast";
 import { shareFile } from "@/api/file-api";
-import { useEffect, useState } from "react";
-import { File } from "@/types/type";
+import { useState } from "react";
 
 interface ShareModalProps {
-  file: File | null;
+  fileId: string;
   isOpen: boolean;
-  modalClose: () => void;
 }
 
-export const ShareModal: React.FC<ShareModalProps> = ({
-  file,
-  isOpen,
-  modalClose,
-}) => {
+export const ShareModal: React.FC<ShareModalProps> = ({ fileId, isOpen }) => {
   const [code, setCode] = useState("");
   const { toast } = useToast();
 
-  useEffect(() => {
-    if (!isOpen) return;
-
-    const handleShare = async () => {
-      if (file == null) return;
-      const _code = await shareFile(file!.id);
+  const handleShare = async () => {
+      const _code = await shareFile(fileId);
       setCode(_code);
-    };
-
-    handleShare();
-  });
-
-  const handleCopy = () => {
-    toast({
-      title: "클립보드에 복사하였습니다.",
-      description: `파일 코드: ${code}`,
-    });
-
-    const baseUrl = window.location.href.split("/");
-    navigator.clipboard.writeText(
-      `${baseUrl[0]}//${baseUrl[2]}/share?code=${code}`
-    );
+    }
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={modalClose}>
+    <Dialog open={isOpen}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>파일을 공유하고 있습니다.</DialogTitle>
@@ -63,7 +40,17 @@ export const ShareModal: React.FC<ShareModalProps> = ({
         </DialogHeader>
         <div className="flex justify-center gap-5 mt-16 mb-10">
           <span className="text-2xl px-5">코드: {code}</span>
-          <Button variant={"ghost"} onClick={handleCopy}>
+          <Button
+            variant={"ghost"}
+            onClick={() => {
+              toast({
+                title: "클립보드에 복사하였습니다.",
+                description: `파일 코드: ${code}`,
+              });
+
+              navigator.clipboard.writeText(code);
+            }}
+          >
             <Copy />
           </Button>
         </div>

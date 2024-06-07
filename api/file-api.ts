@@ -1,10 +1,10 @@
-import { api } from '@/lib/api';
+import { api } from "@/lib/api";
 
 export const fileDownload = async (fileId: string, fileName: string) => {
-  const response = await api.get(`/files/${fileId}`, { responseType: 'blob' });
-  if (response.status === 200) {
-    const url = window.URL.createObjectURL(new Blob([response.data]));
-    const a = document.createElement('a');
+  const result = await api.get(`/files/${fileId}`, { responseType: "blob" });
+  if (result.status === 200) {
+    const url = window.URL.createObjectURL(new Blob([result.data]));
+    const a = document.createElement("a");
     a.href = url;
     a.download = fileName;
     document.body.appendChild(a);
@@ -20,23 +20,23 @@ export const deleteFile = async (fileId: string) => {
 };
 
 export const fileMove = async (data: any) => {
-  const result = await api.put('/files', data);
+  const result = await api.put("/files", data);
   return result.status === 200;
 };
 
 export const fileUpload = async (formDate: FormData) => {
   const headers = {
     headers: {
-      'Content-Type': 'multipart/form-data',
+      "Content-Type": "multipart/form-data",
     },
   };
 
-  const result = await api.post('/files', formDate, headers);
+  const result = await api.post("/files", formDate, headers);
   return result.status === 200;
 };
 
 export const fileMoveFolder = async (fileId: string, folderId: string) => {
-  const result = await api.put('/files/change-folder', {
+  const result = await api.put("/files/change-folder", {
     fileId,
     folderId,
   });
@@ -54,4 +54,23 @@ export const shareFile = async (fileId: string) => {
   const result = await api.get(`/files/share/${fileId}`);
   if (result.status === 200) return result.data.code;
   return null;
+};
+
+export const fileDownloadCode = async (code: string) => {
+  let name = "몰루";
+  const result2 = await api.get(`/files/code-info/${code}`);
+  if (result2.status === 200) name = result2.data;
+  else return;
+
+  const result = await api.get(`/files/code/${code}`, { responseType: "blob" });
+  if (result.status === 200) {
+    const url = window.URL.createObjectURL(new Blob([result.data]));
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = name;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    window.URL.revokeObjectURL(url);
+  }
 };
