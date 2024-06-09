@@ -32,3 +32,9 @@ export type FolderBreadCrumbType = {
   folder_name: string;
   id: string;
 };
+
+export type RouteProps = {
+  path: string;
+  folderId: string | null;
+  query: string | null;
+};

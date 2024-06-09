@@ -6,7 +6,7 @@ export const getHome = async () => {
   return [];
 };
 
-export const getFolder = async (folderId?: string) => {
+export const getFolder = async (folderId: string) => {
   const result = await api.get(`/folders/${folderId}`);
   if (result.status === 200) return result.data.files;
   return [];

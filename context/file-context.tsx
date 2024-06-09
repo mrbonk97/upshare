@@ -1,6 +1,7 @@
 "use client";
 import { searchFile } from "@/api/file-api";
 import { getFolder, getHome } from "@/api/folder-api";
+import { useCurrentRoute } from "@/hooks/useCurrentRoute";
 import { File, LayoutProps } from "@/types/type";
 import { usePathname, useSearchParams } from "next/navigation";
 import { createContext, useContext, useState } from "react";
@@ -23,37 +24,39 @@ export const useFile = () => useContext(FileContext);
 
 export const FileProvider: React.FC<LayoutProps> = ({ children }) => {
   const [files, setFiles] = useState<File[]>([]);
-  const searchParams = useSearchParams();
-  const search = searchParams.get("q");
-  const pathname = usePathname().split("/");
-  const route = pathname[1];
-  const folderId = pathname[2] || null;
+  const route = useCurrentRoute();
 
   const refreshFolder = async () => {
-    if (route == "home") {
+    if (route.path == "home") {
       const result = await getHome();
       console.log(result);
       setFiles(result);
     }
 
-    if (route == "folders") {
-      const result = await getFolder(folderId);
+    if (route.path == "folders") {
+      if (route.folderId == null) {
+        setFiles([]);
+        return;
+      }
+
+      const result = await getFolder(route.folderId);
       setFiles(result);
     }
 
-    if (route == "search") {
-      if (search == null || search == "") {
+    if (route.path == "search") {
+      if (route.query == null || route.query == "") {
         setFiles([]);
-      } else {
-        const result = await searchFile(search);
-        setFiles(result);
+        return;
       }
+
+      const result = await searchFile(route.query);
+      setFiles(result);
     }
   };
 
   const values = {
     files,
-    folderId,
+    folderId: route.folderId,
     setFiles,
     refreshFolder,
   };
