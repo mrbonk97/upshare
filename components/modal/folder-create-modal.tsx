@@ -59,7 +59,7 @@ export const FolderCreateModal = () => {
   };
 
   return (
-    <AlertDialog>
+    <AlertDialog onOpenChange={() => form.reset()}>
       <AlertDialogTrigger asChild>
         <Button className="w-full py-7 flex2 gap-5 text-xl">폴더 추가</Button>
       </AlertDialogTrigger>

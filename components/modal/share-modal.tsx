@@ -13,6 +13,7 @@ import { useToast } from "../ui/use-toast";
 import { shareFile } from "@/api/file-api";
 import { useEffect, useState } from "react";
 import { File } from "@/types/type";
+import { useFile } from "@/context/file-context";
 
 interface ShareModalProps {
   file: File | null;
@@ -27,6 +28,7 @@ export const ShareModal: React.FC<ShareModalProps> = ({
 }) => {
   const [code, setCode] = useState("");
   const { toast } = useToast();
+  const { refreshFolder } = useFile();
 
   useEffect(() => {
     if (!isOpen) return;
@@ -35,10 +37,11 @@ export const ShareModal: React.FC<ShareModalProps> = ({
       if (file == null) return;
       const _code = await shareFile(file!.id);
       setCode(_code);
+      if (_code != null) refreshFolder();
     };
 
     handleShare();
-  });
+  }, [isOpen]);
 
   const handleCopy = () => {
     toast({

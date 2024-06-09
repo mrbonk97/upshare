@@ -29,7 +29,10 @@ export const FileUploadModal = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const formSchema = z.object({
-    file: z.any().refine((f) => f?.length == 1, "파일을 선택해주세요"),
+    file: z
+      .any()
+      .refine((f) => f?.length == 1, "파일을 선택해주세요")
+      .refine((f) => f[0].size <= 5_180_000, "파일의 용량은 최대 5MB입니다."),
   });
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -47,10 +50,15 @@ export const FileUploadModal = () => {
     }
   };
 
+  const handleOpen = (e: boolean) => {
+    form.reset();
+    setIsOpen(e);
+  };
+
   const fileRef = form.register("file");
 
   return (
-    <Dialog onOpenChange={(e) => setIsOpen(e)} open={isOpen}>
+    <Dialog onOpenChange={handleOpen} open={isOpen}>
       <DialogTrigger asChild>
         <Button className="w-full py-7 flex2 gap-5 text-xl">파일 업로드</Button>
       </DialogTrigger>

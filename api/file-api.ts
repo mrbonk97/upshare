@@ -57,7 +57,7 @@ export const shareFile = async (fileId: string) => {
 };
 
 export const fileDownloadCode = async (code: string) => {
-  let name = "몰루";
+  let name = "unknown";
   const result2 = await api.get(`/files/code-info/${code}`);
   if (result2.status === 200) name = result2.data;
   else return;
@@ -73,4 +73,9 @@ export const fileDownloadCode = async (code: string) => {
     document.body.removeChild(a);
     window.URL.revokeObjectURL(url);
   }
+};
+
+export const stopShareFile = async (fileId: string) => {
+  const result = await api.get(`/files/share-stop/${fileId}`);
+  return result.status === 200;
 };

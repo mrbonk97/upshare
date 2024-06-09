@@ -118,12 +118,20 @@ export const DataTable2: React.FC<DataTableProps> = ({ data, modalOpen }) => {
                   <DropdownMenuContent align="end">
                     <DropdownMenuLabel>메뉴</DropdownMenuLabel>
                     <DropdownMenuSeparator />
-                    {item.type != "FOLDER" && (
+                    {item.type == "FILE" && (
                       <DropdownMenuItem
                         className="flex2 font-medium py-3 cursor-pointer"
                         onClick={() => modalOpen(item, "SHARE")}
                       >
                         공유하기
+                      </DropdownMenuItem>
+                    )}
+                    {item.type == "FILE" && item.code != null && (
+                      <DropdownMenuItem
+                        className="flex2 font-medium py-3 cursor-pointer"
+                        onClick={() => modalOpen(item, "SHARE_STOP")}
+                      >
+                        공유중지
                       </DropdownMenuItem>
                     )}
                     <DropdownMenuItem
