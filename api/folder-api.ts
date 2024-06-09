@@ -1,12 +1,14 @@
 import { api } from "@/lib/api";
 
+export const getHome = async () => {
+  const result = await api.get("/folders");
+  if (result.status === 200) return result.data.files;
+  return [];
+};
+
 export const getFolder = async (folderId?: string) => {
-  let result = null;
-
-  if (folderId == undefined) result = await api.get("/folders");
-  else result = await api.get(`/folders/${folderId}`);
-
-  if (result.status === 200) return result.data;
+  const result = await api.get(`/folders/${folderId}`);
+  if (result.status === 200) return result.data.files;
   return [];
 };
 

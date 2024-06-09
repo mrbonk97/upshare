@@ -58,6 +58,8 @@ export const DataTable2: React.FC<DataTableProps> = ({ data, modalOpen }) => {
     }
   };
 
+  console.log(data);
+
   return (
     <Table>
       <TableHeader>
@@ -123,7 +125,7 @@ export const DataTable2: React.FC<DataTableProps> = ({ data, modalOpen }) => {
                         className="flex2 font-medium py-3 cursor-pointer"
                         onClick={() => modalOpen(item, "SHARE")}
                       >
-                        공유하기
+                        공유 {item.code != null ? "보기" : "하기"}
                       </DropdownMenuItem>
                     )}
                     {item.type == "FILE" && item.code != null && (
