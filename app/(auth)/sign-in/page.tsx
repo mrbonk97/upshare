@@ -12,13 +12,55 @@ const SignInPage = () => {
           </h1>
           <div className="mt-16 space-y-6">
             <Button className="w-full py-6">
-              <Link href={process.env.GOOGLE_OAUTH2_URL!}>구글 로그인</Link>
+              <Link
+                href={process.env.GOOGLE_OAUTH2_URL!}
+                className="flex items-center"
+              >
+                <Image
+                  src={"/images/google.svg"}
+                  width={24}
+                  height={24}
+                  alt="google"
+                  className="h-6 w-6 flex2"
+                />
+                <span className="ml-1 w-24 text-start">구글 로그인</span>
+              </Link>
             </Button>
-            <Button className="w-full py-6 bg-green-500 hover:bg-green-500/90">
-              <Link href={process.env.NAVER_OAUTH2_URL!}>네이버 로그인</Link>
+            <Button className="w-full py-6 bg-[#03C75A] hover:bg-[#03C75A]/90">
+              <Link
+                href={process.env.NAVER_OAUTH2_URL!}
+                className="flex items-center"
+              >
+                <Image
+                  src={"/images/naver.svg"}
+                  width={24}
+                  height={24}
+                  alt="naver"
+                  className="h-5 w-5 flex2"
+                />
+
+                <span className="ml-1 w-24 text-start text-white">
+                  네이버 로그인
+                </span>
+              </Link>
             </Button>
-            <Button className="w-full py-6 bg-yellow-500 hover:bg-yellow-500/90">
-              <Link href={process.env.KAKAO_OAUTH2_URL!}>카카오 로그인</Link>
+            <Button className="w-full py-6 bg-[#FEE500] hover:bg-[#FEE500]/80">
+              <Link
+                href={process.env.KAKAO_OAUTH2_URL!}
+                className="flex items-center"
+              >
+                <Image
+                  src={"/images/kakao.svg"}
+                  width={24}
+                  height={24}
+                  alt="kakao"
+                  className="h-5 w-5 flex2"
+                />
+
+                <span className="ml-1 w-24 text-start text-black">
+                  카카오 로그인
+                </span>
+              </Link>
             </Button>
           </div>
         </article>

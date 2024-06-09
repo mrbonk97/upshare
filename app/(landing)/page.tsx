@@ -7,7 +7,7 @@ import { Reviews } from "@/constants/reviews";
 import { easeIn, motion } from "framer-motion";
 import { useAuth } from "@/context/auth-context";
 import { useRouter } from "next/navigation";
-import { MoveRight } from "lucide-react";
+import { MoveRight, RabbitIcon } from "lucide-react";
 import { useEffect } from "react";
 import style from "./landing.module.css";
 import Image from "next/image";
@@ -104,14 +104,11 @@ const LandingPage = () => {
           {Reviews.map((item, idx) => {
             return (
               <Card
-                className={`inline-block h-80 overflow-hidden ${style.box}`}
+                className={`inline-block h-72 overflow-hidden ${style.box}`}
                 key={idx}
               >
                 <CardHeader className="flex flex-row items-center gap-5">
-                  <Avatar className="w-14 h-14">
-                    <AvatarImage src="/avatar.jpg" />
-                    <AvatarFallback>CN</AvatarFallback>
-                  </Avatar>
+                  <RabbitIcon className="w-12 h-12 rounded-full flex2 bg-primary-foreground p-2 text-secondary" />
                   <CardTitle className="text-lg">{item.title}</CardTitle>
                 </CardHeader>
                 <CardContent>
@@ -134,9 +131,9 @@ const LandingPage = () => {
           transition={{ duration: 0.5, delay: 0.3 }}
           viewport={{ once: true }}
         >
-          <p className="leading-normal break-words">
-            제가 쓰고싶어서 만들었보았습니다. 외부 PC에서 oneDrive나 카카오톡을
-            키고 싶지 않더라고요. 한번 무료로 사용해보세요.
+          <p className="leading-normal break-keep">
+            제가 필요해서 만들어 보았습니다. 외부 PC에서 OneDrive나 카카오톡을
+            사용하고 싶지 않으시다면, 한번 무료로 사용해보세요!
           </p>
         </motion.hgroup>
       </section>
