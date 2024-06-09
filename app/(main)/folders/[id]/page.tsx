@@ -4,6 +4,7 @@ import { DataTable2 } from "@/components/data-table";
 import { FolderBreadCrumb } from "@/components/folder-breadcrumb";
 import { DeleteModal } from "@/components/modal/delete-modal";
 import { ShareModal } from "@/components/modal/share-modal";
+import { StopShareModal } from "@/components/modal/stop-share-modal";
 import { useFile } from "@/context/file-context";
 import { File, FolderBreadCrumbType } from "@/types/type";
 import { useEffect, useState } from "react";
@@ -12,6 +13,7 @@ const FolderPage = ({ params }: { params: { id: string } }) => {
   const { files, refreshFolder } = useFile();
   const [depth, setDepth] = useState<FolderBreadCrumbType[]>([]);
   const [isShareOpen, setIsShareOpen] = useState(false);
+  const [isStopShareOpen, setIsStopShareOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const [file, setFile] = useState<File | null>(null);
 
@@ -23,6 +25,7 @@ const FolderPage = ({ params }: { params: { id: string } }) => {
 
   const handleModalOpen = (file: File, type: string) => {
     if (type == "SHARE") setIsShareOpen(true);
+    if (type == "SHARE_STOP") setIsStopShareOpen(true);
     if (type == "DELETE") setIsDeleteOpen(true);
     setFile(file);
   };
@@ -38,6 +41,11 @@ const FolderPage = ({ params }: { params: { id: string } }) => {
         isOpen={isShareOpen}
         file={file}
         modalClose={() => setIsShareOpen(false)}
+      />
+      <StopShareModal
+        isOpen={isStopShareOpen}
+        file={file}
+        modalClose={() => setIsStopShareOpen(false)}
       />
       <DeleteModal
         isOpen={isDeleteOpen}

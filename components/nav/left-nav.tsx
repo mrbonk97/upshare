@@ -5,7 +5,7 @@ import { SpaceIndicator } from "../space-indicator";
 export const LeftNavbar = () => {
   return (
     <aside className="fixed h-full pt-14 w-96">
-      <div className="h-full bg-secondary p-10 flex flex-col justify-between">
+      <div className="h-full bg-tertiary p-10 flex flex-col justify-between">
         <div className="space-y-5">
           <FileUploadModal />
           <FolderCreateModal />

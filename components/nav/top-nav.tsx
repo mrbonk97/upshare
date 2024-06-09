@@ -18,7 +18,7 @@ export const TopNavbar = () => {
   };
 
   return (
-    <header className="fixed top-0 w-full bg-secondary text-secondary-foreground h-14 py-2 flex items-center justify-between px-10 z-30">
+    <header className="fixed top-0 w-full bg-tertiary text-secondary-foreground h-14 py-4 flex items-center justify-between px-10 z-30">
       <Logo />
       <div className="w-96 py-2 px-5">
         <form onSubmit={(e) => handleSubmit(e)}>
