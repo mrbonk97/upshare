@@ -15,20 +15,22 @@ import { useFile } from "@/context/file-context";
 import { usePathname } from "next/navigation";
 import {
   AlertDialog,
-  AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
+  AlertDialogAction,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { createFolder } from "@/api/folder-api";
+import { useState } from "react";
 
 export const FolderCreateModal = () => {
+  const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
-  const folderId = pathname.split("/home/")[1];
+  const folderId = pathname.split("/")[2] || null;
   const { refreshFolder } = useFile();
 
   const formSchema = z.object({
@@ -39,6 +41,9 @@ export const FolderCreateModal = () => {
       })
       .max(20, {
         message: "20자 이하로 입력해주세요",
+      })
+      .regex(new RegExp(/^[a-zA-Z0-9ㄱ-ㅎ|ㅏ-ㅣ|가-힣_.-]*$/), {
+        message: "특수기호는 '-', '_' 만가능합니다.",
       }),
   });
 
@@ -54,12 +59,23 @@ export const FolderCreateModal = () => {
       title: e.title,
       folderId: folderId,
     });
-    if (isSuccess) refreshFolder();
-    form.reset();
+
+    if (isSuccess) {
+      refreshFolder();
+      setIsOpen(false);
+    }
   };
 
   return (
-    <AlertDialog onOpenChange={() => form.reset()}>
+    <AlertDialog
+      onOpenChange={(e) => {
+        setIsOpen(e);
+        setTimeout(() => {
+          form.reset();
+        }, 200);
+      }}
+      open={isOpen}
+    >
       <AlertDialogTrigger asChild>
         <Button className="w-full py-7 flex2 gap-5 text-xl">폴더 추가</Button>
       </AlertDialogTrigger>
@@ -96,7 +112,9 @@ export const FolderCreateModal = () => {
               >
                 취소
               </AlertDialogCancel>
-              <AlertDialogAction type="submit">추가</AlertDialogAction>
+              <Button type="submit" className="w-full">
+                추가
+              </Button>
             </AlertDialogFooter>
           </form>
         </Form>

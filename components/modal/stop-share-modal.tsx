@@ -22,6 +22,7 @@ export const StopShareModal: React.FC<StopShareModalProps> = ({
   const [isDelayed, setIsDelayed] = useState(false);
   const { refreshFolder } = useFile();
 
+  //eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (!isOpen) return;
     if (file?.id == null) return;
@@ -35,7 +36,7 @@ export const StopShareModal: React.FC<StopShareModalProps> = ({
     };
 
     handleShareStop();
-  }, [isOpen]);
+  }, [isOpen, file, refreshFolder]);
 
   const handleModalClose = () => {
     refreshFolder();

@@ -41,7 +41,7 @@ export const ShareModal: React.FC<ShareModalProps> = ({
     };
 
     handleShare();
-  }, [isOpen]);
+  }, [isOpen, file, refreshFolder]);
 
   const handleCopy = () => {
     toast({
@@ -66,7 +66,11 @@ export const ShareModal: React.FC<ShareModalProps> = ({
         </DialogHeader>
         <div className="flex justify-center gap-5 mt-16 mb-10">
           <span className="text-2xl px-5">코드: {code}</span>
-          <Button variant={"ghost"} onClick={handleCopy}>
+          <Button
+            variant={"ghost"}
+            onClick={handleCopy}
+            className="focus-visible:ring-0 focus-visible:ring-offset-0"
+          >
             <Copy />
           </Button>
         </div>

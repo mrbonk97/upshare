@@ -1,57 +1,64 @@
 "use client";
 
-import { searchFile } from "@/api/file-api";
-import { DataTable2 } from "@/components/data-table";
+import { DataTable } from "@/components/data-table";
 import { DeleteModal } from "@/components/modal/delete-modal";
 import { ShareModal } from "@/components/modal/share-modal";
-import { useFile } from "@/context/file-context";
+import { StopShareModal } from "@/components/modal/stop-share-modal";
 import { File } from "@/types/type";
-import { useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const Search = () => {
-  const { files, setFiles } = useFile();
-  const [isShareOpen, setIsShareOpen] = useState(false);
-  const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const [file, setFile] = useState<File | null>(null);
-
-  const searchParams = useSearchParams();
-  const search = searchParams.get("q");
-
-  useEffect(() => {
-    const handleSearch = async () => {
-      if (search == null || search == "") {
-        setFiles([]);
-        return;
-      }
-
-      const result = await searchFile(search);
-      setFiles(result);
-    };
-    handleSearch();
-  }, [search]);
+  const [isModalOpen, setIsModalOpen] = useState({
+    share: false,
+    stopShare: false,
+    delete: false,
+  });
 
   const handleModalOpen = (file: File, type: string) => {
-    if (type == "SHARE") setIsShareOpen(true);
-    if (type == "DELETE") setIsDeleteOpen(true);
     setFile(file);
+    switch (type) {
+      case "SHARE":
+        setIsModalOpen({ ...isModalOpen, share: true });
+        break;
+      case "SHARE_STOP":
+        setIsModalOpen({ ...isModalOpen, stopShare: true });
+        break;
+      case "DELETE":
+        setIsModalOpen({ ...isModalOpen, delete: true });
+        break;
+    }
+  };
+
+  const handleModalClose = () => {
+    setIsModalOpen({
+      share: false,
+      stopShare: false,
+      delete: false,
+    });
+    setFile(null);
   };
 
   return (
     <>
       <ShareModal
-        isOpen={isShareOpen}
+        isOpen={isModalOpen.share}
         file={file}
-        modalClose={() => setIsShareOpen(false)}
+        modalClose={handleModalClose}
+      />
+      <StopShareModal
+        isOpen={isModalOpen.stopShare}
+        file={file}
+        modalClose={handleModalClose}
       />
       <DeleteModal
-        isOpen={isDeleteOpen}
+        isOpen={isModalOpen.delete}
         file={file}
-        modalClose={() => setIsDeleteOpen(false)}
+        modalClose={handleModalClose}
       />
       <main className="h-full w-full pl-[400px] pt-16">
         <section className="mt-5 pr-5">
-          <DataTable2 data={files} modalOpen={handleModalOpen} />
+          <DataTable modalOpen={handleModalOpen} />
         </section>
       </main>
     </>

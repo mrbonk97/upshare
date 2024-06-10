@@ -8,7 +8,7 @@ export function useCurrentRoute() {
   const folderId = pathname[2];
 
   if (route == "folders") {
-    return { path: "folder", folderId: folderId, query: null };
+    return { path: "folders", folderId: folderId, query: null };
   }
 
   if (route == "home") {

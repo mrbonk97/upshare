@@ -6,6 +6,8 @@ import { ThemeToggle } from "@/components/theme-toggle";
 import { AuthProvider } from "@/context/auth-context";
 import { Toaster } from "@/components/ui/toaster";
 import { FileProvider } from "@/context/file-context";
+import { Suspense } from "react";
+import ErrorPage from "./ErrorPage";
 
 const inter = Noto_Sans_KR({ subsets: ["latin"] });
 
@@ -22,20 +24,22 @@ export default function RootLayout({
   return (
     <html lang="ko" suppressHydrationWarning>
       <body className={inter.className}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <AuthProvider>
-            <FileProvider>
-              {children}
-              <Toaster />
-            </FileProvider>
-          </AuthProvider>
-          <ThemeToggle />
-        </ThemeProvider>
+        <Suspense fallback={<ErrorPage />}>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <AuthProvider>
+              <FileProvider>
+                {children}
+                <Toaster />
+              </FileProvider>
+            </AuthProvider>
+            <ThemeToggle />
+          </ThemeProvider>
+        </Suspense>
       </body>
     </html>
   );

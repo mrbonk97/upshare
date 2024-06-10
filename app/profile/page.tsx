@@ -45,8 +45,8 @@ const ProfilePage = () => {
   return (
     <>
       <TopNavbar />
-      <main className="min-h-full w-full pt-14 flex bg-secondary">
-        <section className="fixed h-full w-96 pt-20 px-5 bg-secondary">
+      <main className="min-h-full w-full pt-14 flex bg-tertiary">
+        <section className="fixed h-full w-96 pt-20 px-5 bg-tertiary">
           <div className="w-full flex justify-center">
             <UserImage className="w-32 h-32" />
           </div>
@@ -108,9 +108,9 @@ const ProfilePage = () => {
               <AccordionItem value="item-2">
                 <AccordionTrigger> 회원 탈퇴는 어떻게 하나요?</AccordionTrigger>
                 <AccordionContent>
-                  로그인 후, 프로필 페이지에서 "회원 탈퇴"를 선택하시면 계정을
-                  삭제할 수 있습니다. 탈퇴 시 모든 데이터가 영구 삭제되므로
-                  신중하게 결정해 주세요.
+                  로그인 후, 프로필 페이지에서 &ldquo;회원 탈퇴&rdquo;를
+                  선택하시면 계정을 삭제할 수 있습니다. 탈퇴 시 모든 데이터가
+                  영구 삭제되므로 신중하게 결정해 주세요.
                 </AccordionContent>
               </AccordionItem>
               <AccordionItem value="item-3">
@@ -118,9 +118,9 @@ const ProfilePage = () => {
                   파일을 어떻게 업로드 하나요?
                 </AccordionTrigger>
                 <AccordionContent>
-                  "파일 업로드" 버튼을 클릭하여 업로드할 파일을 선택하면 파일이
-                  서버에 업로드됩니다. 업로드된 파일은 "홈 화면"에서 확인할 수
-                  있습니다.
+                  &ldquo;파일 업로드&rdquo; 버튼을 클릭하여 업로드할 파일을
+                  선택하면 파일이 서버에 업로드됩니다. 업로드된 파일은 &ldquo;홈
+                  화면&rdquo;에서 확인할 수 있습니다.
                 </AccordionContent>
               </AccordionItem>
               <AccordionItem value="item-4">
@@ -136,9 +136,10 @@ const ProfilePage = () => {
                   파일 다운로드 링크를 공유하고 싶어요.
                 </AccordionTrigger>
                 <AccordionContent>
-                  "내 파일" 페이지에서 공유하고자 하는 파일 옆의 "공유" 버튼을
-                  클릭하면 다운로드 링크를 생성할 수 있습니다. 생성된 링크를
-                  복사하여 다른 사람과 공유할 수 있습니다.
+                  &ldquo;내 파일&rdquo; 페이지에서 공유하고자 하는 파일 옆의
+                  &ldquo;공유&rdquo; 버튼을 클릭하면 다운로드 링크를 생성할 수
+                  있습니다. 생성된 링크를 복사하여 다른 사람과 공유할 수
+                  있습니다.
                 </AccordionContent>
               </AccordionItem>
             </Accordion>
@@ -151,8 +152,8 @@ const ProfilePage = () => {
                 파일 공유 서비스 개인정보 처리방침
               </h1>
               <p className="mt-2">
-                파일 공유 서비스('이하 '서비스')는 개인정보 보호법에 따라
-                이용자의 개인정보를 보호하고 이와 관련한 고충을 신속하고
+                파일 공유 서비스(이하 &quot;서비스&quot;)는 개인정보 보호법에
+                따라 이용자의 개인정보를 보호하고 이와 관련한 고충을 신속하고
                 원활하게 처리할 수 있도록 하기 위하여 다음과 같은 개인정보
                 처리방침을 수립·공개합니다.
               </p>

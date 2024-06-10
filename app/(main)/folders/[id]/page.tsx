@@ -1,61 +1,65 @@
 "use client";
-import { folderDepth } from "@/api/folder-api";
-import { DataTable2 } from "@/components/data-table";
+import { DataTable } from "@/components/data-table";
 import { FolderBreadCrumb } from "@/components/folder-breadcrumb";
 import { DeleteModal } from "@/components/modal/delete-modal";
 import { ShareModal } from "@/components/modal/share-modal";
 import { StopShareModal } from "@/components/modal/stop-share-modal";
-import { useFile } from "@/context/file-context";
-import { File, FolderBreadCrumbType } from "@/types/type";
-import { useEffect, useState } from "react";
+import { File } from "@/types/type";
+import { useState } from "react";
 
-const FolderPage = ({ params }: { params: { id: string } }) => {
-  const { files, refreshFolder } = useFile();
-  const [depth, setDepth] = useState<FolderBreadCrumbType[]>([]);
-  const [isShareOpen, setIsShareOpen] = useState(false);
-  const [isStopShareOpen, setIsStopShareOpen] = useState(false);
-  const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+const FolderPage = ({ params }: { params?: { id: string } }) => {
   const [file, setFile] = useState<File | null>(null);
-
-  const handleBreadCrumb = async (folderId: string) => {
-    if (folderId == "") return;
-    const result = await folderDepth(folderId);
-    setDepth(result);
-  };
+  const [isModalOpen, setIsModalOpen] = useState({
+    share: false,
+    stopShare: false,
+    delete: false,
+  });
 
   const handleModalOpen = (file: File, type: string) => {
-    if (type == "SHARE") setIsShareOpen(true);
-    if (type == "SHARE_STOP") setIsStopShareOpen(true);
-    if (type == "DELETE") setIsDeleteOpen(true);
     setFile(file);
+    switch (type) {
+      case "SHARE":
+        setIsModalOpen({ ...isModalOpen, share: true });
+        break;
+      case "SHARE_STOP":
+        setIsModalOpen({ ...isModalOpen, stopShare: true });
+        break;
+      case "DELETE":
+        setIsModalOpen({ ...isModalOpen, delete: true });
+        break;
+    }
   };
 
-  useEffect(() => {
-    refreshFolder(params.id);
-    handleBreadCrumb(params.id);
-  }, []);
+  const handleModalClose = () => {
+    setIsModalOpen({
+      share: false,
+      stopShare: false,
+      delete: false,
+    });
+    setFile(null);
+  };
 
   return (
     <>
-      <ShareModal
-        isOpen={isShareOpen}
-        file={file}
-        modalClose={() => setIsShareOpen(false)}
-      />
-      <StopShareModal
-        isOpen={isStopShareOpen}
-        file={file}
-        modalClose={() => setIsStopShareOpen(false)}
-      />
-      <DeleteModal
-        isOpen={isDeleteOpen}
-        file={file}
-        modalClose={() => setIsDeleteOpen(false)}
-      />
       <main className="h-full w-full pl-[400px] pt-16">
-        <FolderBreadCrumb depth={depth} />
+        <FolderBreadCrumb folderId={params?.id} />
+        <ShareModal
+          isOpen={isModalOpen.share}
+          file={file}
+          modalClose={handleModalClose}
+        />
+        <StopShareModal
+          isOpen={isModalOpen.stopShare}
+          file={file}
+          modalClose={handleModalClose}
+        />
+        <DeleteModal
+          isOpen={isModalOpen.delete}
+          file={file}
+          modalClose={handleModalClose}
+        />
         <section className="mt-5 pr-5">
-          <DataTable2 data={files} modalOpen={handleModalOpen} />
+          <DataTable modalOpen={handleModalOpen} />
         </section>
       </main>
     </>

@@ -1,10 +1,8 @@
 "use client";
 import { File } from "@/types/type";
-
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
@@ -22,22 +20,21 @@ import { Button } from "./ui/button";
 import { FileIcon, FolderIcon, MoreHorizontal } from "lucide-react";
 import { fileDownload, fileMoveFolder } from "@/api/file-api";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useFile } from "@/context/file-context";
 import { folderMoveFolder } from "@/api/folder-api";
 
 interface DataTableProps {
-  data: File[];
   modalOpen: (file: File, type: string) => void;
 }
 
-export const DataTable2: React.FC<DataTableProps> = ({ data, modalOpen }) => {
+export const DataTable: React.FC<DataTableProps> = ({ modalOpen }) => {
   const router = useRouter();
-  const { refreshFolder } = useFile();
+  const { files, refreshFolder } = useFile();
   const [hoverRow, setHoverRow] = useState<File | null>(null);
   const [dragRow, setDragRow] = useState<File | null>(null);
 
-  const handleClick = (id: string, type: string, filename: string) => {
+  const handleDoubleClick = (id: string, type: string, filename: string) => {
     if (type == "FILE") fileDownload(id, filename);
     if (type == "FOLDER") router.push(`/folders/${id}`);
   };
@@ -58,7 +55,10 @@ export const DataTable2: React.FC<DataTableProps> = ({ data, modalOpen }) => {
     }
   };
 
-  console.log(data);
+  useEffect(() => {
+    refreshFolder();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <Table>
@@ -70,14 +70,14 @@ export const DataTable2: React.FC<DataTableProps> = ({ data, modalOpen }) => {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {data.length == 0 && (
+        {files.length == 0 && (
           <TableRow>
             <TableCell colSpan={4} className="text-center text-primary">
               파일이 없습니다.
             </TableCell>
           </TableRow>
         )}
-        {data.map((item) => {
+        {files.map((item) => {
           return (
             <TableRow
               key={item.id}
@@ -100,8 +100,8 @@ export const DataTable2: React.FC<DataTableProps> = ({ data, modalOpen }) => {
             >
               <TableCell
                 className="text-md font-medium cursor-pointer hover:underline underline-offset-2 flex items-center gap-2"
-                onDoubleClick={(e) =>
-                  handleClick(item.id, item.type, item.originalFileName)
+                onDoubleClick={() =>
+                  handleDoubleClick(item.id, item.type, item.originalFileName)
                 }
               >
                 {item.type == "FOLDER" ? <FolderIcon /> : <FileIcon />}

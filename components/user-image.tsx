@@ -3,14 +3,14 @@ import { useAuth } from "@/context/auth-context";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 
 interface UserImageProps {
-  className: string | undefined;
+  className?: string;
 }
 
 export const UserImage: React.FC<UserImageProps> = ({ className }) => {
   const auth = useAuth();
 
   return (
-    <Avatar className={className != undefined ? className : ""}>
+    <Avatar className={className}>
       <AvatarImage
         src={auth.user?.imageUrl}
         referrerPolicy="no-referrer"

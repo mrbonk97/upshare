@@ -22,6 +22,7 @@ export const AuthProvider: React.FC<LayoutProps> = ({ children }) => {
 
   const signIn = async () => {
     const userInfo = await useUserInfo();
+    console.log("유저 정보 조회");
 
     if (userInfo == null) {
       setUser(null);

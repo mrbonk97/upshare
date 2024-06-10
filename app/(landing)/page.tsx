@@ -1,6 +1,5 @@
 "use client";
 import Link from "next/link";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Reviews } from "@/constants/reviews";
@@ -13,12 +12,12 @@ import style from "./landing.module.css";
 import Image from "next/image";
 
 const LandingPage = () => {
-  const auth = useAuth();
+  const { isLoggedIn } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
-    if (auth.isLoggedIn) router.push("/home");
-  }, []);
+    if (isLoggedIn) router.push("/home");
+  }, [isLoggedIn, router]);
 
   const variants = {
     initial: {

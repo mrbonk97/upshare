@@ -1,3 +1,4 @@
+"use client";
 import { api } from "@/lib/api";
 
 export const getHome = async () => {
@@ -13,6 +14,7 @@ export const getFolder = async (folderId: string) => {
 };
 
 export const createFolder = async (data: any) => {
+  console.log("gg");
   const result = await api.post("/folders", data);
   return result.status === 200;
 };
@@ -34,7 +36,8 @@ export const folderMoveFolder = async (
   return result.status === 200;
 };
 
-export const folderDepth = async (folderId: string) => {
+export const folderDepth = async (folderId?: string) => {
+  if (folderId == null) return [];
   const result = await api.get(`/folders/find-depth/${folderId}`);
   if (result.status === 200) return result.data.toReversed();
   else return [];
