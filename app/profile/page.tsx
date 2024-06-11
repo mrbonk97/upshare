@@ -45,109 +45,110 @@ const ProfilePage = () => {
   return (
     <>
       <TopNavbar />
-      <main className="min-h-full w-full pt-14 flex bg-tertiary">
-        <section className="fixed h-full w-96 pt-20 px-5 bg-tertiary">
-          <div className="w-full flex justify-center">
-            <UserImage className="w-32 h-32" />
-          </div>
-          <div className="space-y-5 mt-10">
-            <Button className="w-full py-6" onClick={() => setMenu("PROFILE")}>
-              프로필 수정
-            </Button>
-            <Button className="w-full py-6" onClick={() => setMenu("FAQ")}>
-              FAQ
-            </Button>
-            <Button className="w-full py-6" onClick={() => setMenu("POLICY")}>
-              개인정보 처리방침
-            </Button>
-            <DeleteAccountModal />
-          </div>
-        </section>
-
-        {menu == "PROFILE" && (
-          <section className="p-5 ml-96 w-full bg-primary-foreground flex2">
-            <Card>
-              <CardHeader>
-                <CardTitle>프로필 수정</CardTitle>
-                <CardDescription>
-                  이곳에서 이름을 변경하실 수 있습니다. 수정 후 저장 버튼을
-                  눌러주세요
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="grid gap-4 py-4">
-                  <div className="grid grid-cols-4 items-center gap-4">
-                    <Label htmlFor="name" className="text-right">
-                      이름
-                    </Label>
-                    <Input
-                      id="name"
-                      defaultValue={auth.user?.name}
-                      className="col-span-3"
-                      ref={ref}
-                    />
+      <aside className="hidden md:block fixed h-full w-96 pt-20 px-5 bg-tertiary">
+        <div className="w-full flex justify-center">
+          <UserImage className="w-32 h-32" />
+        </div>
+        <div className="space-y-5 mt-10">
+          <Button className="w-full py-6" onClick={() => setMenu("PROFILE")}>
+            프로필 수정
+          </Button>
+          <Button className="w-full py-6" onClick={() => setMenu("FAQ")}>
+            FAQ
+          </Button>
+          <Button className="w-full py-6" onClick={() => setMenu("POLICY")}>
+            개인정보 처리방침
+          </Button>
+          <DeleteAccountModal />
+        </div>
+      </aside>
+      <main className="min-h-full grid pl-[400px] pt-16 bg-tertiary">
+        <section className="px-5 rounded-tl-lg bg-secondary">
+          {menu == "PROFILE" && (
+            <article className="p-5 flex2 h-full w-full">
+              <Card>
+                <CardHeader>
+                  <CardTitle>프로필 수정</CardTitle>
+                  <CardDescription>
+                    이곳에서 이름을 변경하실 수 있습니다. 수정 후 저장 버튼을
+                    눌러주세요
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid gap-4 py-4">
+                    <div className="grid grid-cols-4 items-center gap-4">
+                      <Label htmlFor="name" className="text-right">
+                        이름
+                      </Label>
+                      <Input
+                        id="name"
+                        defaultValue={auth.user?.name}
+                        className="col-span-3"
+                        ref={ref}
+                      />
+                    </div>
                   </div>
-                </div>
-              </CardContent>
-              <CardFooter>
-                <Button className="w-full" onClick={handleSubmit}>
-                  저장
-                </Button>
-              </CardFooter>
-            </Card>
-          </section>
-        )}
+                </CardContent>
+                <CardFooter>
+                  <Button className="w-full" onClick={handleSubmit}>
+                    저장
+                  </Button>
+                </CardFooter>
+              </Card>
+            </article>
+          )}
 
-        {menu == "FAQ" && (
-          <section className="p-10 ml-96 w-full bg-primary-foreground">
-            <Accordion type="single" collapsible className="w-full">
-              <AccordionItem value="item-1">
-                <AccordionTrigger>평생 무료인가요?</AccordionTrigger>
-                <AccordionContent>네. 무료입니다.</AccordionContent>
-              </AccordionItem>
-              <AccordionItem value="item-2">
-                <AccordionTrigger> 회원 탈퇴는 어떻게 하나요?</AccordionTrigger>
-                <AccordionContent>
-                  로그인 후, 프로필 페이지에서 &ldquo;회원 탈퇴&rdquo;를
-                  선택하시면 계정을 삭제할 수 있습니다. 탈퇴 시 모든 데이터가
-                  영구 삭제되므로 신중하게 결정해 주세요.
-                </AccordionContent>
-              </AccordionItem>
-              <AccordionItem value="item-3">
-                <AccordionTrigger>
-                  파일을 어떻게 업로드 하나요?
-                </AccordionTrigger>
-                <AccordionContent>
-                  &ldquo;파일 업로드&rdquo; 버튼을 클릭하여 업로드할 파일을
-                  선택하면 파일이 서버에 업로드됩니다. 업로드된 파일은 &ldquo;홈
-                  화면&rdquo;에서 확인할 수 있습니다.
-                </AccordionContent>
-              </AccordionItem>
-              <AccordionItem value="item-4">
-                <AccordionTrigger>
-                  파일의 최대 업로드 용량은 얼마인가요?
-                </AccordionTrigger>
-                <AccordionContent>
-                  파일 당 최대 5MB까지 업로드할 수 있습니다.
-                </AccordionContent>
-              </AccordionItem>
-              <AccordionItem value="item-5">
-                <AccordionTrigger>
-                  파일 다운로드 링크를 공유하고 싶어요.
-                </AccordionTrigger>
-                <AccordionContent>
-                  &ldquo;내 파일&rdquo; 페이지에서 공유하고자 하는 파일 옆의
-                  &ldquo;공유&rdquo; 버튼을 클릭하면 다운로드 링크를 생성할 수
-                  있습니다. 생성된 링크를 복사하여 다른 사람과 공유할 수
-                  있습니다.
-                </AccordionContent>
-              </AccordionItem>
-            </Accordion>
-          </section>
-        )}
-        {menu == "POLICY" && (
-          <section className="p-10 ml-96 w-full bg-primary-foreground">
-            <article className="pl-5 max-w-[800px] space-y-5">
+          {menu == "FAQ" && (
+            <article className="p-5">
+              <Accordion type="single" collapsible>
+                <AccordionItem value="item-1">
+                  <AccordionTrigger>평생 무료인가요?</AccordionTrigger>
+                  <AccordionContent>네. 무료입니다.</AccordionContent>
+                </AccordionItem>
+                <AccordionItem value="item-2">
+                  <AccordionTrigger>
+                    회원 탈퇴는 어떻게 하나요?
+                  </AccordionTrigger>
+                  <AccordionContent>
+                    로그인 후, 프로필 페이지에서 &ldquo;회원 탈퇴&rdquo;를
+                    선택하시면 계정을 삭제할 수 있습니다. 탈퇴 시 모든 데이터가
+                    영구 삭제되므로 신중하게 결정해 주세요.
+                  </AccordionContent>
+                </AccordionItem>
+                <AccordionItem value="item-3">
+                  <AccordionTrigger>
+                    파일을 어떻게 업로드 하나요?
+                  </AccordionTrigger>
+                  <AccordionContent>
+                    &ldquo;파일 업로드&rdquo; 버튼을 클릭하여 업로드할 파일을
+                    선택하면 파일이 서버에 업로드됩니다. 업로드된 파일은
+                    &ldquo;홈 화면&rdquo;에서 확인할 수 있습니다.
+                  </AccordionContent>
+                </AccordionItem>
+                <AccordionItem value="item-4">
+                  <AccordionTrigger>
+                    파일의 최대 업로드 용량은 얼마인가요?
+                  </AccordionTrigger>
+                  <AccordionContent>
+                    파일 당 최대 5MB까지 업로드할 수 있습니다.
+                  </AccordionContent>
+                </AccordionItem>
+                <AccordionItem value="item-5">
+                  <AccordionTrigger>
+                    파일 다운로드 링크를 공유하고 싶어요.
+                  </AccordionTrigger>
+                  <AccordionContent>
+                    &ldquo;내 파일&rdquo; 페이지에서 공유하고자 하는 파일 옆의
+                    &ldquo;공유&rdquo; 버튼을 클릭하면 다운로드 링크를 생성할 수
+                    있습니다. 생성된 링크를 복사하여 다른 사람과 공유할 수
+                    있습니다.
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
+            </article>
+          )}
+          {menu == "POLICY" && (
+            <article className="p-5 max-w-[800px] space-y-5">
               <h1 className="text-xl font-semibold">
                 파일 공유 서비스 개인정보 처리방침
               </h1>
@@ -304,8 +305,8 @@ const ProfilePage = () => {
                 </ul>
               </hgroup>
             </article>
-          </section>
-        )}
+          )}
+        </section>
       </main>
     </>
   );
