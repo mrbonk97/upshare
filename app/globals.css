@@ -111,3 +111,11 @@ body,
   align-items: center;
   justify-content: center;
 }
+
+progress::-webkit-progress-bar {
+  background-color: transparent;
+}
+
+progress::-webkit-progress-value {
+  background-color: var(--purple-p);
+}
