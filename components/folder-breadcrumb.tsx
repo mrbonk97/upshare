@@ -31,7 +31,7 @@ export const FolderBreadCrumb: React.FC<FolderBreadCrumbProps> = ({
   }, []);
 
   return (
-    <Breadcrumb>
+    <Breadcrumb className="pt-2 pl-2">
       <BreadcrumbList>
         <BreadcrumbItem>
           <BreadcrumbLink href="/home">Home</BreadcrumbLink>

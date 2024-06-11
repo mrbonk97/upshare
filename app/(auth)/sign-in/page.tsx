@@ -6,8 +6,8 @@ const SignInPage = () => {
   return (
     <main className="h-full w-full flex relative">
       <section className="absolute md:static h-full w-full md:w-1/2 flex items-center justify-center flex-col p-5">
-        <article className="w-full max-w-96 bg-primary-foreground p-5 rounded-lg shadow-md md:shadow-none md:rounded-none md:bg-transparent">
-          <h1 className="pl-2 text-5xl font-bold break-words text-secondary">
+        <article className="w-full max-w-96 p-5 rounded-lg shadow-md md:shadow-none md:rounded-none md:bg-transparent">
+          <h1 className="pl-2 text-5xl font-bold break-words text-purple-p">
             Welcome Back
           </h1>
           <div className="mt-16 space-y-6">

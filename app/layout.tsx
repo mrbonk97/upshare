@@ -8,6 +8,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { FileProvider } from "@/context/file-context";
 import { Suspense } from "react";
 import ErrorPage from "./ErrorPage";
+import { Footer } from "@/components/nav/footer";
 
 const inter = Noto_Sans_KR({ subsets: ["latin"] });
 
@@ -23,7 +24,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko" suppressHydrationWarning>
-      <body className={inter.className}>
+      {/* bg-tertiary */}
+      <body className={`${inter.className}`}>
         <Suspense fallback={<ErrorPage />}>
           <ThemeProvider
             attribute="class"
@@ -40,6 +42,7 @@ export default function RootLayout({
             <ThemeToggle />
           </ThemeProvider>
         </Suspense>
+        {/* <Footer /> */}
       </body>
     </html>
   );
