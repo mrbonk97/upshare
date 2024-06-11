@@ -1,9 +1,11 @@
-export type user = {
+export type User = {
   id: string;
   name: string;
   email: string;
   imageUrl: string;
   role: string;
+  size: number;
+  maxSize: number;
 };
 
 export type File = {
@@ -19,7 +21,8 @@ export type File = {
 
 export interface AuthContextProps {
   isLoggedIn: boolean;
-  user: user | null;
+  user: User | null;
+  setUser: React.Dispatch<React.SetStateAction<User | null>>;
   signIn: () => Promise<boolean>;
   signOut: () => void;
 }
