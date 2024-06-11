@@ -25,13 +25,13 @@ export const fileMove = async (data: any) => {
 };
 
 export const fileUpload = async (formDate: FormData) => {
-  const headers = {
+  const config = {
     headers: {
       "Content-Type": "multipart/form-data",
     },
   };
 
-  const result = await api.post("/files", formDate, headers);
+  const result = await api.post("/files", formDate, config);
   return result.status === 200;
 };
 
