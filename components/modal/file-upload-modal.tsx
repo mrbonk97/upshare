@@ -24,7 +24,7 @@ import { useState } from "react";
 import { useFile } from "@/context/file-context";
 import { fileUpload } from "@/api/file-api";
 import { useAuth } from "@/context/auth-context";
-import { Spinner2 } from "@/file-client/components/spinner2";
+import { Spinner2 } from "@/components/spinner2";
 
 export const FileUploadModal = () => {
   const { folderId, refreshFolder } = useFile();
@@ -79,7 +79,7 @@ export const FileUploadModal = () => {
         </DialogHeader>
         {isLoading ? (
           <div className="flex2">
-            <Spinner2 loading clasName="" />
+            <Spinner2 loading />
           </div>
         ) : (
           <Form {...form}>

@@ -1,7 +1,9 @@
 "use client";
 import axios from "axios";
 
-export const api = axios.create({ baseURL: "http://localhost:8080/api" });
+export const api = axios.create({
+  baseURL: "https://file-0u-580c0ee3fd2f.herokuapp.com/api",
+});
 
 api.interceptors.request.use(
   function (config) {
