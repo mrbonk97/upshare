@@ -65,8 +65,8 @@ export const DataTable: React.FC<DataTableProps> = ({ modalOpen }) => {
       <TableHeader>
         <TableRow>
           <TableHead>파일명</TableHead>
-          <TableHead>수정한 사람</TableHead>
-          <TableHead>수정한 날짜</TableHead>
+          <TableHead className="hidden md:table-cell">수정한 사람</TableHead>
+          <TableHead className="hidden md:table-cell">수정한 날짜</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -100,15 +100,19 @@ export const DataTable: React.FC<DataTableProps> = ({ modalOpen }) => {
             >
               <TableCell
                 className="text-md font-medium cursor-pointer hover:underline underline-offset-2 flex items-center gap-2"
-                onDoubleClick={() =>
+                onClick={() =>
                   handleDoubleClick(item.id, item.type, item.originalFileName)
                 }
               >
                 {item.type == "FOLDER" ? <FolderIcon /> : <FileIcon />}
                 {item.originalFileName}
               </TableCell>
-              <TableCell>{item.username}</TableCell>
-              <TableCell>{item.updatedAt?.substring(0, 10)}</TableCell>
+              <TableCell className="hidden sm:table-cell">
+                {item.username}
+              </TableCell>
+              <TableCell className="hidden md:table-cell">
+                {item.updatedAt?.substring(0, 10)}
+              </TableCell>
               <TableCell className="text-right">
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>

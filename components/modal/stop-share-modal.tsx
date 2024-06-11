@@ -49,7 +49,7 @@ export const StopShareModal: React.FC<StopShareModalProps> = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={handleModalClose}>
-      <DialogContent>
+      <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>파일 공유 중지</DialogTitle>
           <DialogDescription>

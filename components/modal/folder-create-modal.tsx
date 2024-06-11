@@ -13,19 +13,17 @@ import {
 } from "../ui/form";
 import { useFile } from "@/context/file-context";
 import { usePathname } from "next/navigation";
-import {
-  AlertDialog,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogAction,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
 import { createFolder } from "@/api/folder-api";
 import { useState } from "react";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
 export const FolderCreateModal = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -67,7 +65,7 @@ export const FolderCreateModal = () => {
   };
 
   return (
-    <AlertDialog
+    <Dialog
       onOpenChange={(e) => {
         setIsOpen(e);
         setTimeout(() => {
@@ -76,16 +74,14 @@ export const FolderCreateModal = () => {
       }}
       open={isOpen}
     >
-      <AlertDialogTrigger asChild>
-        <Button className="w-full py-7 flex2 gap-5 text-xl">폴더 추가</Button>
-      </AlertDialogTrigger>
-      <AlertDialogContent className="sm:max-w-[425px]">
-        <AlertDialogHeader>
-          <AlertDialogTitle>폴더 추가</AlertDialogTitle>
-          <AlertDialogDescription>
-            현재 경로에 폴더를 추가합니다.
-          </AlertDialogDescription>
-        </AlertDialogHeader>
+      <DialogTrigger asChild>
+        <Button className="w-full md:py-7 md:text-xl">폴더 추가</Button>
+      </DialogTrigger>
+      <DialogContent className="sm:max-w-[425px]">
+        <DialogHeader>
+          <DialogTitle>폴더 추가</DialogTitle>
+          <DialogDescription>현재 경로에 폴더를 추가합니다.</DialogDescription>
+        </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <FormField
@@ -104,21 +100,14 @@ export const FolderCreateModal = () => {
                 </FormItem>
               )}
             />
-            <AlertDialogFooter>
-              <AlertDialogCancel
-                onClick={() => {
-                  form.reset();
-                }}
-              >
-                취소
-              </AlertDialogCancel>
+            <DialogFooter>
               <Button type="submit" className="w-full">
                 추가
               </Button>
-            </AlertDialogFooter>
+            </DialogFooter>
           </form>
         </Form>
-      </AlertDialogContent>
-    </AlertDialog>
+      </DialogContent>
+    </Dialog>
   );
 };

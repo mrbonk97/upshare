@@ -10,6 +10,7 @@ import { MoveRight, RabbitIcon } from "lucide-react";
 import { useEffect } from "react";
 import style from "./landing.module.css";
 import Image from "next/image";
+import { Footer } from "@/components/nav/footer";
 
 const LandingPage = () => {
   const { isLoggedIn } = useAuth();
@@ -44,7 +45,7 @@ const LandingPage = () => {
   };
 
   return (
-    <main className="w-full pt-28 flex items-center flex-col gap-40 ">
+    <main className="w-full pt-28 flex items-center flex-col gap-40">
       <motion.div
         variants={variants}
         whileInView="inView"
@@ -52,11 +53,11 @@ const LandingPage = () => {
         transition={{ duration: 0.5 }}
         viewport={{ once: true }}
       >
-        <Image src={"/images/logo.png"} width={150} height={150} alt="logo" />
+        <Image src={"/images/logo3.png"} width={250} height={250} alt="logo" />
       </motion.div>
       <hgroup className="space-y-5">
         <motion.h1
-          className="text-secondary text-center text-3xl sm:text-6xl sm:text-left font-semibold tracking-wider"
+          className="text-purple-p text-center text-3xl sm:text-6xl sm:text-left font-semibold tracking-wider"
           variants={variants}
           whileInView="inView"
           initial="initial"
@@ -86,13 +87,13 @@ const LandingPage = () => {
         viewport={{ once: true }}
       >
         <Link href={"/sign-in"}>
-          <div className="bg-secondary static flex2 sm:block sm:absolute h-16 w-64 sm:w-16 rounded-full bg-pc-500 peer group-hover:w-64 left-0 group-hover:left-4 duration-500 ease-in-out shadow-lg">
-            <MoveRight className="text-primary-foreground sm:absolute sm:mt-3 ml-3 h-10 w-10 duration-300" />
+          <div className="bg-purple-p static flex2 sm:block sm:absolute h-16 w-64 sm:w-16 rounded-full bg-pc-500 peer group-hover:w-64 left-0 group-hover:left-4 duration-500 ease-in-out shadow-lg">
+            <MoveRight className="text-secondary-foreground sm:absolute sm:mt-3 ml-3 h-10 w-10 duration-300" />
             <button className="text-2xl font-bold text-primary-foreground ml-2 mr-5 sm:hidden">
               바로 시작하기
             </button>
           </div>
-          <button className="group-hover:text-primary-foreground hidden sm:block w-full h-16 text-center text-2xl relative duration-300 font-bold tracking-wider">
+          <button className="group-hover:text-primary-foreground text-primary/80 hidden sm:block w-full h-16 text-center text-2xl relative duration-300 font-bold tracking-wider">
             바로 시작하기
           </button>
         </Link>
@@ -136,6 +137,7 @@ const LandingPage = () => {
           </p>
         </motion.hgroup>
       </section>
+      <Footer />
     </main>
   );
 };

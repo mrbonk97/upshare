@@ -41,26 +41,28 @@ const FolderPage = ({ params }: { params?: { id: string } }) => {
 
   return (
     <>
-      <main className="h-full w-full pl-[400px] pt-16">
-        <FolderBreadCrumb folderId={params?.id} />
-        <ShareModal
-          isOpen={isModalOpen.share}
-          file={file}
-          modalClose={handleModalClose}
-        />
-        <StopShareModal
-          isOpen={isModalOpen.stopShare}
-          file={file}
-          modalClose={handleModalClose}
-        />
-        <DeleteModal
-          isOpen={isModalOpen.delete}
-          file={file}
-          modalClose={handleModalClose}
-        />
-        <section className="mt-5 pr-5">
-          <DataTable modalOpen={handleModalOpen} />
-        </section>
+      <main className="min-h-full grid w-full px-5 md:px-0 md:pl-[400px] pt-16 bg-tertiary">
+        <div className="flex-1 px-5 rounded-t-lg md:rounded-tr-none md:rounded-tl-lg bg-secondary">
+          <FolderBreadCrumb folderId={params?.id} />
+          <ShareModal
+            isOpen={isModalOpen.share}
+            file={file}
+            modalClose={handleModalClose}
+          />
+          <StopShareModal
+            isOpen={isModalOpen.stopShare}
+            file={file}
+            modalClose={handleModalClose}
+          />
+          <DeleteModal
+            isOpen={isModalOpen.delete}
+            file={file}
+            modalClose={handleModalClose}
+          />
+          <section className="mt-5 pr-5">
+            <DataTable modalOpen={handleModalOpen} />
+          </section>
+        </div>
       </main>
     </>
   );

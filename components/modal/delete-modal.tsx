@@ -37,7 +37,7 @@ export const DeleteModal: React.FC<DeleteModalProps> = ({
 
   return (
     <AlertDialog open={isOpen} onOpenChange={modalClose}>
-      <AlertDialogContent>
+      <AlertDialogContent className="sm:max-w-[425px]">
         <AlertDialogHeader>
           <AlertDialogTitle>정말로 삭제하시겠습니까?</AlertDialogTitle>
           <AlertDialogDescription>
@@ -46,7 +46,12 @@ export const DeleteModal: React.FC<DeleteModalProps> = ({
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>취소</AlertDialogCancel>
-          <AlertDialogAction onClick={handleFileDelete}>삭제</AlertDialogAction>
+          <AlertDialogAction
+            onClick={handleFileDelete}
+            className="bg-destructive"
+          >
+            삭제
+          </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
