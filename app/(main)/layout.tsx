@@ -1,3 +1,4 @@
+import { BottomNav } from "@/components/nav/bottom-nav";
 import { LeftNavbar } from "@/components/nav/left-nav";
 import { TopNavbar } from "@/components/nav/top-nav";
 export default function RootLayout({
@@ -10,6 +11,7 @@ export default function RootLayout({
       <TopNavbar />
       <LeftNavbar />
       {children}
+      <BottomNav />
     </>
   );
 }
