@@ -24,10 +24,7 @@ export const UserAvatar = () => {
         <DropdownMenuItem>
           <Link href="/profile">프로필</Link>
         </DropdownMenuItem>
-        <DropdownMenuItem
-          onClick={() => auth.signOut()}
-          className="cursor-pointer"
-        >
+        <DropdownMenuItem className="cursor-pointer">
           <Link href={"/logout"}>로그아웃</Link>
         </DropdownMenuItem>
       </DropdownMenuContent>
