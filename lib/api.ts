@@ -2,7 +2,7 @@
 import axios from "axios";
 
 export const api = axios.create({
-  baseURL: "https://file-0u-580c0ee3fd2f.herokuapp.com/api",
+  baseURL: "https://file-share-s-350ee7e71639.herokuapp.com/api",
 });
 
 api.interceptors.request.use(
