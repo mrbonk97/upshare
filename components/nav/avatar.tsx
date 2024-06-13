@@ -28,7 +28,7 @@ export const UserAvatar = () => {
           onClick={() => auth.signOut()}
           className="cursor-pointer"
         >
-          로그아웃
+          <Link href={"/logout"}>로그아웃</Link>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
