@@ -1,7 +1,6 @@
 "use client";
 import { useUserInfo } from "@/hooks/userUserInfo";
 import { AuthContextProps, LayoutProps, User } from "@/types/type";
-import { useRouter } from "next/navigation";
 import { createContext, useContext, useEffect, useState } from "react";
 
 const AuthContext = createContext<AuthContextProps>({
@@ -17,13 +16,11 @@ export const useAuth = () => {
 };
 
 export const AuthProvider: React.FC<LayoutProps> = ({ children }) => {
-  const router = useRouter();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState<User | null>(null);
 
   const signIn = async () => {
     const userInfo = await useUserInfo();
-    console.log("유저 정보 조회");
 
     if (userInfo == null) {
       setUser(null);
@@ -39,7 +36,6 @@ export const AuthProvider: React.FC<LayoutProps> = ({ children }) => {
   const signOut = () => {
     setIsLoggedIn(false);
     setUser(null);
-    router.push("/");
   };
 
   const values = {
