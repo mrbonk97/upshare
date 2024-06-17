@@ -5,7 +5,7 @@ import { Separator } from "@/components/ui/separator";
 import { Reviews } from "@/constants/reviews";
 import { easeIn, motion } from "framer-motion";
 import { useAuth } from "@/context/auth-context";
-import { useRouter } from "next/navigation";
+import { redirect } from "next/navigation";
 import { MoveRight, RabbitIcon } from "lucide-react";
 import { useEffect } from "react";
 import style from "./landing.module.css";
@@ -14,11 +14,9 @@ import { Footer } from "@/components/nav/footer";
 
 const LandingPage = () => {
   const { isLoggedIn } = useAuth();
-  const router = useRouter();
-
   useEffect(() => {
-    if (isLoggedIn) router.push("/home");
-  }, [isLoggedIn, router]);
+    if (isLoggedIn) redirect("/home");
+  }, [isLoggedIn]);
 
   const variants = {
     initial: {
