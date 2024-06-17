@@ -41,8 +41,8 @@ const FolderPage = ({ params }: { params?: { id: string } }) => {
 
   return (
     <>
-      <main className="min-h-full grid w-full px-5 md:px-0 md:pl-[400px] pt-16 bg-tertiary">
-        <div className="flex-1 px-5 rounded-t-lg md:rounded-tr-none md:rounded-tl-lg bg-secondary">
+      <main className="min-h-full grid w-full px-5 md:pl-[400px] pt-16 bg-secondary">
+        <div className="flex-1 px-5 rounded-t-lg bg-primary-foreground">
           <FolderBreadCrumb folderId={params?.id} />
           <ShareModal
             isOpen={isModalOpen.share}

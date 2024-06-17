@@ -19,17 +19,11 @@ export const StopShareModal: React.FC<StopShareModalProps> = ({
   modalClose,
 }) => {
   const [isSuccess, setIsSuccess] = useState(false);
-  const [isDelayed, setIsDelayed] = useState(false);
   const { refreshFolder } = useFile();
 
-  //eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (!isOpen) return;
     if (file?.id == null) return;
-
-    setTimeout(() => {
-      setIsDelayed(true);
-    }, 1000);
 
     const handleShareStop = async () => {
       setIsSuccess(await stopShareFile(file!.id));
@@ -43,8 +37,7 @@ export const StopShareModal: React.FC<StopShareModalProps> = ({
     modalClose();
     setTimeout(() => {
       setIsSuccess(false);
-      setIsDelayed(false);
-    }, 100);
+    }, 300);
   };
 
   return (
@@ -53,13 +46,13 @@ export const StopShareModal: React.FC<StopShareModalProps> = ({
         <DialogHeader>
           <DialogTitle>파일 공유 중지</DialogTitle>
           <DialogDescription>
-            {isSuccess && isDelayed
+            {isSuccess
               ? "파일 공유를 중지 했습니다."
               : "파일 공유를 중지하는 중입니다..."}
           </DialogDescription>
           <div className="py-10">
             <div className="w-full flex2 py-5">
-              {isSuccess && isDelayed ? (
+              {isSuccess ? (
                 <ThumbsUp size={48} className="text-tertiary" />
               ) : (
                 <Spinner2 loading={true} />

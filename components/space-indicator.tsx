@@ -15,7 +15,7 @@ export const SpaceIndicator = () => {
       <span className="text-md font-semibold">메모리</span>
       <Progress
         value={parseInt(percentage)}
-        className="h-1 mt-2 bg-primary-foreground"
+        className="h-1 mt-2 bg-secondary"
       />
       <span className="mt-1 text-sm">
         {(user!.size / 1_024_000).toFixed(0)}mb /

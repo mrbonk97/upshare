@@ -68,7 +68,9 @@ export const FileUploadModal = () => {
   return (
     <Dialog onOpenChange={handleOpen} open={isOpen}>
       <DialogTrigger asChild>
-        <Button className="w-full md:py-7 md:text-xl">파일 업로드</Button>
+        <Button className="w-full md:py-7 md:text-xl bg-purple-p hover:bg-purple-p/90">
+          파일 업로드
+        </Button>
       </DialogTrigger>
       <DialogContent className="max-w-80 sm:max-w-[425px] min-h-60">
         <DialogHeader>

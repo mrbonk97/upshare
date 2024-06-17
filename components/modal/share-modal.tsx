@@ -13,7 +13,7 @@ import { useToast } from "../ui/use-toast";
 import { shareFile } from "@/api/file-api";
 import { useEffect, useState } from "react";
 import { File } from "@/types/type";
-import { useFile } from "@/context/file-context";
+import { Spinner2 } from "../spinner2";
 
 interface ShareModalProps {
   file: File | null;
@@ -27,8 +27,8 @@ export const ShareModal: React.FC<ShareModalProps> = ({
   modalClose,
 }) => {
   const [code, setCode] = useState("");
+  const [isProcessing, setIsProcessing] = useState(true);
   const { toast } = useToast();
-  const { refreshFolder } = useFile();
 
   useEffect(() => {
     if (!isOpen) return;
@@ -37,11 +37,11 @@ export const ShareModal: React.FC<ShareModalProps> = ({
       if (file == null) return;
       const _code = await shareFile(file!.id);
       setCode(_code);
-      if (_code != null) refreshFolder();
+      setIsProcessing(false);
     };
 
     handleShare();
-  }, [isOpen, file, refreshFolder]);
+  }, [isOpen, file]);
 
   const handleCopy = () => {
     toast({
@@ -55,8 +55,18 @@ export const ShareModal: React.FC<ShareModalProps> = ({
     );
   };
 
+  const handleModalClose = () => {
+    if (isOpen)
+      setTimeout(() => {
+        setCode("");
+        setIsProcessing(true);
+      }, 300);
+
+    modalClose();
+  };
+
   return (
-    <Dialog open={isOpen} onOpenChange={modalClose}>
+    <Dialog open={isOpen} onOpenChange={handleModalClose}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>파일을 공유하고 있습니다.</DialogTitle>
@@ -65,14 +75,20 @@ export const ShareModal: React.FC<ShareModalProps> = ({
           </DialogDescription>
         </DialogHeader>
         <div className="flex justify-center gap-5 mt-16 mb-10">
-          <span className="text-2xl px-5">코드: {code}</span>
-          <Button
-            variant={"ghost"}
-            onClick={handleCopy}
-            className="focus-visible:ring-0 focus-visible:ring-offset-0"
-          >
-            <Copy />
-          </Button>
+          {isProcessing ? (
+            <Spinner2 loading />
+          ) : (
+            <>
+              <span className="text-2xl px-5">코드: {code}</span>
+              <Button
+                variant={"ghost"}
+                onClick={handleCopy}
+                className="focus-visible:ring-0 focus-visible:ring-offset-0"
+              >
+                <Copy />
+              </Button>
+            </>
+          )}
         </div>
       </DialogContent>
     </Dialog>

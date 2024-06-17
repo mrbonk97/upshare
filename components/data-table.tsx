@@ -95,7 +95,7 @@ export const DataTable: React.FC<DataTableProps> = ({ modalOpen }) => {
               className={`${
                 item.id == hoverRow?.id &&
                 hoverRow.id != dragRow?.id &&
-                "border-2 border-secondary border-dashed"
+                "border-2 border-purple-p border-dashed"
               }`}
             >
               <TableCell

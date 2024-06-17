@@ -1,5 +1,7 @@
 "use client";
 import { deleteAccount } from "@/api/users-api";
+import { redirect } from "next/navigation";
+
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -10,15 +12,11 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { api } from "@/lib/api";
-import { useRouter } from "next/navigation";
 
-export function DeleteAccountModal() {
-  const router = useRouter();
-
+export const DeleteAccountModal = () => {
   const handleAccountDelete = async () => {
     const isSuccess = await deleteAccount();
-    if (isSuccess) router.push("/");
+    if (isSuccess) redirect("/");
   };
 
   return (
@@ -44,4 +42,4 @@ export function DeleteAccountModal() {
       </DialogContent>
     </Dialog>
   );
-}
+};

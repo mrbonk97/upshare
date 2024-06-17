@@ -75,7 +75,9 @@ export const FolderCreateModal = () => {
       open={isOpen}
     >
       <DialogTrigger asChild>
-        <Button className="w-full md:py-7 md:text-xl">폴더 추가</Button>
+        <Button className="w-full md:py-7 md:text-xl bg-purple-p hover:bg-purple-p/90">
+          폴더 추가
+        </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>

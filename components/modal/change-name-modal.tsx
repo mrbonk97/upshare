@@ -1,4 +1,8 @@
 "use client";
+import * as z from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+
 import {
   Dialog,
   DialogContent,
@@ -13,16 +17,13 @@ import {
   FormField,
   FormItem,
   FormMessage,
-} from "../ui/form";
-import * as z from "zod";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Input } from "../ui/input";
-import { Button } from "../ui/button";
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
 export const ChangeNameModal = () => {
   const formSchema = z.object({
-    file_name: z.string().min(2).max(50),
+    file_name: z.string().min(2).max(30),
   });
 
   const form = useForm<z.infer<typeof formSchema>>({

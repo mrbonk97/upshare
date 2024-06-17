@@ -59,7 +59,7 @@ const config = {
           foreground: "hsl(var(--card-foreground))",
         },
         purple: {
-          p: "var(--purple-p)",
+          p: "#bb86fc",
         },
       },
       borderRadius: {

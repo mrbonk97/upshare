@@ -28,7 +28,8 @@ const SignInPage = () => {
             </Button>
             <Button className="w-full py-6 bg-[#03C75A] hover:bg-[#03C75A]/90">
               <Link
-                href={process.env.NAVER_OAUTH2_URL!}
+                // href={process.env.NAVER_OAUTH2_URL!}
+                href="https://naver.com"
                 className="flex items-center"
               >
                 <Image
