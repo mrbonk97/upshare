@@ -1,5 +1,5 @@
 "use client";
-import { fileDownloadCode } from "@/api/file-api";
+import { Logo } from "@/components/logo";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -15,22 +15,26 @@ import {
   InputOTPSeparator,
   InputOTPSlot,
 } from "@/components/ui/input-otp";
+import { fileDownloadCode } from "@/lib/action/file-action";
+import { useMutation } from "@tanstack/react-query";
 import { REGEXP_ONLY_DIGITS_AND_CHARS } from "input-otp";
+import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 
 const SharePage = () => {
-  const searchParams = useSearchParams();
-  const codeParams = searchParams.get("code");
-  const [code, setCode] = useState(codeParams == null ? "" : codeParams);
-
-  const handleDownload = () => {
-    fileDownloadCode(code);
-  };
+  const _code = useSearchParams().get("code");
+  const [code, setCode] = useState(_code == null ? "" : _code);
+  const { mutate, isPending } = useMutation({
+    mutationFn: () => fileDownloadCode(code),
+  });
 
   return (
-    <main className="h-full w-full flex2">
-      <Card>
+    <main className="h-full w-full flex items-center pt-32 flex-col gap-14">
+      <Link href={"/"}>
+        <Logo />
+      </Link>
+      <Card className="sm:max-w-[450px]">
         <CardHeader>
           <CardTitle>파일 다운로드</CardTitle>
           <CardDescription>파일 공유 코드를 입력해주세요</CardDescription>
@@ -40,7 +44,7 @@ const SharePage = () => {
             maxLength={8}
             pattern={REGEXP_ONLY_DIGITS_AND_CHARS}
             value={code}
-            onChange={(_code) => setCode(_code)}
+            onChange={setCode}
           >
             <InputOTPGroup>
               <InputOTPSlot index={0} />
@@ -60,8 +64,8 @@ const SharePage = () => {
         <CardFooter>
           <Button
             className="w-full"
-            disabled={code.length != 8}
-            onClick={handleDownload}
+            disabled={code.length != 8 || isPending}
+            onClick={() => mutate()}
           >
             다운로드
           </Button>

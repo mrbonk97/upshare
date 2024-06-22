@@ -1,28 +1,22 @@
 "use client";
 import { Spinner } from "@/components/spinner";
-import { useAuth } from "@/context/auth-context";
-import { useRouter } from "next/navigation";
+import { redirect, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 
 const CallbackPage = () => {
-  const router = useRouter();
-  const { signIn } = useAuth();
+  const access_token = useSearchParams().get("access_token");
 
   useEffect(() => {
-    const handleSignIn = async () => {
-      const isSuccess = await signIn();
-      if (isSuccess) router.push("/home");
-      else router.push("/error");
-    };
-
-    handleSignIn();
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    if (access_token == null) throw "오류: 토큰이 존재하지 않습니다.";
+    else {
+      localStorage.setItem("access_token", access_token);
+      redirect("/home");
+    }
   }, []);
 
   return (
-    <main>
-      <Spinner loading />
+    <main className="h-full flex2">
+      <Spinner />
     </main>
   );
 };

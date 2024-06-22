@@ -26,8 +26,8 @@ const PolicyPage = () => {
         value={0}
       />
       <main ref={mainRef}>
-        <section className="flex justify-center bg-primary-foreground">
-          <article className="px-5 max-w-[750px] bg-secondary">
+        <section className="flex justify-center">
+          <article className="px-5 max-w-[900px] bg-secondary">
             <div className="flex2 py-16">
               <Image
                 src={"/images/logo.png"}

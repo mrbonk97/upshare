@@ -1,19 +1,18 @@
-import "./globals.css";
 import type { Metadata } from "next";
 import { Noto_Sans_KR } from "next/font/google";
+import "./globals.css";
+import QueryProvider from "@/react-query/query-provider";
 import { ThemeProvider } from "@/components/theme-provider";
-import { ThemeToggle } from "@/components/theme-toggle";
-import { AuthProvider } from "@/context/auth-context";
-import { Toaster } from "@/components/ui/toaster";
-import { FileProvider } from "@/context/file-context";
+import { ModeToggle } from "@/components/theme-toggle";
 import { Suspense } from "react";
-import { Spinner } from "@/components/spinner";
+import LoadingPage from "./loading/page";
+import { Toaster } from "@/components/ui/toaster";
 
 const inter = Noto_Sans_KR({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "파일 공유",
-  description: "간단하게 파일을 공유해보세요",
+  description: "간편하게 파일을 공유해보세요",
 };
 
 export default function RootLayout({
@@ -23,23 +22,21 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko" suppressHydrationWarning>
-      <body className={`${inter.className}`}>
-        <Suspense fallback={<Spinner loading />}>
+      <body className={inter.className}>
+        <QueryProvider>
           <ThemeProvider
             attribute="class"
             defaultTheme="system"
             enableSystem
             disableTransitionOnChange
           >
-            <AuthProvider>
-              <FileProvider>
-                {children}
-                <Toaster />
-              </FileProvider>
-            </AuthProvider>
-            <ThemeToggle />
+            <Suspense fallback={<LoadingPage />}>
+              <Toaster />
+              {children}
+            </Suspense>
+            <ModeToggle />
           </ThemeProvider>
-        </Suspense>
+        </QueryProvider>
       </body>
     </html>
   );

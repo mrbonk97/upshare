@@ -1,3 +1,4 @@
+import { Logo } from "@/components/logo";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
@@ -6,10 +7,20 @@ const SignInPage = () => {
   return (
     <main className="h-full w-full flex relative">
       <section className="absolute md:static h-full w-full md:w-1/2 flex items-center justify-center flex-col p-5">
-        <article className="w-full max-w-96 p-5 rounded-lg shadow-md md:shadow-none md:rounded-none md:bg-transparent">
-          <h1 className="pl-2 text-5xl font-bold break-words text-purple-p">
-            Welcome Back
-          </h1>
+        <article className="w-full max-w-96 p-5 rounded-lg bg-white shadow-md md:shadow-none md:rounded-none md:bg-transparent">
+          <div className="flex items-center gap-4">
+            <Logo width={100} height={100} />
+            <div className="flex items-center pb-1">
+              <div>
+                <h1 className="text-2xl font-bold break-words text-blue-500">
+                  파일 공유
+                </h1>
+                <h2 className="mt-1 text-3xl font-bold break-words text-primary/70">
+                  로그인하세요
+                </h2>
+              </div>
+            </div>
+          </div>
           <div className="mt-16 space-y-6">
             <Button className="w-full py-6">
               <Link
@@ -28,8 +39,7 @@ const SignInPage = () => {
             </Button>
             <Button className="w-full py-6 bg-[#03C75A] hover:bg-[#03C75A]/90">
               <Link
-                // href={process.env.NAVER_OAUTH2_URL!}
-                href="https://naver.com"
+                href={process.env.NAVER_OAUTH2_URL!}
                 className="flex items-center"
               >
                 <Image

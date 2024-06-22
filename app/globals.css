@@ -17,9 +17,8 @@
     --primary-foreground: 210 40% 98%;
 
     --secondary: 210 40% 96.1%;
+    /* --secondary: 272 100% 92%; */
     --secondary-foreground: 222.2 47.4% 11.2%;
-
-    --tertiary: #bb86fc;
 
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
@@ -35,8 +34,6 @@
     --ring: 222.2 84% 4.9%;
 
     --radius: 0.5rem;
-
-    --purple-p: #bb86fc;
   }
 
   .dark {
@@ -55,8 +52,6 @@
     --secondary: 217.2 32.6% 17.5%;
     --secondary-foreground: 210 40% 98%;
 
-    --tertiary: #bb86fc;
-
     --muted: 217.2 32.6% 17.5%;
     --muted-foreground: 215 20.2% 65.1%;
 
@@ -69,8 +64,6 @@
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
     --ring: 212.7 26.8% 83.9%;
-
-    --purple-p: #bb86fc;
   }
 }
 
@@ -83,17 +76,10 @@
   }
 }
 
-* {
-  padding: 0;
-  margin: 0;
-  /* border: 1px solid black; */
-}
-
 html,
 body,
-#root {
+:root {
   height: 100%;
-  width: 100%;
 }
 
 .fade {
@@ -112,10 +98,82 @@ body,
   justify-content: center;
 }
 
-progress::-webkit-progress-bar {
-  background-color: transparent;
+* {
+  /* border: 1px solid black; */
 }
 
-progress::-webkit-progress-value {
-  background-color: var(--purple-p);
+@keyframes pulse {
+  0% {
+    transform: scale(10%);
+  }
+
+  40% {
+    transform: scale(100%);
+  }
+
+  50% {
+    transform: scale(100%);
+  }
+
+  90% {
+    transform: scale(10%);
+  }
+
+  100% {
+    transform: scale(10%);
+  }
+}
+
+.spinner {
+  transform: scale(10%);
+  height: 24px;
+  width: 24px;
+  border-radius: 9999px;
+  animation: pulse infinite 1.5s;
+}
+
+.spinner2 {
+  transform: scale(10%);
+  height: 24px;
+  width: 24px;
+  border-radius: 9999px;
+  animation: pulse infinite 1.5s 0.15s;
+}
+
+.spinner3 {
+  transform: scale(10%);
+  height: 24px;
+  width: 24px;
+  border-radius: 9999px;
+  animation: pulse infinite 1.5s 0.3s;
+}
+
+.box {
+  width: 24rem;
+  display: inline-block;
+}
+
+/*keyframe animations*/
+.box:first-child {
+  animation: bannermove 20s linear infinite;
+}
+
+@keyframes bannermove {
+  0% {
+    margin-left: 0px;
+    transform: translateX(0);
+  }
+  100% {
+    margin-left: -174rem;
+  }
+}
+
+@keyframes pul {
+  50% {
+    opacity: 50%;
+  }
+}
+
+.pul-pul {
+  animation: pul 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }

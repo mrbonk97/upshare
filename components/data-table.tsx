@@ -1,5 +1,5 @@
 "use client";
-import { File } from "@/types/type";
+
 import {
   Table,
   TableBody,
@@ -16,142 +16,284 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Button } from "./ui/button";
-import { FileIcon, FolderIcon, MoreHorizontal } from "lucide-react";
-import { fileDownload, fileMoveFolder } from "@/api/file-api";
+
+import { cn } from "@/lib/utils";
+import { File, modalType } from "@/type/type";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import { useFile } from "@/context/file-context";
-import { folderMoveFolder } from "@/api/folder-api";
+import { useState } from "react";
+import { Button } from "./ui/button";
+import { MoreHorizontal } from "lucide-react";
+import useStore from "@/store/store";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import {
+  fileDownload,
+  fileHeartChange,
+  fileMoveFolder,
+} from "@/lib/action/file-action";
+import {
+  folderHeartChange,
+  folderMoveFolder,
+} from "@/lib/action/folder-action";
+import { api } from "@/lib/api";
 
-interface DataTableProps {
-  modalOpen: (file: File, type: string) => void;
-}
-
-export const DataTable: React.FC<DataTableProps> = ({ modalOpen }) => {
+export const DataTable = () => {
+  const files = useStore.use.files();
   const router = useRouter();
-  const { files, refreshFolder } = useFile();
+  const queryClient = useQueryClient();
+
   const [hoverRow, setHoverRow] = useState<File | null>(null);
   const [dragRow, setDragRow] = useState<File | null>(null);
+  const setIsModalOpen = useStore.use.setIsModalOpen();
+  const selectFile = useStore.use.selectFile();
+  const updateFile = useStore.use.updateFile();
+  const folderId = useStore.use.folderId();
 
-  const handleDoubleClick = (id: string, type: string, filename: string) => {
-    if (type == "FILE") fileDownload(id, filename);
-    if (type == "FOLDER") router.push(`/folders/${id}`);
+  const { mutate: mutateFileDownload } = useMutation({
+    mutationFn: (file: File) => fileDownload(file.id, file.originalFileName),
+  });
+
+  const { mutate: mutateFileHeart } = useMutation({
+    mutationFn: (file: File) => fileHeartChange(file.id),
+    onSuccess: (e) => {
+      const _files = files.map((item) => {
+        if (e.id != item.id) return item;
+        return e;
+      });
+      updateFile(_files);
+      queryClient.removeQueries({ queryKey: ["favorite"] });
+      queryClient.removeQueries({ queryKey: ["folders"] });
+      console.log("히히영");
+    },
+  });
+
+  const { mutate: mutateFolderHeart } = useMutation({
+    mutationFn: (file: File) => folderHeartChange(file.id),
+    onSuccess: (e) => {
+      const _files = files.map((item) => {
+        if (e.id != item.id) return item;
+        return e;
+      });
+      updateFile(_files);
+      queryClient.removeQueries({ queryKey: ["favorite"] });
+      queryClient.removeQueries({ queryKey: ["folders"] });
+      console.log("히히영");
+    },
+  });
+
+  const { mutate: mutateFolderFolderChange } = useMutation({
+    mutationFn: ({
+      folderId,
+      parentFolderId,
+    }: {
+      folderId: string;
+      parentFolderId: string;
+    }): Promise<File> =>
+      api
+        .put("/folders/move-folder", { folderId, parentFolderId })
+        .then((res) => res.data),
+    onSuccess: (e: File) => {
+      const _files = files.filter((item) => {
+        if (e.id != item.id) return item;
+      });
+      updateFile(_files);
+    },
+  });
+
+  const { mutate: mutateFileFolderChange } = useMutation({
+    mutationFn: ({
+      fileId,
+      folderId,
+    }: {
+      fileId: string;
+      folderId: string;
+    }): Promise<File> =>
+      api
+        .put("/files/change-folder", { fileId, folderId })
+        .then((res) => res.data),
+    onSuccess: (e: File) => {
+      const _files = files.filter((item) => {
+        if (e.id != item.id) return item;
+      });
+      updateFile(_files);
+    },
+  });
+
+  const handleClick = (file: File) => {
+    if (file.type == "FOLDER") router.push(`/folders/${file.id}`);
+    if (file.type == "FILE") {
+      mutateFileDownload(file);
+    }
   };
 
   const handleFolderChange = async (e: any) => {
     e.preventDefault();
     if (hoverRow == null || dragRow == null) return;
     if (hoverRow == dragRow) return;
+    console.log(hoverRow, dragRow);
 
     if (hoverRow.type == "FOLDER" && dragRow.type == "FOLDER") {
-      const isSuccess = await folderMoveFolder(dragRow.id, hoverRow.id);
-      if (isSuccess) refreshFolder();
+      mutateFolderFolderChange({
+        folderId: dragRow.id,
+        parentFolderId: hoverRow.id,
+      });
     }
 
     if (hoverRow.type == "FOLDER" && dragRow.type == "FILE") {
-      const isSuccess = await fileMoveFolder(dragRow.id, hoverRow.id);
-      if (isSuccess) refreshFolder();
+      mutateFileFolderChange({
+        fileId: dragRow.id,
+        folderId: hoverRow.id,
+      });
     }
   };
 
-  useEffect(() => {
-    refreshFolder();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const handleHeart = async (e: File) => {
+    if (e.type == "FILE") mutateFileHeart(e);
+    if (e.type == "FOLDER") mutateFolderHeart(e);
+  };
 
   return (
-    <Table>
+    <Table className="mt-5">
       <TableHeader>
         <TableRow>
           <TableHead>파일명</TableHead>
-          <TableHead className="hidden md:table-cell">수정한 사람</TableHead>
-          <TableHead className="hidden md:table-cell">수정한 날짜</TableHead>
+          <TableHead className="hidden lg:table-cell text-center">
+            수정된 날짜
+          </TableHead>
+          <TableHead className="hidden md:tabel-cell text-center">
+            수정한 사람
+          </TableHead>
+          <TableHead className="hidden lg:table-cell text-center">
+            파일크기
+          </TableHead>
+          <TableHead className="text-center">좋아요</TableHead>
+          <TableHead></TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
-        {files.length == 0 && (
-          <TableRow>
-            <TableCell colSpan={4} className="text-center text-primary">
-              파일이 없습니다.
-            </TableCell>
-          </TableRow>
-        )}
-        {files.map((item) => {
-          return (
-            <TableRow
-              key={item.id}
-              draggable
-              onDragStart={() => setDragRow(item)}
-              onDragOver={(e) => {
-                e.preventDefault();
-                setHoverRow(item);
-              }}
-              onDrop={handleFolderChange}
-              onDragEnd={() => {
-                setDragRow(null);
-                setHoverRow(null);
-              }}
-              className={`${
-                item.id == hoverRow?.id &&
-                hoverRow.id != dragRow?.id &&
-                "border-2 border-purple-p border-dashed"
-              }`}
+        {files.map((item: File) => (
+          <TableRow
+            draggable
+            key={item.id}
+            className={cn(
+              dragRow?.id != hoverRow?.id &&
+                hoverRow?.id == item.id &&
+                "border-2 border-purple-500 border-dashed"
+            )}
+            onDragStart={() => setDragRow(item)}
+            onDragOver={(e) => {
+              e.preventDefault();
+              setHoverRow(item);
+            }}
+            onDragEnd={() => {
+              setDragRow(null);
+              setHoverRow(null);
+            }}
+            onDrop={handleFolderChange}
+          >
+            <TableCell
+              className="cursor-pointer flex items-center gap-2"
+              onClick={() => handleClick(item)}
             >
-              <TableCell
-                className="text-md font-medium cursor-pointer hover:underline underline-offset-2 flex items-center gap-2"
-                onClick={() =>
-                  handleDoubleClick(item.id, item.type, item.originalFileName)
-                }
-              >
-                {item.type == "FOLDER" ? <FolderIcon /> : <FileIcon />}
-                {item.originalFileName}
-              </TableCell>
-              <TableCell className="hidden sm:table-cell">
-                {item.username}
-              </TableCell>
-              <TableCell className="hidden md:table-cell">
-                {item.updatedAt?.substring(0, 10)}
-              </TableCell>
-              <TableCell className="text-right">
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" className="h-8 w-8 p-0">
-                      <span className="sr-only">Open menu</span>
-                      <MoreHorizontal className="h-4 w-4" />
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end">
-                    <DropdownMenuLabel>메뉴</DropdownMenuLabel>
-                    <DropdownMenuSeparator />
-                    {item.type == "FILE" && (
+              {item.type == "FILE" && (
+                <Image
+                  src={"/images/folder/document.svg"}
+                  width={28}
+                  height={28}
+                  alt="document"
+                />
+              )}
+              {item.type == "FOLDER" && (
+                <Image
+                  src={`/images/folder/${
+                    dragRow?.id != hoverRow?.id && hoverRow?.id == item.id
+                      ? "folder-open.svg"
+                      : "folder-close.svg"
+                  }`}
+                  width={28}
+                  height={28}
+                  alt="folder"
+                />
+              )}
+              {item.originalFileName}
+            </TableCell>
+            <TableCell className="hidden lg:table-cell text-center">
+              {item.updatedAt?.substring(0, 10)}
+            </TableCell>
+            <TableCell className="hidden md:tabel-cell text-center">
+              {item.username}
+            </TableCell>
+            <TableCell className="hidden lg:table-cell text-center">
+              {item.size < 1048576 &&
+                item.type == "FILE" &&
+                (item?.size / 1024).toFixed(1) + "kb"}
+              {item.size >= 1048576 &&
+                item.type == "FILE" &&
+                (item?.size / 1048576).toFixed(1) + "mb"}
+            </TableCell>
+            <TableCell
+              className="text-center cursor-pointer"
+              onClick={() => handleHeart(item)}
+            >
+              {item.heart ? "❤️" : "🤍"}
+            </TableCell>
+            <TableCell>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    className="h-8 w-8 p-0 focus-visible:ring-0 focus-visible:ring-offset-0"
+                  >
+                    <span className="sr-only">메뉴 열기</span>
+                    <MoreHorizontal className="h-4 w-4" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuLabel>메뉴</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  {item.type == "FILE" && item.code == null && (
+                    <DropdownMenuItem
+                      onClick={() => {
+                        setIsModalOpen(true, modalType.SHARE);
+                        selectFile(item);
+                      }}
+                    >
+                      공유하기
+                    </DropdownMenuItem>
+                  )}
+                  {item.type == "FILE" && item.code != null && (
+                    <>
                       <DropdownMenuItem
-                        className="flex2 font-medium py-3 cursor-pointer"
-                        onClick={() => modalOpen(item, "SHARE")}
+                        onClick={() => {
+                          selectFile(item);
+                          setIsModalOpen(true, modalType.SHARE);
+                        }}
                       >
-                        공유 {item.code != null ? "보기" : "하기"}
+                        공유보기
                       </DropdownMenuItem>
-                    )}
-                    {item.type == "FILE" && item.code != null && (
                       <DropdownMenuItem
-                        className="flex2 font-medium py-3 cursor-pointer"
-                        onClick={() => modalOpen(item, "SHARE_STOP")}
+                        onClick={() => {
+                          selectFile(item);
+                          setIsModalOpen(true, modalType.SHARE_STOP);
+                        }}
                       >
                         공유중지
                       </DropdownMenuItem>
-                    )}
-                    <DropdownMenuItem
-                      className="flex2 font-medium py-3 cursor-pointer"
-                      onClick={() => modalOpen(item, "DELETE")}
-                    >
-                      삭제하기
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </TableCell>
-            </TableRow>
-          );
-        })}
+                    </>
+                  )}
+                  <DropdownMenuItem
+                    onClick={() => {
+                      selectFile(item);
+                      setIsModalOpen(true, modalType.DELETE);
+                    }}
+                  >
+                    삭제하기
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </TableCell>
+          </TableRow>
+        ))}
       </TableBody>
     </Table>
   );

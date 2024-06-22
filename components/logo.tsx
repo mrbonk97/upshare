@@ -1,10 +1,17 @@
 import Image from "next/image";
-import Link from "next/link";
 
-export const Logo = () => {
+interface LogoProps {
+  width?: number;
+  height?: number;
+}
+
+export const Logo = ({ width = 200, height = 200 }: LogoProps) => {
   return (
-    <Link href={"/home"}>
-      <Image src={"/images/logo3.png"} width={50} height={50} alt="logo" />
-    </Link>
+    <Image
+      src={"/images/logo-new.svg"}
+      width={width}
+      height={height}
+      alt="logo"
+    />
   );
 };
