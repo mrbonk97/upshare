@@ -1,28 +1,17 @@
-"use client"; // Error components must be Client Components
-
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect } from "react";
 
-export default function Error({
-  error,
-  reset,
-}: {
-  error: Error & { digest?: string };
-  reset: () => void;
-}) {
-  useEffect(() => {
-    console.error(error);
-  }, [error]);
-
+const NotFoundPage = () => {
   return (
     <main className="h-full flex-col md:flex-row flex2 gap-2">
       <div className=" ">
         <h1 className="text-6xl font-semibold text-rose-500">ERROR!</h1>
-        <p className="mt-2 text-xl font-medium">오류가 발생했습니다</p>
-        <Button className="hidden md:block mt-2 rounded-none" onClick={reset}>
-          다시 시도하기
+        <p className="mt-2 text-xl font-medium">
+          요청하신 페이지를 찾을 수 없습니다.
+        </p>
+        <Button className="hidden md:block mt-2 rounded-none">
+          <Link href={"/"}>돌아가기</Link>
         </Button>
       </div>
       <div className="md:max-w-[50%]">
@@ -38,4 +27,6 @@ export default function Error({
       </Button>
     </main>
   );
-}
+};
+
+export default NotFoundPage;

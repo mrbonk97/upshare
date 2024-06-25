@@ -1,39 +1,21 @@
 "use client";
-import { FolderBread } from "@/components/folder-bread";
-import { useQuery } from "@tanstack/react-query";
-import { SkeletonCard } from "@/components/skeleton-card";
-import { api } from "@/lib/api";
-import { DeleteModal } from "../../_components/delete-modal";
-import { ShareModal } from "../../_components/share-modal";
-import { StopShareModal } from "../../_components/stop-share-modal";
-import { useEffect } from "react";
-import useStore from "@/store/store";
 import { DataTable } from "@/components/data-table";
+import { SkeletonList } from "@/components/skeleton-list";
+import { FolderBread } from "@/components/folder-bread";
+import { useFolder } from "@/hooks/useFolder";
 
 const FavoritePage = () => {
-  const updateFile = useStore.use.updateFile();
-  const { isPending, isSuccess, error, data } = useQuery({
-    queryKey: ["favorite"],
-    queryFn: () => api.get(`http://localhost:8080/api/files/favorite`),
+  const [isPending, isError] = useFolder({
+    type: "FAVORITE",
   });
 
-  useEffect(() => {
-    if (isPending) return;
-    updateFile(data?.data.files);
-  }, [isPending]);
+  if (isError) throw "뭔가 오류발생";
 
   return (
-    <>
-      <DeleteModal />
-      <ShareModal />
-      <StopShareModal />
-      <section className="min-h-full grid bg-secondary">
-        <div className="h-full p-5 rounded-tl-lg bg-background">
-          <FolderBread />
-          {isPending ? <SkeletonCard /> : <DataTable />}
-        </div>
-      </section>
-    </>
+    <section className="p-5">
+      <FolderBread />
+      {isPending ? <SkeletonList /> : <DataTable />}
+    </section>
   );
 };
 

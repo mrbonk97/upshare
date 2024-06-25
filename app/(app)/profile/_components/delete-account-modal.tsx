@@ -10,14 +10,23 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { api } from "@/lib/api";
+import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
+import useStore from "@/store/store";
 
 export function DeleteAccountModal() {
   const router = useRouter();
+  const queryClient = useQueryClient();
+  const signOut = useStore.use.signOut();
 
   const handleAccountDelete = async () => {
-    // const isSuccess = await deleteAccount();
-    // if (isSuccess) router.push("/");
+    const result = await api.delete("/users/me");
+    if (result.status === 200) {
+      queryClient.clear();
+      signOut();
+      localStorage.removeItem("access_token");
+      router.push("/bye");
+    }
   };
 
   return (

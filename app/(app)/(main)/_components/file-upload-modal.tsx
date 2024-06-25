@@ -22,12 +22,12 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useMutation } from "@tanstack/react-query";
-import { api } from "@/lib/api";
 import { useState } from "react";
 import { Spinner } from "@/components/spinner";
 
 import useStore from "@/store/store";
 import { File } from "@/type/type";
+import { FileUpload } from "@/lib/action/file-action";
 
 const formSchema = z.object({
   file: z
@@ -38,6 +38,7 @@ const formSchema = z.object({
 
 export const FileUploadModal = () => {
   const folderId = useStore.use.folderId();
+  const setMemory = useStore.use.setMemory();
   const [isOpen, setIsOpen] = useState(false);
   const addFile = useStore.use.addFile();
   const form = useForm<z.infer<typeof formSchema>>({
@@ -46,17 +47,11 @@ export const FileUploadModal = () => {
   const fileRef = form.register("file");
 
   const mutation = useMutation({
-    mutationFn: ({ formData }: { formData: FormData }) => {
-      const config = {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      };
-      return api.post("/files", formData, config).then((res) => res.data);
-    },
+    mutationFn: (formData: FormData) => FileUpload(formData),
     onSuccess: (file: File) => {
       addFile(file);
       setIsOpen(false);
+      setMemory("INCREMENT", file.size);
     },
   });
 
@@ -64,7 +59,7 @@ export const FileUploadModal = () => {
     const formData = new FormData();
     formData.append("file", e.file[0]);
     if (folderId != "") formData.append("folderId", folderId);
-    mutation.mutate({ formData });
+    mutation.mutate(formData);
   };
 
   return (

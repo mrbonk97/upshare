@@ -24,10 +24,11 @@ import { api } from "@/lib/api";
 import useStore from "@/store/store";
 import { User } from "@/type/type";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { UserImage } from "./user-image";
+import { editUsername } from "@/lib/action/user-action";
 
 const formSchema = z.object({
   username: z
@@ -43,20 +44,19 @@ const formSchema = z.object({
 export const EditProfile = () => {
   const user = useStore.use.user();
   const signIn = useStore.use.signIn();
+  const queryClient = useQueryClient();
 
   const { mutate, isPending } = useMutation({
-    mutationFn: (username: string): Promise<User> =>
-      api
-        .patch("/users/me/change-name", {
-          username,
-        })
-        .then((res) => res.data),
+    mutationFn: (username: string) => editUsername(username),
     onSuccess: (e) => {
       signIn(e);
       toast({
         title: "이름을 변경하였습니다.",
         description: `이름: ${e.username}`,
       });
+      queryClient.removeQueries({ queryKey: ["folders"] });
+      queryClient.removeQueries({ queryKey: ["favorite"] });
+      queryClient.removeQueries({ queryKey: ["share"] });
     },
   });
 
@@ -72,7 +72,7 @@ export const EditProfile = () => {
   };
 
   return (
-    <article className="p-5 flex2 h-full w-full">
+    <section className="p-5 h-full w-full flex2">
       <Card>
         <CardHeader>
           <CardTitle>프로필 수정</CardTitle>
@@ -80,14 +80,14 @@ export const EditProfile = () => {
             이름을 변경하실 수 있습니다. 수정 후 저장 버튼을 눌러주세요
           </CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="h-[310px]">
           <div className="flex justify-center mt-5 mb-10">
-            <UserImage />
+            {!isPending && <UserImage />}
           </div>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)}>
               {isPending ? (
-                <div className="mb-[86px] w-full flex justify-center">
+                <div className="my-[98px] w-full flex justify-center">
                   <Spinner />
                 </div>
               ) : (
@@ -126,6 +126,6 @@ export const EditProfile = () => {
           </Form>
         </CardContent>
       </Card>
-    </article>
+    </section>
   );
 };

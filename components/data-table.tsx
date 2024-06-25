@@ -26,15 +26,8 @@ import { Button } from "./ui/button";
 import { MoreHorizontal } from "lucide-react";
 import useStore from "@/store/store";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import {
-  fileDownload,
-  fileHeartChange,
-  fileMoveFolder,
-} from "@/lib/action/file-action";
-import {
-  folderHeartChange,
-  folderMoveFolder,
-} from "@/lib/action/folder-action";
+import { fileDownload, fileHeartChange } from "@/lib/action/file-action";
+import { folderHeartChange } from "@/lib/action/folder-action";
 import { api } from "@/lib/api";
 
 export const DataTable = () => {
@@ -47,7 +40,6 @@ export const DataTable = () => {
   const setIsModalOpen = useStore.use.setIsModalOpen();
   const selectFile = useStore.use.selectFile();
   const updateFile = useStore.use.updateFile();
-  const folderId = useStore.use.folderId();
 
   const { mutate: mutateFileDownload } = useMutation({
     mutationFn: (file: File) => fileDownload(file.id, file.originalFileName),
@@ -55,15 +47,16 @@ export const DataTable = () => {
 
   const { mutate: mutateFileHeart } = useMutation({
     mutationFn: (file: File) => fileHeartChange(file.id),
-    onSuccess: (e) => {
+    onSuccess: (e: File) => {
       const _files = files.map((item) => {
         if (e.id != item.id) return item;
         return e;
       });
+
       updateFile(_files);
+      console.log("업데이트 완료", _files);
       queryClient.removeQueries({ queryKey: ["favorite"] });
       queryClient.removeQueries({ queryKey: ["folders"] });
-      console.log("히히영");
     },
   });
 
@@ -77,7 +70,6 @@ export const DataTable = () => {
       updateFile(_files);
       queryClient.removeQueries({ queryKey: ["favorite"] });
       queryClient.removeQueries({ queryKey: ["folders"] });
-      console.log("히히영");
     },
   });
 
@@ -160,13 +152,13 @@ export const DataTable = () => {
           <TableHead className="hidden lg:table-cell text-center">
             수정된 날짜
           </TableHead>
-          <TableHead className="hidden md:tabel-cell text-center">
+          <TableHead className="hidden md:table-cell text-center">
             수정한 사람
           </TableHead>
           <TableHead className="hidden lg:table-cell text-center">
             파일크기
           </TableHead>
-          <TableHead className="text-center">좋아요</TableHead>
+          <TableHead className="text-center p-0">좋아요</TableHead>
           <TableHead></TableHead>
         </TableRow>
       </TableHeader>
@@ -178,7 +170,7 @@ export const DataTable = () => {
             className={cn(
               dragRow?.id != hoverRow?.id &&
                 hoverRow?.id == item.id &&
-                "border-2 border-purple-500 border-dashed"
+                "border-2 border-blue-500 border-dashed"
             )}
             onDragStart={() => setDragRow(item)}
             onDragOver={(e) => {
@@ -203,6 +195,7 @@ export const DataTable = () => {
                   alt="document"
                 />
               )}
+
               {item.type == "FOLDER" && (
                 <Image
                   src={`/images/folder/${
@@ -215,12 +208,14 @@ export const DataTable = () => {
                   alt="folder"
                 />
               )}
-              {item.originalFileName}
+              <span className="w-40 sm:w-80 md:w-40 lg:w-60 xl:w-96 2xl:w-[600px] overme">
+                {item.originalFileName}
+              </span>
             </TableCell>
             <TableCell className="hidden lg:table-cell text-center">
               {item.updatedAt?.substring(0, 10)}
             </TableCell>
-            <TableCell className="hidden md:tabel-cell text-center">
+            <TableCell className="hidden md:table-cell text-center">
               {item.username}
             </TableCell>
             <TableCell className="hidden lg:table-cell text-center">

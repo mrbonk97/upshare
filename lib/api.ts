@@ -1,6 +1,8 @@
 "use client";
 import axios from "axios";
-export const api = axios.create({ baseURL: "http://localhost:8080/api" });
+export const api = axios.create({
+  baseURL: "https://file-share-s-350ee7e71639.herokuapp.com/api",
+});
 
 api.interceptors.request.use((config) => {
   if (typeof window !== "undefined") {

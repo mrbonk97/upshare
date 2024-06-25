@@ -12,7 +12,7 @@ const CallbackPage = () => {
       localStorage.setItem("access_token", access_token);
       redirect("/home");
     }
-  }, []);
+  }, [access_token]);
 
   return (
     <main className="h-full flex2">

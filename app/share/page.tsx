@@ -15,7 +15,7 @@ import {
   InputOTPSeparator,
   InputOTPSlot,
 } from "@/components/ui/input-otp";
-import { fileDownloadCode } from "@/lib/action/file-action";
+import { fileDownloadByCode } from "@/lib/action/file-action";
 import { useMutation } from "@tanstack/react-query";
 import { REGEXP_ONLY_DIGITS_AND_CHARS } from "input-otp";
 import Link from "next/link";
@@ -26,20 +26,20 @@ const SharePage = () => {
   const _code = useSearchParams().get("code");
   const [code, setCode] = useState(_code == null ? "" : _code);
   const { mutate, isPending } = useMutation({
-    mutationFn: () => fileDownloadCode(code),
+    mutationFn: () => fileDownloadByCode(code),
   });
 
   return (
-    <main className="h-full w-full flex items-center pt-32 flex-col gap-14">
+    <main className="h-full w-full flex items-center pt-[15%] sm:pt-32 flex-col gap-5 sm:gap-10">
       <Link href={"/"}>
         <Logo />
       </Link>
-      <Card className="sm:max-w-[450px]">
+      <Card className="max-w-80 sm:max-w-[450px]">
         <CardHeader>
           <CardTitle>파일 다운로드</CardTitle>
           <CardDescription>파일 공유 코드를 입력해주세요</CardDescription>
         </CardHeader>
-        <CardContent className="pt-5 pb-10">
+        <CardContent className="pt-5 pb-10 flex justify-center">
           <InputOTP
             maxLength={8}
             pattern={REGEXP_ONLY_DIGITS_AND_CHARS}
@@ -47,17 +47,17 @@ const SharePage = () => {
             onChange={setCode}
           >
             <InputOTPGroup>
-              <InputOTPSlot index={0} />
-              <InputOTPSlot index={1} />
-              <InputOTPSlot index={2} />
-              <InputOTPSlot index={3} />
+              <InputOTPSlot className="w-7 h-7 sm:w-10 sm:h-10" index={0} />
+              <InputOTPSlot className="w-7 h-7 sm:w-10 sm:h-10" index={1} />
+              <InputOTPSlot className="w-7 h-7 sm:w-10 sm:h-10" index={2} />
+              <InputOTPSlot className="w-7 h-7 sm:w-10 sm:h-10" index={3} />
             </InputOTPGroup>
             <InputOTPSeparator />
             <InputOTPGroup>
-              <InputOTPSlot index={4} />
-              <InputOTPSlot index={5} />
-              <InputOTPSlot index={6} />
-              <InputOTPSlot index={7} />
+              <InputOTPSlot className="w-7 h-7 sm:w-10 sm:h-10" index={4} />
+              <InputOTPSlot className="w-7 h-7 sm:w-10 sm:h-10" index={5} />
+              <InputOTPSlot className="w-7 h-7 sm:w-10 sm:h-10" index={6} />
+              <InputOTPSlot className="w-7 h-7 sm:w-10 sm:h-10" index={7} />
             </InputOTPGroup>
           </InputOTP>
         </CardContent>

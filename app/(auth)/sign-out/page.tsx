@@ -1,57 +1,58 @@
 "use client";
 import { Spinner } from "@/components/spinner";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { api } from "@/lib/api";
+import { signOutUser } from "@/lib/action/user-action";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import Link from "next/link";
+import useStore from "@/store/store";
 import { useEffect } from "react";
+import Image from "next/image";
 
 const SignOutPage = () => {
+  const signOut = useStore.use.signOut();
   const queryClient = useQueryClient();
-  const { isPending, error } = useQuery({
-    queryKey: ["sign-out"],
-    queryFn: () => api.get("/users/me/sign-out", { withCredentials: true }),
-    refetchOnWindowFocus: false,
+
+  const { isPending, isError, isSuccess } = useQuery({
+    queryKey: ["signOut"],
+    queryFn: signOutUser,
   });
 
-  if (!isPending) localStorage.removeItem("access_token");
-  if (error) throw "로그아웃 중 오류발생";
+  useEffect(() => {
+    if (!isSuccess) return;
+    localStorage.removeItem("access_token");
+    signOut();
+    queryClient.clear();
+  }, [isSuccess]);
+
+  if (isError) throw "오류 발생";
 
   return (
-    <main className="h-full flex2">
-      <Card className="w-96">
-        <CardHeader>
-          <CardTitle>로그아웃</CardTitle>
-          <CardDescription>
-            {isPending
-              ? "로그아웃 중..."
-              : "로그아웃 되었습니다. 안전한 하루 되세요!"}
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="h-36 flex items-center">
-          {isPending ? (
-            <div className="w-full flex justify-center">
-              <Spinner />
-            </div>
-          ) : (
-            <div className="w-full flex flex-col justify-center">
-              <h4 className="py-8 text-4xl text-center">✌️</h4>
-              <h4 className="text-sm text-center">
-                메인 화면으로{" "}
-                <Link href={"/"}>
-                  <u className="underline-offset-2">이동</u>
-                </Link>
-              </h4>
-            </div>
-          )}
-        </CardContent>
-      </Card>
+    <main className="h-full min-h-[500px] flex2 flex-col gap-10 overflow-hidden">
+      <h2 className="text-center text-xl md:text-2xl font-bold">
+        {isPending
+          ? "로그아웃 중..."
+          : "로그아웃 되었습니다. 안전한 하루 되세요!"}
+      </h2>
+
+      <div className="relative">
+        <div className="absolute w-[2000px] h-[600px] bg-blue-400 rounded-[80%] -z-10 -translate-x-96 translate-y-36"></div>
+        {isPending ? (
+          <div className="h-[294px] flex2">
+            <Spinner />
+          </div>
+        ) : (
+          <Image src="/images/bye.png" width={300} height={300} alt="bye" />
+        )}
+      </div>
+      {isPending ? (
+        <p>...</p>
+      ) : (
+        <p>
+          첫 페이지로{" "}
+          <Link href="/">
+            <u>이동</u>
+          </Link>
+        </p>
+      )}
     </main>
   );
 };

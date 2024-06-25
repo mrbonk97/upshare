@@ -13,7 +13,7 @@ import { toast } from "@/components/ui/use-toast";
 
 import { Spinner } from "@/components/spinner";
 import { File, modalType } from "@/type/type";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Copy } from "lucide-react";
 import useStore from "@/store/store";
 import { shareFile } from "@/lib/action/file-action";
@@ -25,16 +25,18 @@ export const ShareModal = () => {
   const updateFile = useStore.use.updateFile();
   const isModalOpen = useStore.use.isModalOpen();
   const modal = useStore.use.modal();
+  const queryClient = useQueryClient();
 
   const { isPending, mutate, isSuccess, error, data, reset } = useMutation({
     mutationFn: () => shareFile(selectedFile!.id),
     onSuccess: (e) => {
       const _files = files.map((item: File) => {
         if (item.id != selectedFile?.id) return item;
-        item.code = e.data.code;
+        item.code = e.code;
         return item;
       });
       updateFile(_files);
+      queryClient.removeQueries({ queryKey: ["folders"] });
     },
   });
 

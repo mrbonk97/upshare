@@ -1,5 +1,8 @@
 import { Topnav } from "@/components/nav/topnav/top-nav";
-import { Navbar } from "./_components/navbar/navbar";
+import { Sidenav } from "./_components/navbar/side-nav";
+import { DeleteModal } from "./_components/delete-modal";
+import { ShareModal } from "./_components/share-modal";
+import { StopShareModal } from "./_components/stop-share-modal";
 
 interface FolderLayoutProps {
   children: React.ReactNode;
@@ -8,9 +11,14 @@ interface FolderLayoutProps {
 const FolderLayout = ({ children }: FolderLayoutProps) => {
   return (
     <>
-      <Navbar />
+      <DeleteModal />
+      <ShareModal />
+      <StopShareModal />
       <Topnav />
-      <main className="pl-80 pt-14 w-full bg-secondary">{children}</main>
+      <Sidenav />
+      <main className="min-h-full md:pl-80 pt-14 min-w-96 bg-secondary">
+        {children}
+      </main>
     </>
   );
 };

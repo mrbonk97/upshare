@@ -2,66 +2,41 @@
 import {
   Breadcrumb,
   BreadcrumbItem,
-  BreadcrumbLink,
   BreadcrumbList,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+import { findFolderHierarchy } from "@/lib/action/file-action";
 
-import { api } from "@/lib/api";
 import { FolderBreadCrumbType } from "@/type/type";
 import { useQuery } from "@tanstack/react-query";
 import { Slash } from "lucide-react";
+import Link from "next/link";
 
 interface FolderBreadProps {
   folderId?: string;
 }
 
 export const FolderBread = ({ folderId }: FolderBreadProps) => {
-  if (folderId == undefined)
-    return (
-      <Breadcrumb className="ml-2">
-        <BreadcrumbList>
-          <BreadcrumbItem>
-            <BreadcrumbLink href="/home">Home</BreadcrumbLink>
-          </BreadcrumbItem>
-        </BreadcrumbList>
-      </Breadcrumb>
-    );
-
-  const { isPending, error, data } = useQuery({
+  const { isSuccess, data } = useQuery({
     queryKey: ["bread-crumb"],
-    queryFn: () =>
-      api.get(`/folders/find-depth/${folderId}`).then((res) => res.data),
+    queryFn: () => findFolderHierarchy(folderId),
   });
 
-  const crumbList: FolderBreadCrumbType[] = data;
-
-  if (isPending)
-    return (
-      <Breadcrumb className="ml-2">
-        <BreadcrumbList>
-          <BreadcrumbItem>
-            <BreadcrumbLink href="/home">Home</BreadcrumbLink>
-          </BreadcrumbItem>
-        </BreadcrumbList>
-      </Breadcrumb>
-    );
+  console.log(data?.toReversed());
 
   return (
     <Breadcrumb className="ml-2">
       <BreadcrumbList>
         <BreadcrumbItem>
-          <BreadcrumbLink href="/home">Home</BreadcrumbLink>
+          <Link href="/home">Home</Link>
         </BreadcrumbItem>
-        {crumbList.map((item, idx) => (
+        {data?.toReversed().map((item: FolderBreadCrumbType) => (
           <span key={item.id} className="flex items-center gap-2">
             <BreadcrumbSeparator>
               <Slash />
             </BreadcrumbSeparator>
             <BreadcrumbItem>
-              <BreadcrumbLink href={`/folder/${item.id}`}>
-                {item.folder_name}
-              </BreadcrumbLink>
+              <Link href={`/folders/${item.id}`}>{item.folder_name}</Link>
             </BreadcrumbItem>
           </span>
         ))}

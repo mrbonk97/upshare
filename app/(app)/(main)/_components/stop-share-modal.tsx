@@ -10,11 +10,10 @@ import {
 } from "@/components/ui/alert-dialog";
 
 import { Spinner } from "@/components/spinner";
-import { modalType } from "@/type/type";
-import { useMutation } from "@tanstack/react-query";
+import { File, modalType } from "@/type/type";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import useStore from "@/store/store";
 import { stopShareFile } from "@/lib/action/file-action";
-import { useEffect } from "react";
 
 export const StopShareModal = () => {
   const files = useStore.use.files();
@@ -23,30 +22,27 @@ export const StopShareModal = () => {
   const setIsModalOpen = useStore.use.setIsModalOpen();
   const isModalOpen = useStore.use.isModalOpen();
   const modal = useStore.use.modal();
+  const queryClient = useQueryClient();
 
   const { isPending, mutate } = useMutation({
     mutationFn: () => stopShareFile(selectedFile!.id),
     onSuccess: () => {
-      const _files = files.map((item) => {
+      const _files = files.map((item: File) => {
         if (selectedFile?.id != item.id) return item;
         item.code = null;
         return item;
       });
       updateFile(_files);
+      queryClient.removeQueries({ queryKey: ["folders"] });
     },
   });
-
-  useEffect(() => {
-    if (!isModalOpen) return;
-    if (modal != modalType.SHARE_STOP) return;
-    mutate();
-  }, [isModalOpen]);
 
   return (
     <AlertDialog
       open={isModalOpen && modal == modalType.SHARE_STOP}
       onOpenChange={(e) => {
         setIsModalOpen(e);
+        if (e) mutate();
       }}
     >
       <AlertDialogContent>

@@ -1,5 +1,5 @@
-import { Topnav } from "@/components/nav/topnav/top-nav";
 import { Sidenav } from "./_components/side-nav";
+import { TopnavProfile } from "./_components/top-nav-profile";
 
 interface ProfileLayoutProps {
   children: React.ReactNode;
@@ -9,7 +9,7 @@ const ProfileLayout = ({ children }: ProfileLayoutProps) => {
   return (
     <>
       <Sidenav />
-      <Topnav />
+      <TopnavProfile />
       {children}
     </>
   );

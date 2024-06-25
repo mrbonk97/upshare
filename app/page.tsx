@@ -5,7 +5,6 @@ import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
 import { Reviews } from "@/constants/review";
 import { MoveRight, RabbitIcon } from "lucide-react";
-import Image from "next/image";
 import { Footer } from "@/components/footer";
 import {
   MotionDiv,
@@ -18,31 +17,22 @@ import useStore from "@/store/store";
 import { redirect } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { api } from "@/lib/api";
-import { useEffect } from "react";
 import { Spinner } from "@/components/spinner";
 import { Logo } from "@/components/logo";
 
 const LandingPage = () => {
   const signIn = useStore.use.signIn();
-  const user = useStore.use.user();
-  const isLoggedIn = useStore.use.isLoaded();
+  const isLoggedIn = useStore.use.isLoggedIn();
+  if (isLoggedIn) redirect("/home");
 
-  const { isPending, isError, data } = useQuery({
+  const { isPending, isSuccess, data } = useQuery({
     queryKey: ["sign-in"],
     queryFn: () => {
-      if (isLoggedIn) return user!;
       return api.get("/users/me").then((res) => res.data);
     },
     refetchOnWindowFocus: false,
     retry: false,
   });
-
-  useEffect(() => {
-    if (isPending) return;
-    if (isError) return;
-    signIn(data);
-    redirect("/home");
-  }, [isPending]);
 
   if (isPending)
     return (
@@ -50,6 +40,11 @@ const LandingPage = () => {
         <Spinner />
       </main>
     );
+
+  if (isSuccess) {
+    signIn(data);
+    redirect("/home");
+  }
 
   const variants = {
     initial: {

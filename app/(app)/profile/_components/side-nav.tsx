@@ -1,12 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { DeleteAccountModal } from "./delete-account-modal";
-import { UserImage } from "./user-image";
 import Link from "next/link";
 import { Logo } from "@/components/logo";
 
 export const Sidenav = () => {
   return (
-    <aside className="fixed h-full left-0 w-80 pt-20 pb-10 px-5 bg-secondary">
+    <aside className="hidden md:block fixed z-10 left-0 p-5 pt-10 h-full w-80 space-y-5 bg-background">
       <div className="flex justify-center">
         <Link href={"/home"}>
           <Logo />

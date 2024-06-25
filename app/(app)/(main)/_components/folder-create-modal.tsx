@@ -22,11 +22,10 @@ import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { useMutation } from "@tanstack/react-query";
-import { api } from "@/lib/api";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import useStore from "@/store/store";
-import { File } from "@/type/type";
+import { FolderCreate } from "@/lib/action/file-action";
 
 const formSchema = z.object({
   folderName: z
@@ -38,8 +37,8 @@ const formSchema = z.object({
 export const FolderCreateModal = () => {
   const folderId = useStore.use.folderId();
   const addFile = useStore.use.addFile();
+  const queryClient = useQueryClient();
   const [isOpen, setIsOpen] = useState(false);
-
   const mutation = useMutation({
     mutationFn: ({
       folderName,
@@ -47,13 +46,11 @@ export const FolderCreateModal = () => {
     }: {
       folderName: string;
       parentFolderId?: string;
-    }): Promise<File> =>
-      api
-        .post("/folders", { folderName, parentFolderId })
-        .then((res) => res.data),
+    }) => FolderCreate(folderName, parentFolderId),
     onSuccess: (e) => {
       addFile(e);
       setIsOpen(false);
+      queryClient.removeQueries({ queryKey: ["folders", "NORMAL", folderId] });
     },
   });
 

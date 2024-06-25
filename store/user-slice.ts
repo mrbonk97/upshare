@@ -10,6 +10,7 @@ interface UserState {
 interface UserAction {
   signIn: (user: User) => void;
   signOut: () => void;
+  setMemory: (action: string, memory: number) => void;
 }
 
 export interface UserSlice extends UserState, UserAction {}
@@ -21,5 +22,12 @@ export const createUserSlice: StateCreator<UserSlice, [], [], UserSlice> = (
   isLoggedIn: false,
   isLoaded: false,
   signIn: (user: User) => set({ user: user, isLoaded: true, isLoggedIn: true }),
-  signOut: () => {},
+  signOut: () => set({ user: null, isLoaded: true, isLoggedIn: false }),
+  setMemory: (action, memory) =>
+    set((state) => ({
+      user: {
+        ...state.user!,
+        size: state.user!.size + (action == "INCREMENT" ? memory : -memory),
+      },
+    })),
 });

@@ -11,14 +11,15 @@ import {
 import { Button } from "@/components/ui/button";
 
 import { Spinner } from "@/components/spinner";
-import { api } from "@/lib/api";
 import { modalType } from "@/type/type";
 import { useMutation } from "@tanstack/react-query";
 import { TriangleAlert } from "lucide-react";
 import useStore from "@/store/store";
+import { FileDelete, FolderDelete } from "@/lib/action/file-action";
 
 export const DeleteModal = () => {
   const selectedFile = useStore.use.selectedFile();
+  const setMemory = useStore.use.setMemory();
   const setIsModalOpen = useStore.use.setIsModalOpen();
   const isModalOpen = useStore.use.isModalOpen();
   const modal = useStore.use.modal();
@@ -27,13 +28,14 @@ export const DeleteModal = () => {
 
   const { isPending, mutate } = useMutation({
     mutationFn: () => {
-      if (selectedFile?.type == "FILE")
-        return api.delete(`/files/${selectedFile?.id}`);
-      else return api.delete(`/folders/${selectedFile?.id}`);
+      if (selectedFile?.type == "FILE") return FileDelete(selectedFile.id);
+      if (selectedFile?.type == "FOLDER") return FolderDelete(selectedFile.id);
+      return new Promise(() => true);
     },
     onSuccess: () => {
       updateFile(files.filter((item) => item.id != selectedFile?.id));
       setIsModalOpen(false);
+      setMemory("DECREMENT", selectedFile!.size);
     },
   });
 

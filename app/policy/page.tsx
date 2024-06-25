@@ -1,5 +1,6 @@
 "use client";
-import Image from "next/image";
+import { Logo } from "@/components/logo";
+import Link from "next/link";
 import { useEffect, useRef } from "react";
 
 const PolicyPage = () => {
@@ -26,15 +27,12 @@ const PolicyPage = () => {
         value={0}
       />
       <main ref={mainRef}>
-        <section className="flex justify-center">
-          <article className="px-5 max-w-[900px] bg-secondary">
+        <section className="flex justify-center bg-secondary">
+          <article className="px-5 max-w-[900px] bg-background">
             <div className="flex2 py-16">
-              <Image
-                src={"/images/logo.png"}
-                width={100}
-                height={100}
-                alt="logo"
-              />
+              <Link href={"/"}>
+                <Logo />
+              </Link>
             </div>
             <h1 className="text-xl font-semibold">
               파일 공유 서비스 개인정보 처리방침

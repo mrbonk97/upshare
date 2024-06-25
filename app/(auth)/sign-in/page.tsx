@@ -12,7 +12,7 @@ const SignInPage = () => {
             <Logo width={100} height={100} />
             <div className="flex items-center pb-1">
               <div>
-                <h1 className="text-2xl font-bold break-words text-blue-500">
+                <h1 className="text-2xl font-bold break-words text-primary/70">
                   파일 공유
                 </h1>
                 <h2 className="mt-1 text-3xl font-bold break-words text-primary/70">
