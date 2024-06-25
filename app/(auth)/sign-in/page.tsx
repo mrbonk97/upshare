@@ -24,7 +24,7 @@ const SignInPage = () => {
           <div className="mt-16 space-y-6">
             <Button className="w-full py-6">
               <Link
-                href={process.env.GOOGLE_OAUTH2_URL!}
+                href={process.env.GOOGLE_OAUTH2_URL || ""}
                 className="flex items-center"
               >
                 <Image
@@ -39,7 +39,7 @@ const SignInPage = () => {
             </Button>
             <Button className="w-full py-6 bg-[#03C75A] hover:bg-[#03C75A]/90">
               <Link
-                href={process.env.NAVER_OAUTH2_URL!}
+                href={process.env.NAVER_OAUTH2_URL || ""}
                 className="flex items-center"
               >
                 <Image
@@ -57,7 +57,7 @@ const SignInPage = () => {
             </Button>
             <Button className="w-full py-6 bg-[#FEE500] hover:bg-[#FEE500]/80">
               <Link
-                href={process.env.KAKAO_OAUTH2_URL!}
+                href={process.env.KAKAO_OAUTH2_URL || ""}
                 className="flex items-center"
               >
                 <Image
