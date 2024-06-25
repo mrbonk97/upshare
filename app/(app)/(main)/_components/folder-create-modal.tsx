@@ -102,7 +102,9 @@ export const FolderCreateModal = () => {
               )}
             />
             <DialogFooter className="mt-5">
-              <Button className="w-full">만들기</Button>
+              <Button className="w-full" disabled={mutation.isPending}>
+                만들기
+              </Button>
             </DialogFooter>
           </form>
         </Form>

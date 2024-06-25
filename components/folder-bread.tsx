@@ -22,8 +22,6 @@ export const FolderBread = ({ folderId }: FolderBreadProps) => {
     queryFn: () => findFolderHierarchy(folderId),
   });
 
-  console.log(data?.toReversed());
-
   return (
     <Breadcrumb className="ml-2">
       <BreadcrumbList>

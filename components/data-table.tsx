@@ -3,6 +3,7 @@
 import {
   Table,
   TableBody,
+  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
@@ -54,7 +55,6 @@ export const DataTable = () => {
       });
 
       updateFile(_files);
-      console.log("업데이트 완료", _files);
       queryClient.removeQueries({ queryKey: ["favorite"] });
       queryClient.removeQueries({ queryKey: ["folders"] });
     },
@@ -88,6 +88,7 @@ export const DataTable = () => {
       const _files = files.filter((item) => {
         if (e.id != item.id) return item;
       });
+
       updateFile(_files);
     },
   });
@@ -122,7 +123,6 @@ export const DataTable = () => {
     e.preventDefault();
     if (hoverRow == null || dragRow == null) return;
     if (hoverRow == dragRow) return;
-    console.log(hoverRow, dragRow);
 
     if (hoverRow.type == "FOLDER" && dragRow.type == "FOLDER") {
       mutateFolderFolderChange({
@@ -146,6 +146,7 @@ export const DataTable = () => {
 
   return (
     <Table className="mt-5">
+      {files.length == 0 && <TableCaption>폴더가 비어있습니다.</TableCaption>}
       <TableHeader>
         <TableRow>
           <TableHead>파일명</TableHead>
@@ -289,6 +290,9 @@ export const DataTable = () => {
             </TableCell>
           </TableRow>
         ))}
+
+        <tr className="mt-2"></tr>
+        {/* <TableRow className="p-0 m-0 bg-rose-100"></TableRow> */}
       </TableBody>
     </Table>
   );
