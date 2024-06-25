@@ -1,7 +1,7 @@
 "use client";
 import axios from "axios";
 export const api = axios.create({
-  baseURL: "https://file-share-s-350ee7e71639.herokuapp.com/api",
+  baseURL: process.env.NEXT_PUBLIC_API_URL,
 });
 
 api.interceptors.request.use((config) => {

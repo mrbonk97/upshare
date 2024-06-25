@@ -43,13 +43,13 @@ export const ShareModal = () => {
   const handleCopy = () => {
     toast({
       title: "클립보드에 복사하였습니다.",
-      description: `파일 코드: ${data?.data.code || selectedFile?.code}`,
+      description: `파일 코드: ${data.code || selectedFile?.code}`,
     });
 
     const baseUrl = window.location.href.split("/");
     navigator.clipboard.writeText(
       `${baseUrl[0]}//${baseUrl[2]}/share?code=${
-        data?.data.code || selectedFile?.code
+        data.code || selectedFile?.code
       }`
     );
   };
