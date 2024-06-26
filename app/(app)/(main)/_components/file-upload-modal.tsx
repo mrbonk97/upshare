@@ -21,7 +21,7 @@ import {
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { Spinner } from "@/components/spinner";
 
@@ -39,6 +39,7 @@ const formSchema = z.object({
 export const FileUploadModal = () => {
   const folderId = useStore.use.folderId();
   const setMemory = useStore.use.setMemory();
+  const queryClient = useQueryClient();
   const [isOpen, setIsOpen] = useState(false);
   const addFile = useStore.use.addFile();
   const form = useForm<z.infer<typeof formSchema>>({
@@ -51,6 +52,8 @@ export const FileUploadModal = () => {
     onSuccess: (file: File) => {
       addFile(file);
       setIsOpen(false);
+      queryClient.removeQueries({ queryKey: ["folders", "NORMAL", folderId] });
+      queryClient.removeQueries({ queryKey: ["folders", "SEARCH"] });
       setMemory("INCREMENT", file.size);
     },
   });

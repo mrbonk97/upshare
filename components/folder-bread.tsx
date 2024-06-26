@@ -18,7 +18,7 @@ interface FolderBreadProps {
 
 export const FolderBread = ({ folderId }: FolderBreadProps) => {
   const { isSuccess, data } = useQuery({
-    queryKey: ["bread-crumb"],
+    queryKey: ["bread-crumb", folderId],
     queryFn: () => findFolderHierarchy(folderId),
   });
 

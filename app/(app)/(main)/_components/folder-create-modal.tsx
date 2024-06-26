@@ -51,6 +51,7 @@ export const FolderCreateModal = () => {
       addFile(e);
       setIsOpen(false);
       queryClient.removeQueries({ queryKey: ["folders", "NORMAL", folderId] });
+      queryClient.removeQueries({ queryKey: ["folders", "SEARCH"] });
     },
   });
 

@@ -27,7 +27,7 @@ export const SearchBox = () => {
       { skipEmptyString: true, skipNull: true }
     );
 
-    if (url == "/search") return;
+    if (url.length < 10) return;
     router.push(url);
   }, [debouncedValue, router]);
 
