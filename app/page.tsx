@@ -28,10 +28,13 @@ const LandingPage = () => {
   const { isPending, isSuccess, data } = useQuery({
     queryKey: ["sign-in"],
     queryFn: () => {
+      if (localStorage.getItem("access_token") == null) throw "토큰이 비어있음";
       return api.get("/users/me").then((res) => res.data);
     },
     refetchOnWindowFocus: false,
     retry: false,
+    refetchOnMount: false,
+    refetchIntervalInBackground: false,
   });
 
   if (isPending)

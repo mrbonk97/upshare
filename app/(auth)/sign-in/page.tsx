@@ -22,7 +22,7 @@ const SignInPage = () => {
             </div>
           </div>
           <div className="mt-16 space-y-6">
-            <Button className="w-full py-6">
+            <Button className="w-full py-6" asChild>
               <Link
                 href={
                   process.env.NEXT_PUBLIC_GOOGLE_OAUTH2_URL ||
@@ -40,7 +40,10 @@ const SignInPage = () => {
                 <span className="ml-1 w-24 text-start">구글 로그인</span>
               </Link>
             </Button>
-            <Button className="w-full py-6 bg-[#03C75A] hover:bg-[#03C75A]/90">
+            <Button
+              className="w-full py-6 bg-[#03C75A] hover:bg-[#03C75A]/90"
+              asChild
+            >
               <Link
                 href={
                   process.env.NEXT_PUBLIC_NAVER_OAUTH2_URL ||
@@ -61,7 +64,10 @@ const SignInPage = () => {
                 </span>
               </Link>
             </Button>
-            <Button className="w-full py-6 bg-[#FEE500] hover:bg-[#FEE500]/80">
+            <Button
+              className="w-full py-6 bg-[#FEE500] hover:bg-[#FEE500]/80"
+              asChild
+            >
               <Link
                 href={
                   process.env.NEXT_PUBLIC_KAKAO_OAUTH2_URL ||
