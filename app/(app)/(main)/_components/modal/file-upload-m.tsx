@@ -22,59 +22,46 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useState } from "react";
 import { Spinner } from "@/components/spinner";
-
-import useStore from "@/store/store";
-import { File } from "@/type/type";
-import { FileUpload } from "@/lib/action/file-action";
+import { useRef } from "react";
+import { uploadFile } from "@/lib/api/folder-api";
 
 const formSchema = z.object({
   file: z
     .any()
     .refine((f) => f?.length == 1, "파일을 선택해주세요")
-    .refine((f) => f[0].size <= 5_180_000, "파일의 용량은 최대 5MB입니다."),
+    .refine((f) => f[0].size <= 10_245_000, "파일의 용량은 최대 10MB입니다."),
 });
 
-export const FileUploadModal = () => {
-  const folderId = useStore.use.folderId();
-  const setMemory = useStore.use.setMemory();
-  const queryClient = useQueryClient();
-  const [isOpen, setIsOpen] = useState(false);
-  const addFile = useStore.use.addFile();
+export const FileUploadM = () => {
+  const qc = useQueryClient();
+  const buttonRef = useRef<HTMLButtonElement>(null);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   });
-  const fileRef = form.register("file");
 
-  const mutation = useMutation({
-    mutationFn: (formData: FormData) => FileUpload(formData),
-    onSuccess: (file: File) => {
-      addFile(file);
-      setIsOpen(false);
-      queryClient.removeQueries({ queryKey: ["folders", "NORMAL", folderId] });
-      queryClient.removeQueries({ queryKey: ["folders", "SEARCH"] });
-      setMemory("INCREMENT", file.size);
+  const { mutate, isPending } = useMutation({
+    mutationFn: (formData: FormData) => uploadFile(formData),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["folders"] });
+      buttonRef.current?.click();
     },
   });
 
-  const onSubmit = async (e: z.infer<typeof formSchema>) => {
+  const onSubmit = (values: z.infer<typeof formSchema>) => {
     const formData = new FormData();
-    formData.append("file", e.file[0]);
-    if (folderId != "") formData.append("folderId", folderId);
-    mutation.mutate(formData);
+    formData.append("file", values.file[0]);
+    // if (folderId != "") formData.append("folderId", folderId);
+    mutate(formData);
   };
 
   return (
-    <Dialog
-      onOpenChange={(e) => {
-        setIsOpen(e);
-        setTimeout(() => form.reset(), 100);
-      }}
-      open={isOpen}
-    >
+    <Dialog>
       <DialogTrigger asChild>
-        <Button className="py-6 w-full bg-blue-400/80 hover:bg-blue-400">
+        <Button
+          ref={buttonRef}
+          className="py-6 w-full bg-blue-400/80 hover:bg-blue-400"
+        >
           업로드
         </Button>
       </DialogTrigger>
@@ -82,30 +69,30 @@ export const FileUploadModal = () => {
         <DialogHeader>
           <DialogTitle>파일 업로드</DialogTitle>
           <DialogDescription>
-            업로드 버튼을 클릭해서 추가해주세요(최대 5mb)
+            업로드 버튼을 클릭해서 추가해주세요(최대 10mb)
           </DialogDescription>
         </DialogHeader>
-        {mutation.isPending ? (
-          <div className="w-full h-32 flex2">
+        {isPending ? (
+          <div className="h-36 flex2">
             <Spinner />
           </div>
         ) : (
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+            <form onSubmit={form.handleSubmit(onSubmit)}>
               <FormField
                 control={form.control}
                 name="file"
                 render={({ field }) => (
-                  <FormItem>
+                  <FormItem className="py-5">
                     <FormControl>
-                      <Input type="file" {...fileRef} />
+                      <Input type="file" {...form.register("file")} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
-              <DialogFooter>
-                <Button type="submit" className="w-full">
+              <DialogFooter className="mt-5">
+                <Button type="submit" disabled={isPending} className="w-full">
                   업로드
                 </Button>
               </DialogFooter>

@@ -1,4 +1,3 @@
-import { FileUploadModal } from "@/app/(app)/(main)/_components/file-upload-modal";
 import { FolderCreateModal } from "@/app/(app)/(main)/_components/folder-create-modal";
 import { DataUsage } from "@/app/(app)/(main)/_components/navbar/data-usage";
 import { Button } from "@/components/ui/button";
@@ -34,7 +33,6 @@ export function SideSheet() {
           <div className="w-full flex justify-center">
             <UserAvatar className="w-20 h-20" />
           </div>
-          <FileUploadModal />
           <FolderCreateModal />
           <Separator className="my-5 h-0.5 rounded-full" />
 

@@ -1,5 +1,6 @@
 import { FileSlice } from "@/store/file-slice";
 import { UserSlice } from "@/store/user-slice";
+import { FileType } from "lucide-react";
 
 export type User = {
   id: string;
@@ -11,17 +12,27 @@ export type User = {
   maxSize: number;
 };
 
-export type File = {
-  contentType: string;
+export type FileType = {
   id: string;
-  originalFileName: string;
+  originalFilename: string;
+  contentType: string;
   size: number;
   updatedAt: string;
-  type: "FILE" | "FOLDER";
-  code: string | null;
   username: string;
+  code: string | null;
   heart: boolean;
 };
+
+export type FolderType = {
+  id: string;
+  folderName: string;
+  parentFolderId: string;
+  username: string;
+  heart: boolean;
+  updatedAt: string;
+};
+
+export type RowType = FileType & FolderType;
 
 export type FolderBreadCrumbType = {
   folder_name: string;

@@ -24,10 +24,7 @@ const SignInPage = () => {
           <div className="mt-16 space-y-6">
             <Button className="w-full py-6" asChild>
               <Link
-                href={
-                  process.env.NEXT_PUBLIC_GOOGLE_OAUTH2_URL ||
-                  "https://file-share-s-350ee7e71639.herokuapp.com/oauth2/authorization/google"
-                }
+                href={process.env.NEXT_PUBLIC_GOOGLE_OAUTH2_URL!}
                 className="flex items-center"
               >
                 <Image
@@ -45,10 +42,7 @@ const SignInPage = () => {
               asChild
             >
               <Link
-                href={
-                  process.env.NEXT_PUBLIC_NAVER_OAUTH2_URL ||
-                  "https://file-share-s-350ee7e71639.herokuapp.com/oauth2/authorization/naver"
-                }
+                href={process.env.NEXT_PUBLIC_NAVER_OAUTH2_URL!}
                 className="flex items-center"
               >
                 <Image
@@ -69,10 +63,7 @@ const SignInPage = () => {
               asChild
             >
               <Link
-                href={
-                  process.env.NEXT_PUBLIC_KAKAO_OAUTH2_URL ||
-                  "https://file-share-s-350ee7e71639.herokuapp.com/oauth2/authorization/kakao"
-                }
+                href={process.env.NEXT_PUBLIC_KAKAO_OAUTH2_URL!}
                 className="flex items-center"
               >
                 <Image

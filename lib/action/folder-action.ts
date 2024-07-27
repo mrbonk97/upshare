@@ -20,11 +20,6 @@ export const createFolder = async (data: any) => {
   return result.status === 200;
 };
 
-export const deleteFolder = async (folderId: string) => {
-  const result = await api.post(`/folders/${folderId}`);
-  return result.status === 200;
-};
-
 export const folderMoveFolder = async (
   folderId: string,
   parentFolderId: string

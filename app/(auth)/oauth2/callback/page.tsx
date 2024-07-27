@@ -8,10 +8,8 @@ const CallbackPage = () => {
 
   useEffect(() => {
     if (access_token == null) throw "오류: 토큰이 존재하지 않습니다.";
-    else {
-      localStorage.setItem("access_token", access_token);
-      redirect("/home");
-    }
+    localStorage.setItem("access_token", access_token);
+    redirect("/home");
   }, [access_token]);
 
   return (

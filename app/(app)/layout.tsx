@@ -1,7 +1,6 @@
 "use client";
 import { Spinner } from "@/components/spinner";
 import { useUser } from "@/hooks/useUser";
-import { redirect } from "next/navigation";
 
 interface AppLayoutProps {
   children: React.ReactNode;
@@ -10,7 +9,7 @@ interface AppLayoutProps {
 const AppLayout = ({ children }: AppLayoutProps) => {
   const [isPending, isError] = useUser();
 
-  if (isError) redirect("/sign-in");
+  if (isError) throw "오류: 로그인 중 오류 발생";
 
   if (isPending)
     return (

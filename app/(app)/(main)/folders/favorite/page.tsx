@@ -1,22 +1,25 @@
 "use client";
-import { DataTable } from "@/components/data-table";
-import { SkeletonList } from "@/components/skeleton-list";
-import { FolderBread } from "@/components/folder-bread";
-import { useFolder } from "@/hooks/useFolder";
+import { useQuery } from "@tanstack/react-query";
+import { getFavorite } from "@/lib/api/folder-api";
+import { FolderTable } from "@/app/(app)/(main)/_components/table/folder-table";
 
-const FavoritePage = () => {
-  const [isPending, isError] = useFolder({
-    type: "FAVORITE",
+const FolderPage = () => {
+  const query = useQuery({
+    queryKey: ["folders", "favorite"],
+    queryFn: getFavorite,
   });
 
-  if (isError) throw "뭔가 오류발생";
+  if (query.isError) throw "뭔가 오류발생";
+  if (query.isPending) return <div>로딩중</div>;
 
   return (
     <section className="p-5">
-      <FolderBread />
-      {isPending ? <SkeletonList /> : <DataTable />}
+      <FolderTable
+        files={query.data?.data.result.files}
+        folders={query.data?.data.result.folders}
+      />
     </section>
   );
 };
 
-export default FavoritePage;
+export default FolderPage;

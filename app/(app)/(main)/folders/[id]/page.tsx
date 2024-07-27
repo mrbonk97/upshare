@@ -1,21 +1,26 @@
 "use client";
-import { DataTable } from "@/components/data-table";
-import { SkeletonList } from "@/components/skeleton-list";
-import { FolderBread } from "@/components/folder-bread";
-import { useFolder } from "@/hooks/useFolder";
+import { useQuery } from "@tanstack/react-query";
+import { getFolder } from "@/lib/api/folder-api";
+import { FolderTable } from "@/app/(app)/(main)/_components/table/folder-table";
 
-const FolderPage = ({ params }: { params?: { id: string } }) => {
-  const [isPending, isError] = useFolder({
-    folderId: params?.id,
-    type: "NORMAL",
+const FolderPage = ({ params }: { params: { id: string } }) => {
+  const query = useQuery({
+    queryKey: ["folders", params.id],
+    queryFn: () => getFolder(params.id),
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    refetchOnReconnect: false,
   });
 
-  if (isError) throw "뭔가 오류발생";
+  if (query.isError) throw "뭔가 오류발생";
+  if (query.isPending) return <div>로딩중</div>;
 
   return (
     <section className="p-5">
-      <FolderBread folderId={params?.id} />
-      {isPending ? <SkeletonList /> : <DataTable />}
+      <FolderTable
+        files={query.data?.data.result.files}
+        folders={query.data?.data.result.folders}
+      />
     </section>
   );
 };

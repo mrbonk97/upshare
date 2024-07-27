@@ -11,7 +11,7 @@ export const DataUsage = () => {
       : (user.size / 1048).toFixed(2) + "kb";
 
   return (
-    <div className="">
+    <div className="text-sm">
       <div className="text-center">데이터 사용량 {percentage}%</div>
       <div className="mt-2 h-1 bg-blue-200 rounded-full">
         <div
@@ -19,7 +19,7 @@ export const DataUsage = () => {
           style={{ width: `${percentage}%` }}
         />
       </div>
-      <div className="mt-2 text-center text-sm">{curMem} / 50mb 사용중</div>
+      <div className="mt-2 text-center text-xs">{curMem} / 50mb 사용중</div>
     </div>
   );
 };

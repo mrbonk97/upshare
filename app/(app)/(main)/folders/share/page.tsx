@@ -1,22 +1,25 @@
 "use client";
-import { DataTable } from "@/components/data-table";
-import { SkeletonList } from "@/components/skeleton-list";
-import { FolderBread } from "@/components/folder-bread";
-import { useFolder } from "@/hooks/useFolder";
+import { useQuery } from "@tanstack/react-query";
+import { getShare } from "@/lib/api/folder-api";
+import { FolderTable } from "@/app/(app)/(main)/_components/table/folder-table";
 
-const SharePage = () => {
-  const [isPending, isError] = useFolder({
-    type: "SHARE",
+const FolderPage = () => {
+  const query = useQuery({
+    queryKey: ["folders", "share"],
+    queryFn: getShare,
   });
 
-  if (isError) throw "뭔가 오류발생";
+  if (query.isError) throw "뭔가 오류발생";
+  if (query.isPending) return <div>로딩중</div>;
 
   return (
     <section className="p-5">
-      <FolderBread />
-      {isPending ? <SkeletonList /> : <DataTable />}
+      <FolderTable
+        files={query.data?.data.result.files}
+        folders={query.data?.data.result.folders}
+      />
     </section>
   );
 };
 
-export default SharePage;
+export default FolderPage;
