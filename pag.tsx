@@ -6,10 +6,13 @@ import { Spinner } from "@/components/spinner";
 import { Logo } from "@/components/logo";
 import { Reviews } from "@/constants/review";
 import Link from "next/link";
+import useStore from "@/store/store";
 import { redirect } from "next/navigation";
+import { useMutation } from "@tanstack/react-query";
+import { useEffect } from "react";
+import { getUserInfo } from "@/lib/api/folder-api";
 import { MoveRight, RabbitIcon } from "lucide-react";
 import { motion } from "framer-motion";
-import { useUser } from "@/hooks/useUser";
 
 const variants = {
   initial: {
@@ -36,8 +39,20 @@ const variants = {
 };
 
 const LandingPage = () => {
-  const [isPending, isSuccess] = useUser();
-  if (isSuccess) redirect("/home");
+  const isLoggedIn = useStore.use.isLoggedIn();
+  const signIn = useStore.use.signIn();
+  const { isPending, isSuccess, mutate, data } = useMutation({
+    mutationFn: getUserInfo,
+  });
+
+  useEffect(() => {
+    // 이미 로그인 상태라면 홈으로 이동
+    if (isLoggedIn) redirect("/home");
+    // access_token이 없다면 종료
+    const access_token = localStorage.getItem("access_token");
+    if (!access_token) return;
+    mutate();
+  }, []);
 
   if (isPending)
     return (
@@ -45,6 +60,11 @@ const LandingPage = () => {
         <Spinner />
       </main>
     );
+
+  if (isSuccess) {
+    signIn(data.data.result);
+    redirect("/home");
+  }
 
   return (
     <main className="w-full pt-40 flex items-center flex-col gap-40">

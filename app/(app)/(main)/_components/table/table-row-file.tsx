@@ -14,7 +14,7 @@ import { FileFolderIcon } from "./file-folder-icon";
 import { MoreHorizontalIcon } from "lucide-react";
 import { DeleteM } from "@/app/(app)/(main)/_components/modal/delete-m";
 import { ShareM } from "@/app/(app)/(main)/_components/modal/share-m";
-import { StopShareM } from "@/app/(app)/(main)/_components/modal/stop-share-m";
+import formatBytes from "@/lib/format-byte";
 
 interface TableRowFileProps {
   id: string;
@@ -23,7 +23,7 @@ interface TableRowFileProps {
   title: string;
   updatedAt: string;
   username: string;
-  size?: number;
+  size: number;
   isFavourite: boolean;
   isDragHover: boolean;
   handleDragStart: (e: RowType) => void;
@@ -48,13 +48,6 @@ export const TableRowFile = ({
   handleDrop,
   handleHeart,
 }: TableRowFileProps) => {
-  let _size = null;
-  if (size != undefined && size < 1048576)
-    _size = (size / 1024).toFixed(1) + "kb";
-
-  if (size != undefined && size >= 1048576)
-    _size = (size / 1048576).toFixed(1) + "mb";
-
   return (
     <TableRow
       draggable
@@ -74,7 +67,7 @@ export const TableRowFile = ({
         {updatedAt.substring(0, 10)}
       </TableCell>
       <TableCell className="text-center">{username}</TableCell>
-      <TableCell className="text-center">{_size}</TableCell>
+      <TableCell className="text-center">{formatBytes(size)}</TableCell>
       <TableCell
         className="hidden lg:table-cell text-center cursor-pointer"
         onClick={handleHeart}

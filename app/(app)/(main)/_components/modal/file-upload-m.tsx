@@ -25,6 +25,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Spinner } from "@/components/spinner";
 import { useRef } from "react";
 import { uploadFile } from "@/lib/api/folder-api";
+import useStore from "@/store/store";
 
 const formSchema = z.object({
   file: z
@@ -35,6 +36,7 @@ const formSchema = z.object({
 
 export const FileUploadM = () => {
   const qc = useQueryClient();
+  const folderId = useStore.use.folderId();
   const buttonRef = useRef<HTMLButtonElement>(null);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -51,7 +53,7 @@ export const FileUploadM = () => {
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     const formData = new FormData();
     formData.append("file", values.file[0]);
-    // if (folderId != "") formData.append("folderId", folderId);
+    if (folderId) formData.append("folderId", folderId);
     mutate(formData);
   };
 

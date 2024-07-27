@@ -7,18 +7,15 @@ interface AppLayoutProps {
 }
 
 const AppLayout = ({ children }: AppLayoutProps) => {
-  const [isPending, isError] = useUser();
+  const [isPending, isSuccess] = useUser();
 
-  if (isError) throw "오류: 로그인 중 오류 발생";
+  if (isSuccess) return <>{children}</>;
 
-  if (isPending)
-    return (
-      <main className="h-full flex2">
-        <Spinner />
-      </main>
-    );
-
-  return <>{children}</>;
+  return (
+    <main className="h-full flex2">
+      <Spinner />
+    </main>
+  );
 };
 
 export default AppLayout;

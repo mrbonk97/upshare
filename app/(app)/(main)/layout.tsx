@@ -1,5 +1,5 @@
-import { Topnav } from "@/components/nav/topnav/top-nav";
-import { Sidenav } from "./_components/navbar/side-nav";
+import { Topnav } from "@/app/(app)/(main)/_components/navbar/topnav/top-nav";
+import { Sidenav } from "./_components/navbar/leftnav/side-nav";
 
 interface FolderLayoutProps {
   children: React.ReactNode;

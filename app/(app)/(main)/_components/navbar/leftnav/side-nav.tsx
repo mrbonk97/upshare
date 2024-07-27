@@ -3,9 +3,9 @@ import { Separator } from "@/components/ui/separator";
 import { Logo } from "@/components/logo";
 import Link from "next/link";
 import { DataUsage } from "./data-usage";
-import { FileUploadM } from "../modal/file-upload-m";
-import { FolderCreateM } from "../modal/folder-create-m";
 import { Menu } from "./menu";
+import { FileUploadM } from "../../modal/file-upload-m";
+import { FolderCreateM } from "../../modal/folder-create-m";
 
 export const Sidenav = () => {
   return (

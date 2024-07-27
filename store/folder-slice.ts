@@ -1,11 +1,11 @@
 import { StateCreator } from "zustand";
 
 interface FolderState {
-  folderId: string;
+  folderId: string | null;
 }
 
 interface FolderAction {
-  setFolder: (folderId?: string) => void;
+  setFolder: (folderId: string | null) => void;
 }
 
 export interface FolderSlice extends FolderState, FolderAction {}
@@ -16,6 +16,6 @@ export const createFolderSlice: StateCreator<
   [],
   FolderSlice
 > = (set) => ({
-  folderId: "",
-  setFolder: (folderId) => set({ folderId: folderId || "" }),
+  folderId: null,
+  setFolder: (folderId) => set({ folderId: folderId }),
 });

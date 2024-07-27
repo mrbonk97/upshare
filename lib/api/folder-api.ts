@@ -19,6 +19,11 @@ export const createFolder = async (
   parentFolderId: string | null
 ) => api.post("/folders", { folderName, parentFolderId });
 
+export const findFolderHierarchy = async (folderId: string | null) => {
+  if (!folderId) return null;
+  return api.get(`/folders/find-depth/${folderId}`);
+};
+
 /////////////////////////////////////////////////////////////////////////
 ///////////////////////          파일          //////////////////////////
 ////////////////////////////////////////////////////////////////////////
@@ -51,3 +56,5 @@ export const uploadFile = async (formData: FormData) => {
 
   return api.post("/files", formData, config);
 };
+
+export const getUserInfo = async () => api.get("/users/me");

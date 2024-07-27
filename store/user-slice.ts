@@ -1,14 +1,14 @@
-import { User } from "@/type/type";
+import { UserType } from "@/type/type";
 import { StateCreator } from "zustand";
 
 interface UserState {
-  user: User | null;
+  user: UserType | null;
   isLoggedIn: boolean;
   isLoaded: boolean;
 }
 
 interface UserAction {
-  signIn: (user: User) => void;
+  signIn: (user: UserType) => void;
   signOut: () => void;
   setMemory: (action: string, memory: number) => void;
 }
@@ -21,13 +21,15 @@ export const createUserSlice: StateCreator<UserSlice, [], [], UserSlice> = (
   user: null,
   isLoggedIn: false,
   isLoaded: false,
-  signIn: (user: User) => set({ user: user, isLoaded: true, isLoggedIn: true }),
+  signIn: (user: UserType) =>
+    set({ user: user, isLoaded: true, isLoggedIn: true }),
   signOut: () => set({ user: null, isLoaded: true, isLoggedIn: false }),
   setMemory: (action, memory) =>
     set((state) => ({
       user: {
         ...state.user!,
-        size: state.user!.size + (action == "INCREMENT" ? memory : -memory),
+        size:
+          state.user!.memoryUsage + (action == "INCREMENT" ? memory : -memory),
       },
     })),
 });

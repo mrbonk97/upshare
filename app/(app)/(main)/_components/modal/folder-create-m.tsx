@@ -25,6 +25,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createFolder } from "@/lib/api/folder-api";
 import { useRef } from "react";
 import { Spinner } from "@/components/spinner";
+import useStore from "@/store/store";
 
 const formSchema = z.object({
   folderName: z
@@ -34,6 +35,7 @@ const formSchema = z.object({
 });
 
 export const FolderCreateM = () => {
+  const folderId = useStore.use.folderId();
   const qc = useQueryClient();
   const buttonRef = useRef<HTMLButtonElement>(null);
   const form = useForm<z.infer<typeof formSchema>>({
@@ -44,7 +46,7 @@ export const FolderCreateM = () => {
   });
 
   const { isPending, mutate } = useMutation({
-    mutationFn: (folderName: string) => createFolder(folderName, null),
+    mutationFn: (folderName: string) => createFolder(folderName, folderId),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ["folders"] });
       buttonRef.current?.click();

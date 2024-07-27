@@ -9,31 +9,23 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { api } from "@/lib/api";
-import { useQueryClient } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
-import useStore from "@/store/store";
+import { deleteAccount } from "@/lib/api/user-api";
+import { useMutation } from "@tanstack/react-query";
 
-export function DeleteAccountModal() {
-  const router = useRouter();
-  const queryClient = useQueryClient();
-  const signOut = useStore.use.signOut();
-
-  const handleAccountDelete = async () => {
-    const result = await api.delete("/users/me");
-    if (result.status === 200) {
-      queryClient.clear();
-      signOut();
-      localStorage.removeItem("access_token");
-      router.push("/bye");
-    }
-  };
+export const DeleteAccountM = () => {
+  const { mutate, isSuccess, isPending, isError } = useMutation({
+    mutationFn: deleteAccount,
+  });
 
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant={"destructive"} className="w-full py-6">
-          회원탈퇴
+        <Button
+          variant={"destructive"}
+          className="w-full py-6 cursor-pointer"
+          asChild
+        >
+          <li>회원탈퇴</li>
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
@@ -45,11 +37,11 @@ export function DeleteAccountModal() {
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>
-          <Button onClick={handleAccountDelete} variant={"destructive"}>
+          <Button onClick={() => mutate()} variant={"destructive"}>
             탈퇴
           </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
   );
-}
+};

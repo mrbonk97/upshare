@@ -1,20 +1,13 @@
 "use client";
-import { DataTable } from "@/components/data-table";
-import { SkeletonList } from "@/components/skeleton-list";
-import { FolderBread } from "@/components/folder-bread";
-import { useSearchParams } from "next/navigation";
-import { useFolder } from "@/hooks/useFolder";
+import { useFolder2 } from "@/hooks/useFolder2";
+import { FolderBreadCrumb } from "../_components/breadcrumb/folder-breadcrumb";
 
 const SearchPage = () => {
-  const q = useSearchParams().get("q");
-  const [isPending, isError] = useFolder({ type: "SEARCH", query: q });
-
-  if (isError) throw "오류 발생";
+  useFolder2();
 
   return (
     <section className="p-5">
-      <FolderBread />
-      {isPending ? <SkeletonList /> : <DataTable />}
+      <FolderBreadCrumb />
     </section>
   );
 };

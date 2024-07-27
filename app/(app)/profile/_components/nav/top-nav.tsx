@@ -2,9 +2,9 @@ import { Logo } from "@/components/logo";
 import Link from "next/link";
 import { SideSheetProfile } from "./side-sheet-profile";
 import { RoundEdge } from "@/components/round-edge";
-import { UserButton } from "@/components/nav/topnav/user-button";
+import { UserButton } from "@/app/(app)/(main)/_components/navbar/topnav/user-button";
 
-export const TopnavProfile = () => {
+export const Topnav = () => {
   return (
     <>
       <RoundEdge />

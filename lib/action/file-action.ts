@@ -106,8 +106,3 @@ export const fileDownloadByCode = async (code: string) => {
     window.URL.revokeObjectURL(url);
   }
 };
-
-export const findFolderHierarchy = async (folderId?: string) => {
-  if (folderId == undefined) return null;
-  return api.get(`/folders/find-depth/${folderId}`).then((res) => res.data);
-};

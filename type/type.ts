@@ -1,15 +1,29 @@
-import { FileSlice } from "@/store/file-slice";
-import { UserSlice } from "@/store/user-slice";
 import { FileType } from "lucide-react";
 
-export type User = {
-  id: string;
+export type UserType = {
+  id: number;
+  name: string;
   username: string;
-  email: string;
+  email: string | null;
+  userRole: string;
+  enabled: boolean;
+  accountNonExpired: boolean;
+  accountNonLocked: boolean;
+  credentialsNonExpired: boolean;
+  emailAuthenticated: string | null;
+  authorities: [
+    {
+      authority: string;
+    }
+  ];
   imageUrl: string;
-  role: string;
-  size: number;
-  maxSize: number;
+  maxMemory: number;
+  memoryUsage: number;
+  provider: string;
+  providerId: string | null;
+  createdAt: string;
+  deletedAt: string;
+  updatedAt: string;
 };
 
 export type FileType = {

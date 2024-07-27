@@ -1,14 +1,15 @@
 "use client";
+import formatBytes from "@/lib/format-byte";
 import useStore from "@/store/store";
+
 export const DataUsage = () => {
   const user = useStore.use.user();
-  if (user == null) return;
+  if (!user) return null;
 
-  const percentage = ((user.size / user.maxSize) * 100).toFixed(2);
-  const curMem =
-    user.size > 1048576
-      ? (user.size / 1048576).toFixed(2) + "mb"
-      : (user.size / 1048).toFixed(2) + "kb";
+  console.log(user);
+  const percentage = ((user.memoryUsage / user.maxMemory) * 100).toFixed(2);
+
+  const curMem = formatBytes(user.memoryUsage);
 
   return (
     <div className="text-sm">
