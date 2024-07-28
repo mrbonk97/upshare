@@ -1,5 +1,5 @@
 "use client";
-import formatBytes from "@/lib/format-byte";
+import { formatBytes } from "@/lib/utils";
 import useStore from "@/store/store";
 
 export const DataUsage = () => {

@@ -1,58 +1,55 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage,
-} from "@/components/ui/form";
 
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Spinner } from "@/components/spinner";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { uploadFile } from "@/lib/api/folder-api";
 import useStore from "@/store/store";
-
-const formSchema = z.object({
-  file: z
-    .any()
-    .refine((f) => f?.length == 1, "파일을 선택해주세요")
-    .refine((f) => f[0].size <= 10_245_000, "파일의 용량은 최대 10MB입니다."),
-});
+import { Dz } from "@/app/test/page";
+import { XCircleIcon } from "lucide-react";
+import { formatBytes } from "@/lib/utils";
+import getFileIcon from "@/lib/get-file-icons";
 
 export const FileUploadM = () => {
-  const qc = useQueryClient();
   const folderId = useStore.use.folderId();
+  const [file, setFile] = useState<File | null>(null);
+  const [errorMessage, setErrorMessage] = useState("");
+  const qc = useQueryClient();
   const buttonRef = useRef<HTMLButtonElement>(null);
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-  });
+  const progressRef = useRef<HTMLProgressElement>(null);
 
-  const { mutate, isPending } = useMutation({
-    mutationFn: (formData: FormData) => uploadFile(formData),
+  const { mutate, isSuccess, isPending } = useMutation({
+    mutationFn: (formData: FormData) => uploadFile(formData, progressRef),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ["folders"] });
-      buttonRef.current?.click();
     },
   });
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
+  const handleFile = (e: File) => {
+    setFile(e);
+    setErrorMessage("");
+  };
+
+  const handleUpload = () => {
+    if (file == null) {
+      setErrorMessage("업로드 할 파일이 없습니다.");
+      return;
+    }
+    if (file.size >= 10_245_000) {
+      setErrorMessage("파일의 용량이 10mb를 초과하였습니다.");
+      return;
+    }
+    setErrorMessage("");
     const formData = new FormData();
-    formData.append("file", values.file[0]);
+    formData.append("file", file);
     if (folderId) formData.append("folderId", folderId);
     mutate(formData);
   };
@@ -74,33 +71,41 @@ export const FileUploadM = () => {
             업로드 버튼을 클릭해서 추가해주세요(최대 10mb)
           </DialogDescription>
         </DialogHeader>
-        {isPending ? (
-          <div className="h-36 flex2">
-            <Spinner />
-          </div>
-        ) : (
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)}>
-              <FormField
-                control={form.control}
-                name="file"
-                render={({ field }) => (
-                  <FormItem className="py-5">
-                    <FormControl>
-                      <Input type="file" {...form.register("file")} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
+        <Dz setFile={handleFile} />
+
+        <div className="pl-2 -mt-3 flex justify-between text-sm">
+          <span className="text-destructive">{errorMessage}</span>
+          <span>최대 용량: 10MB</span>
+        </div>
+        {file && (
+          <div className="relative pt-5 pb-2 px-5 flex flex-col justify-between gap-3 rounded-lg bg-secondary w-full">
+            <button
+              disabled={isPending}
+              className="absolute top-2 right-2 hover:opacity-70 duration-200"
+              onClick={() => setFile(null)}
+            >
+              <XCircleIcon />
+            </button>
+            <div className="flex gap-5">
+              {getFileIcon(file.type.split("/")[1])}
+              <div className="flex flex-col text-sm gap-1">
+                <span>{file?.name}</span>
+                <span>{formatBytes(file.size)}</span>
+              </div>
+            </div>
+            <div className="flex items-center gap-2">
+              <progress
+                ref={progressRef}
+                className="h-2 w-full rounded-full"
+                max={1}
+                value={0}
               />
-              <DialogFooter className="mt-5">
-                <Button type="submit" disabled={isPending} className="w-full">
-                  업로드
-                </Button>
-              </DialogFooter>
-            </form>
-          </Form>
+            </div>
+          </div>
         )}
+        <Button onClick={handleUpload} disabled={isPending}>
+          업로드
+        </Button>
       </DialogContent>
     </Dialog>
   );

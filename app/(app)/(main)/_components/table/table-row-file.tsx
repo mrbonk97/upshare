@@ -14,7 +14,7 @@ import { FileFolderIcon } from "./file-folder-icon";
 import { MoreHorizontalIcon } from "lucide-react";
 import { DeleteM } from "@/app/(app)/(main)/_components/modal/delete-m";
 import { ShareM } from "@/app/(app)/(main)/_components/modal/share-m";
-import formatBytes from "@/lib/format-byte";
+import { formatBytes } from "@/lib/utils";
 
 interface TableRowFileProps {
   id: string;

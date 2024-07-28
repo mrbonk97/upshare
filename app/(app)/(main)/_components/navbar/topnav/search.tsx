@@ -10,7 +10,7 @@ import { useDebounceValue } from "usehooks-ts";
 export const SearchBox = () => {
   const router = useRouter();
   const [query, setQuery] = useState("");
-  const [debouncedValue] = useDebounceValue(query, 200);
+  const [debouncedValue] = useDebounceValue(query, 100);
 
   useEffect(() => {
     const url = qs.stringifyUrl(

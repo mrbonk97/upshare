@@ -1,4 +1,6 @@
+import { progress } from "framer-motion";
 import { api } from "../api";
+import { RefObject } from "react";
 
 export const getHome = async () => api.get("/folders");
 
@@ -47,14 +49,20 @@ export const getFavorite = async () => api.get("/files/favorite");
 
 export const getShare = async () => api.get("/files/share");
 
-export const uploadFile = async (formData: FormData) => {
-  const config = {
+export const uploadFile = async (
+  formData: FormData,
+  progressRef: RefObject<HTMLProgressElement>
+) => {
+  return api.post("/files", formData, {
     headers: {
       "Content-Type": "multipart/form-data",
     },
-  };
-
-  return api.post("/files", formData, config);
+    onUploadProgress(progressEvent) {
+      if (!progressRef.current) return;
+      if (!progressEvent.progress) return;
+      progressRef.current!.value = progressEvent.progress;
+    },
+  });
 };
 
 export const searchFile = async (q: string) => api.get(`/files/search?q=${q}`);
