@@ -6,10 +6,7 @@ export const DataUsage = () => {
   const user = useStore.use.user();
   if (!user) return null;
 
-  console.log(user);
   const percentage = ((user.memoryUsage / user.maxMemory) * 100).toFixed(2);
-
-  const curMem = formatBytes(user.memoryUsage);
 
   return (
     <div className="text-sm">
@@ -20,7 +17,9 @@ export const DataUsage = () => {
           style={{ width: `${percentage}%` }}
         />
       </div>
-      <div className="mt-2 text-center text-xs">{curMem} / 50mb 사용중</div>
+      <div className="mt-2 text-center text-xs">
+        {formatBytes(user.memoryUsage)} / 50mb 사용중
+      </div>
     </div>
   );
 };

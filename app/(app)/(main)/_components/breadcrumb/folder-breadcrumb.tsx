@@ -14,14 +14,11 @@ import Link from "next/link";
 
 export const FolderBreadCrumb = () => {
   const folderId = useStore.use.folderId();
-  console.log(folderId);
 
   const { isSuccess, data } = useQuery({
     queryKey: ["bread-crumb", folderId],
     queryFn: () => findFolderHierarchy(folderId),
   });
-
-  if (isSuccess) console.log(data?.data.result);
 
   return (
     <Breadcrumb className="ml-2">

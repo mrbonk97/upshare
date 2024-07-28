@@ -1,6 +1,5 @@
 "use client";
 import { api } from "@/lib/api";
-import { File } from "@/type/type";
 
 export const getHome = async () => {
   const result = await api.get("/folders");

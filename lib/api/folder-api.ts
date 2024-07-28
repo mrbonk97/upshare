@@ -57,4 +57,6 @@ export const uploadFile = async (formData: FormData) => {
   return api.post("/files", formData, config);
 };
 
+export const searchFile = async (q: string) => api.get(`/files/search?q=${q}`);
+
 export const getUserInfo = async () => api.get("/users/me");
