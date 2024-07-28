@@ -1,4 +1,5 @@
 "use client";
+import { Spinner } from "@/components/spinner";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -10,11 +11,15 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { deleteAccount } from "@/lib/api/user-api";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 
 export const DeleteAccountM = () => {
-  const { mutate, isSuccess, isPending, isError } = useMutation({
+  const qc = useQueryClient();
+  const router = useRouter();
+  const { mutate, isPending } = useMutation({
     mutationFn: deleteAccount,
+    onSuccess: () => router.push("/bye"),
   });
 
   return (
@@ -36,6 +41,11 @@ export const DeleteAccountM = () => {
             복구하실 수 없습니다.
           </DialogDescription>
         </DialogHeader>
+        {isPending && (
+          <div className="flex justify-center">
+            <Spinner />
+          </div>
+        )}
         <DialogFooter>
           <Button onClick={() => mutate()} variant={"destructive"}>
             탈퇴

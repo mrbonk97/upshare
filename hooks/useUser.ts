@@ -16,5 +16,5 @@ export function useUser() {
 
   if (isSuccess) signIn(data.data.result);
 
-  return [isPending, isSuccess];
+  return [isPending, isSuccess, isError];
 }

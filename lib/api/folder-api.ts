@@ -65,6 +65,7 @@ export const uploadFile = async (
   });
 };
 
-export const searchFile = async (q: string) => api.get(`/files/search?q=${q}`);
+export const searchFile = async (q: string | null) =>
+  api.get(`/files/search?q=${q}`);
 
 export const getUserInfo = async () => api.get("/users/me");
