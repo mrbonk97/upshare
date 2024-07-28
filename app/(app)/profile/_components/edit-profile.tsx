@@ -5,7 +5,6 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -20,15 +19,13 @@ import {
 import { Input } from "@/components/ui/input";
 import { toast } from "@/components/ui/use-toast";
 
-import { api } from "@/lib/api";
 import useStore from "@/store/store";
-import { User } from "@/type/type";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { UserImage } from "./user-image";
-import { editUsername } from "@/lib/action/user-action";
+import { changeUsername } from "@/lib/api/user-api";
 
 const formSchema = z.object({
   username: z
@@ -43,20 +40,16 @@ const formSchema = z.object({
 
 export const EditProfile = () => {
   const user = useStore.use.user();
-  const signIn = useStore.use.signIn();
-  const queryClient = useQueryClient();
+  const setUser = useStore.use.signIn();
 
   const { mutate, isPending } = useMutation({
-    mutationFn: (username: string) => editUsername(username),
-    onSuccess: (e) => {
-      signIn(e);
+    mutationFn: (username: string) => changeUsername(username),
+    onSuccess: (data) => {
+      setUser(data.data.result);
       toast({
         title: "이름을 변경하였습니다.",
-        description: `이름: ${e.username}`,
+        description: `이름: ${data.data.result.username}`,
       });
-      queryClient.removeQueries({ queryKey: ["folders"] });
-      queryClient.removeQueries({ queryKey: ["favorite"] });
-      queryClient.removeQueries({ queryKey: ["share"] });
     },
   });
 
@@ -67,9 +60,7 @@ export const EditProfile = () => {
     },
   });
 
-  const onSubmit = (e: z.infer<typeof formSchema>) => {
-    mutate(e.username);
-  };
+  const onSubmit = (e: z.infer<typeof formSchema>) => mutate(e.username);
 
   return (
     <section className="p-5 h-full w-full flex2">

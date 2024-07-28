@@ -5,19 +5,15 @@ import { FolderTable } from "../_components/table/folder-table";
 import { useQuery } from "@tanstack/react-query";
 import { searchFile } from "@/lib/api/folder-api";
 import { useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 
 const SearchPage = () => {
-  useFolder2();
-  const q = location?.search.split("=")[1];
+  const q = useSearchParams().get("q");
 
   const query = useQuery({
     queryKey: ["folders", q],
     queryFn: () => searchFile(q),
   });
-
-  useEffect(() => {
-    console.log(q);
-  }, [q]);
 
   if (query.isError) throw "뭔가 오류발생";
   if (query.isPending) return <div>로딩중</div>;

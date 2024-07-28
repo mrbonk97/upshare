@@ -1,7 +1,12 @@
+"use client";
+import { useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
 import Link from "next/link";
 
 const ByePage = () => {
+  const qc = useQueryClient();
+  qc.removeQueries();
+
   return (
     <main className="h-full flex2 flex-col gap-10">
       <h2 className="text-center text-xl md:text-2xl font-bold">

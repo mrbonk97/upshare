@@ -1,15 +1,17 @@
 "use client";
 import { Spinner } from "@/components/spinner";
 import { useUser } from "@/hooks/useUser";
+import { redirect } from "next/navigation";
 
 interface AppLayoutProps {
   children: React.ReactNode;
 }
 
 const AppLayout = ({ children }: AppLayoutProps) => {
-  const [isPending, isSuccess] = useUser();
+  const [isPending, isSuccess, isError] = useUser();
 
   if (isSuccess) return <>{children}</>;
+  if (isError) redirect("/sign-in");
 
   return (
     <main className="h-full flex2">
