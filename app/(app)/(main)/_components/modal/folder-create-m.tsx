@@ -72,6 +72,7 @@ export const FolderCreateM = () => {
           <DialogTitle>폴더 생성</DialogTitle>
           <DialogDescription>해당 위치에 폴더를 생성합니다.</DialogDescription>
         </DialogHeader>
+
         {isPending ? (
           <div className="h-36 flex2">
             <Spinner />
