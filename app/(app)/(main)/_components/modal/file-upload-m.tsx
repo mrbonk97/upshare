@@ -13,10 +13,10 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRef, useState } from "react";
 import { uploadFile } from "@/lib/api/folder-api";
 import useStore from "@/store/store";
-import { Dz } from "@/app/test/page";
 import { XCircleIcon } from "lucide-react";
 import { formatBytes } from "@/lib/utils";
 import getFileIcon from "@/lib/get-file-icons";
+import { Dz } from "./dz";
 
 export const FileUploadM = () => {
   const folderId = useStore.use.folderId();
@@ -71,7 +71,7 @@ export const FileUploadM = () => {
             업로드 버튼을 클릭해서 추가해주세요(최대 10mb)
           </DialogDescription>
         </DialogHeader>
-        <Dz setFile={handleFile} />
+        <Dz handleFile={handleFile} />
 
         <div className="pl-2 -mt-3 flex justify-between text-sm">
           <span className="text-destructive">{errorMessage}</span>
