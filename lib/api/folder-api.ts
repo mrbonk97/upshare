@@ -1,4 +1,3 @@
-import { progress } from "framer-motion";
 import { api } from "../api";
 import { RefObject } from "react";
 
@@ -25,6 +24,9 @@ export const findFolderHierarchy = async (folderId: string | null) => {
   if (!folderId) return null;
   return api.get(`/folders/find-depth/${folderId}`);
 };
+
+export const changeFolderName = async (folderId: string, folderName: string) =>
+  api.patch(`/folders/${folderId}`, { folderName });
 
 /////////////////////////////////////////////////////////////////////////
 ///////////////////////          파일          //////////////////////////
@@ -68,4 +70,35 @@ export const uploadFile = async (
 export const searchFile = async (q: string | null) =>
   api.get(`/files/search?q=${q}`);
 
-export const getUserInfo = async () => api.get("/users/me");
+export const changeFileName = async (fileId: string, fileName: string) =>
+  api.patch(`/files/${fileId}`, { fileName });
+
+export const downloadFileByCode = async (code: string) => {
+  const result = await api.get(`/files/code/${code}`);
+
+  if (result.status === 200) {
+    const dataUrl = `data:${result.data.result.contentType};base64,${result.data.result.fileData}`;
+    const blob = await fetch(dataUrl).then((res) => res.blob());
+    const a = document.createElement("a");
+    a.href = window.URL.createObjectURL(blob);
+    a.download = result.data.result.originalFileName;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  }
+};
+
+export const downloadFile = async (fileId: string) => {
+  const result = await api.get(`/files/${fileId}`);
+
+  if (result.status === 200) {
+    const dataUrl = `data:${result.data.result.contentType};base64,${result.data.result.fileData}`;
+    const blob = await fetch(dataUrl).then((res) => res.blob());
+    const a = document.createElement("a");
+    a.href = window.URL.createObjectURL(blob);
+    a.download = result.data.result.originalFileName;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  }
+};
