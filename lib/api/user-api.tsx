@@ -1,5 +1,7 @@
 import { api } from "../api";
 
+export const getUserInfo = async () => api.get("/users/me");
+
 export const deleteAccount = () => api.delete("/users/me");
 
 export const signOutUser = async () =>

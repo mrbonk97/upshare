@@ -1,3 +1,4 @@
+"use client";
 import { Logo } from "@/components/logo";
 import { SearchBox } from "./search";
 import { SideSheet } from "./side-sheet";

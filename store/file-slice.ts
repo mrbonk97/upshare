@@ -1,4 +1,4 @@
-import { File, modalType } from "@/type/type";
+import { modalType } from "@/type/type";
 import { StateCreator } from "zustand";
 
 interface FileState {

@@ -1,20 +1,23 @@
-import { TableCell, TableRow } from "@/components/ui/table";
+"use client";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-
+import { TableCell, TableRow } from "@/components/ui/table";
 import { RowType } from "@/type/type";
 import { Button } from "@/components/ui/button";
-import { FileFolderIcon } from "./file-folder-icon";
 import { MoreHorizontalIcon } from "lucide-react";
 import { DeleteM } from "@/app/(app)/(main)/_components/modal/delete-m";
 import { ShareM } from "@/app/(app)/(main)/_components/modal/share-m";
 import { formatBytes } from "@/lib/utils";
+import getFileIcon from "@/lib/get-file-icons";
+import { useMutation } from "@tanstack/react-query";
+import { downloadFile } from "@/lib/api/folder-api";
+import { ChangeTitleM } from "../modal/change-title-m";
+import { useState } from "react";
 
 interface TableRowFileProps {
   id: string;
@@ -41,13 +44,19 @@ export const TableRowFile = ({
   username,
   size,
   isFavourite,
-  isDragHover,
   handleDragStart,
   handleDragOver,
   handleDragEnd,
   handleDrop,
   handleHeart,
 }: TableRowFileProps) => {
+  const [isOn, setIsOn] = useState(false);
+  const titles = title.split(".");
+  const type = titles[titles.length - 1];
+  const mutate = useMutation({
+    mutationFn: () => downloadFile(id),
+  });
+
   return (
     <TableRow
       draggable
@@ -59,15 +68,22 @@ export const TableRowFile = ({
       onDragEnd={handleDragEnd}
       onDrop={handleDrop}
     >
-      <TableCell className="flex items-center gap-2">
-        <FileFolderIcon type={"FILE"} isDragHover={isDragHover} />
+      <TableCell
+        onClick={() => mutate.mutate()}
+        className="flex items-center gap-2 text-ellipsis cursor-pointer hover:underline underline-offset-4"
+      >
+        {getFileIcon(type, 24)}
         <span>{title}</span>
       </TableCell>
-      <TableCell className="text-center">
+      <TableCell className="hidden lg:table-cell text-center">
         {updatedAt.substring(0, 10)}
       </TableCell>
-      <TableCell className="text-center">{username}</TableCell>
-      <TableCell className="text-center">{formatBytes(size)}</TableCell>
+      <TableCell className="hidden sm:table-cell text-center">
+        {username}
+      </TableCell>
+      <TableCell className="hidden lg:table-cell text-center">
+        {formatBytes(size)}
+      </TableCell>
       <TableCell
         className="hidden lg:table-cell text-center cursor-pointer"
         onClick={handleHeart}
@@ -75,7 +91,7 @@ export const TableRowFile = ({
         {isFavourite ? "❤️" : "🤍"}
       </TableCell>
       <TableCell className="text-center">
-        <DropdownMenu>
+        <DropdownMenu open={isOn} onOpenChange={setIsOn}>
           <DropdownMenuTrigger asChild>
             <Button
               variant="ghost"
@@ -85,15 +101,23 @@ export const TableRowFile = ({
               <MoreHorizontalIcon className="h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
+          <DropdownMenuContent align="end" className="w-24">
             <DropdownMenuLabel>메뉴</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem asChild>
-              <ShareM id={id} code={code} />
-            </DropdownMenuItem>
-            <DropdownMenuItem asChild>
-              <DeleteM id={id} title={title} type="FILE" />
-            </DropdownMenuItem>
+            <ShareM id={id} code={code}>
+              <DropdownMenuLabel>파일 공유</DropdownMenuLabel>
+            </ShareM>
+            <DeleteM id={id} title={title} type="FILE" setIsMenuOn={setIsOn}>
+              <DropdownMenuLabel>파일 삭제</DropdownMenuLabel>
+            </DeleteM>
+            <ChangeTitleM
+              id={id}
+              title={title}
+              type="FILE"
+              setIsMenuOn={setIsOn}
+            >
+              <DropdownMenuLabel>이름 변경</DropdownMenuLabel>
+            </ChangeTitleM>
           </DropdownMenuContent>
         </DropdownMenu>
       </TableCell>

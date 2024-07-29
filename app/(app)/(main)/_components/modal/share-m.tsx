@@ -11,19 +11,18 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/use-toast";
-
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Copy } from "lucide-react";
-import { shareFile } from "@/lib/api/folder-api";
-import { useState } from "react";
-import { stopShareFile } from "@/lib/action/file-action";
+import { shareFile, stopShareFile } from "@/lib/api/folder-api";
+import React, { useState } from "react";
 
 interface ShareMProps {
   id: string;
   code: string | null;
+  children: React.ReactNode;
 }
 
-export const ShareM = ({ id, code }: ShareMProps) => {
+export const ShareM = ({ id, code, children }: ShareMProps) => {
   const queryClient = useQueryClient();
   const [shareCode, setShareCode] = useState(code);
 
@@ -67,7 +66,7 @@ export const ShareM = ({ id, code }: ShareMProps) => {
       }}
     >
       <AlertDialogTrigger className="h-full w-full py-1 text-center hover:bg-secondary">
-        {code ? "공유보기" : "공유하기"}
+        {children}
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>

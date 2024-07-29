@@ -1,13 +1,13 @@
 import Image from "next/image";
 
-export default function getFileIcon(type: string) {
+export default function getFileIcon(type: string, size: number) {
   if (type == "doc" || type == "docx")
     return (
       <Image
         src="/images/file-icons/doc.png"
         alt={type}
-        width={48}
-        height={48}
+        width={size}
+        height={size}
       />
     );
 
@@ -22,8 +22,8 @@ export default function getFileIcon(type: string) {
       <Image
         src="/images/file-icons/excel.png"
         alt={type}
-        width={48}
-        height={48}
+        width={size}
+        height={size}
       />
     );
 
@@ -41,8 +41,8 @@ export default function getFileIcon(type: string) {
       <Image
         src="/images/file-icons/javscript.png"
         alt={type}
-        width={48}
-        height={48}
+        width={size}
+        height={size}
       />
     );
 
@@ -51,8 +51,8 @@ export default function getFileIcon(type: string) {
       <Image
         src="/images/file-icons/pdf.png"
         alt={type}
-        width={48}
-        height={48}
+        width={size}
+        height={size}
       />
     );
 
@@ -67,8 +67,8 @@ export default function getFileIcon(type: string) {
       <Image
         src="/images/file-icons/photo-gallery.png"
         alt={type}
-        width={48}
-        height={48}
+        width={size}
+        height={size}
       />
     );
 
@@ -77,8 +77,8 @@ export default function getFileIcon(type: string) {
       <Image
         src="/images/file-icons/powerpoint.png"
         alt={type}
-        width={48}
-        height={48}
+        width={size}
+        height={size}
       />
     );
 
@@ -87,8 +87,8 @@ export default function getFileIcon(type: string) {
       <Image
         src="/images/file-icons/txt.png"
         alt={type}
-        width={48}
-        height={48}
+        width={size}
+        height={size}
       />
     );
 
@@ -97,17 +97,17 @@ export default function getFileIcon(type: string) {
       <Image
         src="/images/file-icons/zip.png"
         alt={type}
-        width={48}
-        height={48}
+        width={size}
+        height={size}
       />
     );
 
   return (
     <Image
       src="/images/file-icons/word.png"
-      alt={type}
-      width={48}
-      height={48}
+      alt={type || "file"}
+      width={size}
+      height={size}
     />
   );
 }

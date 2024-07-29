@@ -1,23 +1,5 @@
-import { Blocks, HeartIcon, HomeIcon } from "lucide-react";
+import { MENU } from "@/constants";
 import Link from "next/link";
-
-const MENU = [
-  {
-    title: "홈",
-    link: "/home",
-    icon: <HomeIcon size={14} className="text-rose-400" />,
-  },
-  {
-    title: "즐겨찾기",
-    link: "/folders/favorite",
-    icon: <HeartIcon size={14} className="text-rose-400" />,
-  },
-  {
-    title: "공유중",
-    link: "/folders/share",
-    icon: <Blocks size={14} className="text-rose-400" />,
-  },
-];
 
 interface MenuListProps {
   title: string;
@@ -27,10 +9,10 @@ interface MenuListProps {
 
 const MenuList = ({ title, link, icon }: MenuListProps) => {
   return (
-    <li>
+    <li className="text-rose-400">
       <Link
         href={link}
-        className="flex justify-end items-center gap-2 w-full py-2 px-4 rounded bg-primary-foreground font-medium text-sm"
+        className="flex justify-end items-center gap-2 w-full py-2 px-4 rounded bg-primary-foreground font-medium text-sm text-primary"
       >
         {title}
         {icon}

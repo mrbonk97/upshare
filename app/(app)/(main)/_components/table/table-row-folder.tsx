@@ -1,19 +1,20 @@
+"use client";
 import { TableCell, TableRow } from "@/components/ui/table";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-
 import { RowType } from "@/type/type";
 import { FileFolderIcon } from "./file-folder-icon";
 import { MoreHorizontalIcon } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { DeleteM } from "@/app/(app)/(main)/_components/modal/delete-m";
+import { ChangeTitleM } from "../modal/change-title-m";
+import { useState } from "react";
 
 interface TableRowFolderProps {
   id: string;
@@ -45,6 +46,8 @@ export const TableRowFolder = ({
   handleDrop,
   handleHeart,
 }: TableRowFolderProps) => {
+  const [isOn, setIsOn] = useState(false);
+
   return (
     <TableRow
       draggable
@@ -67,11 +70,13 @@ export const TableRowFolder = ({
           <span>{title}</span>
         </Link>
       </TableCell>
-      <TableCell className="text-center">
+      <TableCell className="hidden lg:table-cell text-center">
         {updatedAt.substring(0, 10)}
       </TableCell>
-      <TableCell className="text-center">{username}</TableCell>
-      <TableCell className="text-center"></TableCell>
+      <TableCell className="hidden lg:table-cell text-center">
+        {username}
+      </TableCell>
+      <TableCell className="hidden lg:table-cell text-center"></TableCell>
       <TableCell
         className="hidden lg:table-cell text-center cursor-pointer"
         onClick={handleHeart}
@@ -79,7 +84,7 @@ export const TableRowFolder = ({
         {isFavourite ? "❤️" : "🤍"}
       </TableCell>
       <TableCell className="text-center">
-        <DropdownMenu>
+        <DropdownMenu onOpenChange={setIsOn} open={isOn}>
           <DropdownMenuTrigger asChild>
             <Button
               variant="ghost"
@@ -89,12 +94,20 @@ export const TableRowFolder = ({
               <MoreHorizontalIcon className="h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
+          <DropdownMenuContent align="end" className="w-24">
             <DropdownMenuLabel>메뉴</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem asChild>
-              <DeleteM id={id} title={title} type="FOLDER" />
-            </DropdownMenuItem>
+            <DeleteM id={id} title={title} type="FOLDER" setIsMenuOn={setIsOn}>
+              <DropdownMenuLabel>파일 삭제</DropdownMenuLabel>
+            </DeleteM>
+            <ChangeTitleM
+              id={id}
+              title={title}
+              type="FOLDER"
+              setIsMenuOn={setIsOn}
+            >
+              <DropdownMenuLabel>이름 변경</DropdownMenuLabel>
+            </ChangeTitleM>
           </DropdownMenuContent>
         </DropdownMenu>
       </TableCell>

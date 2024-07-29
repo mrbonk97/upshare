@@ -1,3 +1,4 @@
+"use client";
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -12,14 +13,23 @@ import { deleteFile, deleteFolder } from "@/lib/api/folder-api";
 import { AlertDialogTrigger } from "@radix-ui/react-alert-dialog";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { TriangleAlert } from "lucide-react";
+import { Dispatch, SetStateAction } from "react";
 
 interface DeleteMProps {
   type: "FILE" | "FOLDER";
   id: string;
   title: string;
+  setIsMenuOn: Dispatch<SetStateAction<boolean>>;
+  children: React.ReactNode;
 }
 
-export const DeleteM = ({ type, id, title }: DeleteMProps) => {
+export const DeleteM = ({
+  type,
+  id,
+  title,
+  setIsMenuOn,
+  children,
+}: DeleteMProps) => {
   const queryClient = useQueryClient();
 
   const mutate = useMutation({
@@ -34,9 +44,9 @@ export const DeleteM = ({ type, id, title }: DeleteMProps) => {
   });
 
   return (
-    <AlertDialog>
+    <AlertDialog onOpenChange={(e) => setIsMenuOn((cur) => (!e ? false : cur))}>
       <AlertDialogTrigger className="h-full w-full py-1 text-center hover:bg-secondary">
-        삭제하기
+        {children}
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>

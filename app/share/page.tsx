@@ -15,18 +15,19 @@ import {
   InputOTPSeparator,
   InputOTPSlot,
 } from "@/components/ui/input-otp";
-import { fileDownloadByCode } from "@/lib/action/file-action";
+import { downloadFileByCode } from "@/lib/api/folder-api";
 import { useMutation } from "@tanstack/react-query";
 import { REGEXP_ONLY_DIGITS_AND_CHARS } from "input-otp";
 import Link from "next/link";
+import { toast } from "@/components/ui/use-toast";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 
 const SharePage = () => {
   const _code = useSearchParams().get("code");
   const [code, setCode] = useState(_code == null ? "" : _code);
-  const { mutate, isPending } = useMutation({
-    mutationFn: () => fileDownloadByCode(code),
+  const { mutate, isPending, isError } = useMutation({
+    mutationFn: () => downloadFileByCode(code),
   });
 
   return (
@@ -38,6 +39,11 @@ const SharePage = () => {
         <CardHeader>
           <CardTitle>파일 다운로드</CardTitle>
           <CardDescription>파일 공유 코드를 입력해주세요</CardDescription>
+          {isError && (
+            <span className="text-destructive">
+              코드에 오류가 있거나, 파일이 존재하지 않습니다.
+            </span>
+          )}
         </CardHeader>
         <CardContent className="pt-5 pb-10 flex justify-center">
           <InputOTP

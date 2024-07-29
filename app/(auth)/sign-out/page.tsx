@@ -14,7 +14,7 @@ const SignOutPage = () => {
   const { mutate, isSuccess, isError } = useMutation({
     mutationFn: signOutUser,
     onSuccess: () => {
-      queryClient.invalidateQueries();
+      queryClient.removeQueries();
     },
   });
 

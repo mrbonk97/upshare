@@ -1,6 +1,5 @@
 "use client";
 import { Input } from "@/components/ui/input";
-
 import qs from "query-string";
 import { SearchIcon } from "lucide-react";
 import { useRouter } from "next/navigation";

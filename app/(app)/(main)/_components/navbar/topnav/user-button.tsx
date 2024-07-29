@@ -5,9 +5,9 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-
 import Link from "next/link";
 import { UserAvatar } from "@/components/user-avatar";
+import { DropdownMenuLabel } from "@radix-ui/react-dropdown-menu";
 
 export const UserButton = () => {
   return (
@@ -16,6 +16,8 @@ export const UserButton = () => {
         <UserAvatar />
       </DropdownMenuTrigger>
       <DropdownMenuContent>
+        <DropdownMenuLabel>메뉴</DropdownMenuLabel>
+        <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
           <Link href={"/profile"} className="cursor-pointer">
             프로필

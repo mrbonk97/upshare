@@ -34,6 +34,7 @@ export const FileUploadM = () => {
   });
 
   const handleFile = (e: File) => {
+    console.log(e);
     setFile(e);
     setErrorMessage("");
   };
@@ -55,7 +56,7 @@ export const FileUploadM = () => {
   };
 
   return (
-    <Dialog>
+    <Dialog onOpenChange={() => setFile(null)}>
       <DialogTrigger asChild>
         <Button
           ref={buttonRef}
@@ -87,7 +88,7 @@ export const FileUploadM = () => {
               <XCircleIcon />
             </button>
             <div className="flex gap-5">
-              {getFileIcon(file.type.split("/")[1])}
+              {getFileIcon(file.type.split("/")[1], 48)}
               <div className="flex flex-col text-sm gap-1">
                 <span>{file?.name}</span>
                 <span>{formatBytes(file.size)}</span>

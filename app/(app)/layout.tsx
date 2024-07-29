@@ -11,7 +11,10 @@ const AppLayout = ({ children }: AppLayoutProps) => {
   const [isPending, isSuccess, isError] = useUser();
 
   if (isSuccess) return <>{children}</>;
-  if (isError) redirect("/sign-in");
+  if (isError) {
+    console.log(isError, "왜임");
+    redirect("/sign-in");
+  }
 
   return (
     <main className="h-full flex2">

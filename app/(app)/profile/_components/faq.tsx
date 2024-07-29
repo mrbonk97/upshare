@@ -34,7 +34,7 @@ export const Faq = () => {
             파일의 최대 업로드 용량은 얼마인가요?
           </AccordionTrigger>
           <AccordionContent>
-            파일 당 최대 5MB까지 업로드할 수 있습니다.
+            파일 당 최대 10MB까지 업로드할 수 있습니다.
           </AccordionContent>
         </AccordionItem>
         <AccordionItem value="item-5">

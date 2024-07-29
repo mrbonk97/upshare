@@ -4,8 +4,11 @@ import { getShare } from "@/lib/api/folder-api";
 import { FolderTable } from "@/app/(app)/(main)/_components/table/folder-table";
 import { FolderBreadCrumb } from "../../_components/breadcrumb/folder-breadcrumb";
 import { SkeletonList } from "@/components/skeleton-list";
+import useStore from "@/store/store";
 
 const FolderPage = () => {
+  const setFolder = useStore.use.setFolder();
+  setFolder(null);
   const query = useQuery({
     queryKey: ["folders", "share"],
     queryFn: getShare,

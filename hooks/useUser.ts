@@ -1,4 +1,4 @@
-import { getUserInfo } from "@/lib/api/folder-api";
+import { getUserInfo } from "@/lib/api/user-api";
 import useStore from "@/store/store";
 import { useQuery } from "@tanstack/react-query";
 

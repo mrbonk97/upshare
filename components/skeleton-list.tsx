@@ -2,7 +2,7 @@ export const SkeletonList = () => {
   return (
     <div
       role="status"
-      className="pt-5 w-full space-y-6 divide-y divide-gray-200 rounded pul-pul dark:divide-gray-700 dark:border-gray-700"
+      className="pt-14 w-full space-y-6 divide-y divide-gray-200 rounded pul-pul dark:divide-gray-700 dark:border-gray-700"
     >
       <div className="flex items-center justify-between">
         <div>

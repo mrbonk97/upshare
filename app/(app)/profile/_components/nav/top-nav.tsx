@@ -1,3 +1,4 @@
+"use client";
 import { Logo } from "@/components/logo";
 import Link from "next/link";
 import { SideSheetProfile } from "./side-sheet-profile";

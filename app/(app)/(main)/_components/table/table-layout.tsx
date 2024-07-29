@@ -12,20 +12,22 @@ interface FileTableLayoutProps {
 
 export const TableLayout = ({ children }: FileTableLayoutProps) => {
   return (
-    <Table className="mt-5">
+    <Table className="mt-5 w-full">
       <TableHeader>
         <TableRow>
-          <TableHead>파일명</TableHead>
+          <TableHead className="">파일명</TableHead>
           <TableHead className="hidden lg:table-cell text-center">
             수정된 날짜
           </TableHead>
-          <TableHead className="hidden md:table-cell text-center">
+          <TableHead className="hidden sm:table-cell text-center">
             수정한 사람
           </TableHead>
           <TableHead className="hidden lg:table-cell text-center">
             파일크기
           </TableHead>
-          <TableHead className="text-center p-0">좋아요</TableHead>
+          <TableHead className="hidden lg:table-cell text-center p-0">
+            좋아요
+          </TableHead>
           <TableHead className="text-center">메뉴</TableHead>
         </TableRow>
       </TableHeader>
