@@ -66,7 +66,7 @@ const LandingPage = () => {
           transition={{ duration: 0.5, delay: 0.2 }}
           viewport={{ once: true }}
         >
-          파일 스토리지 서비스
+          파일 공유 서비스
         </motion.h1>
         <motion.p
           className="text-primary/50 text-center text-xl sm:text-left sm:text-3xl font-semibold"
