@@ -12,7 +12,6 @@ const AppLayout = ({ children }: AppLayoutProps) => {
 
   if (isSuccess) return <>{children}</>;
   if (isError) {
-    console.log(isError, "왜임");
     redirect("/sign-in");
   }
 

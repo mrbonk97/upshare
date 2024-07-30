@@ -34,7 +34,6 @@ export const FileUploadM = () => {
   });
 
   const handleFile = (e: File) => {
-    console.log(e);
     setFile(e);
     setErrorMessage("");
   };
