@@ -1,5 +1,6 @@
 import { Logo } from "@/components/logo";
 import { Button } from "@/components/ui/button";
+import { RabbitIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -77,6 +78,16 @@ const SignInPage = () => {
                 <span className="ml-1 w-24 text-start text-black">
                   카카오 로그인
                 </span>
+              </Link>
+            </Button>
+            <Button
+              className="w-full py-6 bg-blue-400 hover:bg-blue-400/80"
+              asChild
+            >
+              <Link href={"/oauth2/test"} className="flex items-center">
+                <RabbitIcon />
+
+                <span className="ml-1 w-24 text-start">테스트 로그인</span>
               </Link>
             </Button>
           </div>
