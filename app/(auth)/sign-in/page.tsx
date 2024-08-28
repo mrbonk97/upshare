@@ -24,7 +24,7 @@ const SignInPage = () => {
           </div>
           <div className="mt-16 space-y-6">
             <Button className="w-full py-6" asChild>
-              <Link
+              <a
                 href={process.env.NEXT_PUBLIC_GOOGLE_OAUTH2_URL!}
                 className="flex items-center"
               >
@@ -36,13 +36,13 @@ const SignInPage = () => {
                   className="h-6 w-6 flex2"
                 />
                 <span className="ml-1 w-24 text-start">구글 로그인</span>
-              </Link>
+              </a>
             </Button>
             <Button
               className="w-full py-6 bg-[#03C75A] hover:bg-[#03C75A]/90"
               asChild
             >
-              <Link
+              <a
                 href={process.env.NEXT_PUBLIC_NAVER_OAUTH2_URL!}
                 className="flex items-center"
               >
@@ -57,13 +57,13 @@ const SignInPage = () => {
                 <span className="ml-1 w-24 text-start text-white">
                   네이버 로그인
                 </span>
-              </Link>
+              </a>
             </Button>
             <Button
               className="w-full py-6 bg-[#FEE500] hover:bg-[#FEE500]/80"
               asChild
             >
-              <Link
+              <a
                 href={process.env.NEXT_PUBLIC_KAKAO_OAUTH2_URL!}
                 className="flex items-center"
               >
@@ -78,20 +78,20 @@ const SignInPage = () => {
                 <span className="ml-1 w-24 text-start text-black">
                   카카오 로그인
                 </span>
-              </Link>
+              </a>
             </Button>
             <Button
               className="w-full py-6 bg-blue-400 hover:bg-blue-400/80"
               asChild
             >
-              <Link
+              <a
                 href={process.env.NEXT_PUBLIC_API_URL + "/users/test-sign-in"}
                 className="flex items-center"
               >
                 <RabbitIcon />
 
                 <span className="ml-1 w-24 text-start">테스트 로그인</span>
-              </Link>
+              </a>
             </Button>
           </div>
         </article>
