@@ -5,16 +5,18 @@ interface Props {
   children: React.ReactNode;
 }
 
-const MainLayout = ({ children }: Props) => {
+const FoldersLayout = async ({ children }: Props) => {
   return (
     <>
       <Topnav />
       <Leftnav />
       <main className="pt-14 lg:pt-16 lg:pl-72 pr-5 h-full w-full bg-secondary">
-        {children}
+        <section className="p-4 h-full w-full rounded-t-xl bg-background">
+          {children}
+        </section>
       </main>
     </>
   );
 };
 
-export default MainLayout;
+export default FoldersLayout;
