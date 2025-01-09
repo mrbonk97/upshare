@@ -30,9 +30,9 @@ export const POST = async (req: NextRequest, res: NextResponse) => {
 
   const user: User = {
     id: result.recordset[0].user_id,
-    image: result.recordset[0].user_id,
     name: result.recordset[0].username,
     email: result.recordset[0].email,
+    image: result.recordset[0].image,
   };
 
   return NextResponse.json(user, { status: 200 });
