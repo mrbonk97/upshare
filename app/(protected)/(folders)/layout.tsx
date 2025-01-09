@@ -10,7 +10,7 @@ const FoldersLayout = async ({ children }: Props) => {
     <>
       <Topnav />
       <Leftnav />
-      <main className="pt-14 lg:pt-16 lg:pl-72 pr-5 h-full w-full bg-secondary">
+      <main className="pt-14 lg:pt-16 px-5 lg:pl-72 h-full w-full bg-secondary">
         <section className="p-4 h-full w-full rounded-t-xl bg-background">
           {children}
         </section>

@@ -1,10 +1,10 @@
 "use server";
 import { auth } from "@/auth";
-import { FolderType } from "@/constants/type";
+import { FileType } from "@/constants/type";
 import { getDbPool } from "@/lib/db";
 
-export const getFolderAction = async (): Promise<FolderType[]> => {
-  const query = "SELECT * FROM upshare_folder WHERE user_id = @user_id";
+export const getFileAction = async (): Promise<FileType[]> => {
+  const query = "SELECT * FROM upshare_file WHERE user_id = @user_id";
   const session = await auth();
   if (!session) throw new Error("오류: [폴더] 로그인이 필요한 서비스");
 

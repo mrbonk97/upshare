@@ -20,20 +20,21 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       },
       authorize: async (credentials) => {
         let user = null;
-        const username = credentials.username;
-        const pwHash = credentials.password;
-        if (typeof username != "string") throw new Error("아이디가 없음");
-        if (typeof pwHash != "string") throw new Error("패스워드가 없음");
+        if (typeof credentials.username != "string")
+          throw new Error("아이디가 없음");
+        if (typeof credentials.password != "string")
+          throw new Error("패스워드가 없음");
 
         try {
           user = await fetch("http://localhost:3000/api/users/sign-in", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-              username,
-              pwHash,
+              username: credentials.username,
+              password: credentials.password,
             }),
           }).then((res) => res.json());
+
           console.log("로그인 성공 유저:", user.id);
         } catch (e) {
           console.log(e);

@@ -23,7 +23,7 @@ CREATE TABLE upshare_folder
 
 CREATE TABLE upshare_file (
     file_id INT IDENTITY(1,1) PRIMARY KEY,
-    folder_id INT NOT NULL,
+    folder_id INT NULL,
     user_id INT NOT NULL,
     file_name NVARCHAR(255) NOT NULL,
     file_url NVARCHAR(MAX) NOT NULL,

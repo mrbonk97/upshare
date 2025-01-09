@@ -1,4 +1,4 @@
-import { getConnection } from "@/lib/db";
+import { getDbPool } from "@/lib/db";
 import { User } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -7,7 +7,7 @@ const query = "SELECT * FROM upshare_user WHERE username = @username";
 export const POST = async (req: NextRequest, res: NextResponse) => {
   const data = await req.json();
 
-  const pool = await getConnection();
+  const pool = await getDbPool();
   const request = pool.request();
 
   request.input("username", data.username);

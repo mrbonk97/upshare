@@ -1,11 +1,12 @@
+import { getFileAction } from "@/app/actions/file/get-file-action";
 import { getFolderAction } from "@/app/actions/folder/get-folder-action";
-import { FileTable } from "@/components/file-table";
 import { FolderCrumb } from "@/components/folder-crumb";
+import { FileTable } from "@/components/table/file-table";
 import { FerrisWheelIcon } from "lucide-react";
 
 const FoldersPage = async () => {
-  const data = await getFolderAction();
-  console.log(data);
+  const folderList = await getFolderAction();
+  const fileList = await getFileAction();
 
   return (
     <>
@@ -13,7 +14,7 @@ const FoldersPage = async () => {
         <FolderCrumb />
         <FerrisWheelIcon size={22} className="opacity-80" />
       </div>
-      <FileTable />
+      <FileTable folderList={folderList} fileList={fileList} />
     </>
   );
 };
