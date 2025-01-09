@@ -11,7 +11,6 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { createFolder } from "@/app/actions";
 import { usePathname } from "next/navigation";
 
 interface Props {
@@ -30,7 +29,7 @@ export const FileUploadModal = ({ children }: Props) => {
           <DialogDescription>현재 경로에 폴더를 생성합니다.</DialogDescription>
           <form
             className="pt-5 h-40 flex flex-col justify-between"
-            action={createFolder}
+            action={() => {}}
           >
             <input type="hidden" name="folderId" value={folderId} />
             <input type="file" name="file" />

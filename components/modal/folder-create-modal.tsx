@@ -11,8 +11,8 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { createFolder } from "@/app/actions";
 import { usePathname } from "next/navigation";
+import { createFolderAction } from "@/app/actions/folder/get-folder-action";
 
 interface Props {
   children: React.ReactNode;
@@ -30,9 +30,17 @@ export const FolderCreateModal = ({ children }: Props) => {
           <DialogDescription>현재 경로에 폴더를 생성합니다.</DialogDescription>
           <form
             className="pt-5 h-40 flex flex-col justify-between"
-            action={createFolder}
+            action={(data) => {
+              createFolderAction(data);
+            }}
           >
-            <input type="hidden" name="parentFolderId" value={parentFolder} />
+            <input
+              readOnly
+              aria-hidden
+              type="hidden"
+              name="parentFolderId"
+              value={parentFolder}
+            />
             <Input
               name="folderName"
               className="py-6"
