@@ -4,7 +4,7 @@ import Image from "next/image";
 
 export const Topnav = () => {
   return (
-    <nav className="fixed top-0 left-0 px-5 lg:px-10 h-14 lg:h-16 w-full flex items-center justify-between gap-2">
+    <nav className="fixed z-20 top-0 left-0 px-5 lg:px-10 h-14 lg:h-16 w-full flex items-center justify-between gap-2">
       <div className="hidden lg:block" />
       <form action={"/search"} className="relative w-full lg:w-96">
         <input

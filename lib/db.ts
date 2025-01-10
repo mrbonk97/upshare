@@ -19,6 +19,8 @@ const sqlConfig = {
 const pool = new sql.ConnectionPool(sqlConfig);
 
 export const getDbPool = async () => {
+  console.log(sqlConfig);
+
   try {
     if (!pool.connected) {
       console.log("DB 연결중...");

@@ -8,7 +8,7 @@ import Image from "next/image";
 
 export const Leftnav = () => {
   return (
-    <aside className="fixed z-10 top-0 left-0 hidden lg:block pt-20 px-5 h-full w-72 font-semibold">
+    <aside className="fixed z-30 top-0 left-0 hidden lg:block pt-20 px-5 h-full w-72 font-semibold">
       <div className="space-y-5 text-xl">
         <Link href={"/folders"} className="flex justify-center">
           <Image src={"/file-share.svg"} alt="logo" height={128} width={128} />
