@@ -1,6 +1,5 @@
 import { auth } from "@/auth";
 import { Footer } from "@/components/nav/footer";
-import { Topnav2 } from "@/components/nav/top-nav2";
 import { redirect } from "next/navigation";
 
 interface Props {
@@ -13,7 +12,6 @@ const ProtectedLayout = async ({ children }: Props) => {
 
   return (
     <>
-      <Topnav2 />
       {children}
       <Footer />
     </>
