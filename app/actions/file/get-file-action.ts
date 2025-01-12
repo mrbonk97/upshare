@@ -12,6 +12,7 @@ export const getFileAction = async (): Promise<FileType[]> => {
   const request = pool.request();
   request.input("user_id", session.user!.id);
   const result = await request.query(query);
+  pool.close();
 
   return result.recordset;
 };

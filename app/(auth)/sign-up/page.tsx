@@ -13,7 +13,6 @@ import { Input } from "@/components/ui/input";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { signIn } from "@/auth";
 import { SignUpAction } from "@/app/actions/user/sign-up-action";
 
 const formSchema = z.object({
@@ -35,10 +34,7 @@ const SignUpPage = () => {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    const result = await SignUpAction(values.username, values.password);
-    const formData = new FormData();
-    formData.append("username", values.username);
-    formData.append("password", values.password);
+    await SignUpAction(values.username, values.password);
   }
 
   return (

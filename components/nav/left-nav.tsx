@@ -6,7 +6,11 @@ import { LinkList } from "./link-list";
 import Link from "next/link";
 import Image from "next/image";
 
-export const Leftnav = () => {
+interface Props {
+  folderId: string | undefined;
+}
+
+export const Leftnav = ({ folderId }: Props) => {
   return (
     <aside className="fixed z-30 top-0 left-0 hidden lg:block pt-20 px-5 h-full w-72 font-semibold">
       <div className="space-y-5 text-xl">
@@ -19,7 +23,7 @@ export const Leftnav = () => {
             파일 업로드
           </button>
         </FileUploadModal>
-        <FolderCreateModal>
+        <FolderCreateModal folderId={folderId}>
           <button className="py-3 w-full rounded-xl bg-blue-400 text-background">
             <FolderPlusIcon className="inline mr-2 mb-1" />
             폴더 생성

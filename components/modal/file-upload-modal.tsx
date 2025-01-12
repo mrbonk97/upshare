@@ -9,17 +9,13 @@ import {
   DialogTrigger,
   DialogClose,
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { usePathname } from "next/navigation";
 
 interface Props {
   children: React.ReactNode;
 }
 
 export const FileUploadModal = ({ children }: Props) => {
-  let folderId = usePathname().split("/").at(-1);
-
   return (
     <Dialog>
       <DialogTrigger asChild>{children}</DialogTrigger>
@@ -31,7 +27,7 @@ export const FileUploadModal = ({ children }: Props) => {
             className="pt-5 h-40 flex flex-col justify-between"
             action={() => {}}
           >
-            <input type="hidden" name="folderId" value={folderId} />
+            <input type="hidden" name="folderId" value={""} />
             <input type="file" name="file" />
 
             <div className="grid grid-cols-5 gap-2">

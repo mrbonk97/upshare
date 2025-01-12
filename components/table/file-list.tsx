@@ -1,6 +1,5 @@
 import { EllipsisIcon } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
 
 interface Props {
   fileId: string;
@@ -14,6 +13,7 @@ export const FileList = ({ fileId, fileName }: Props) => {
       role="row"
       className="px-2 py-4 grid grid-cols-10 cursor-pointer hover:bg-blue-50 duration-150"
     >
+      {fileId}
       <div role="cell" className="col-span-4">
         <Image
           src={"/icons/005-doc.svg"}

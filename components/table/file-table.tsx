@@ -1,7 +1,4 @@
 import { FileType, FolderType } from "@/constants/type";
-import { EllipsisIcon } from "lucide-react";
-import Image from "next/image";
-import Link from "next/link";
 import { FolderList } from "./folder-list";
 import { FileList } from "./file-list";
 

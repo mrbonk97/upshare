@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 const query = "SELECT * FROM upshare_user WHERE username = @username";
 
-export const POST = async (req: NextRequest, res: NextResponse) => {
+export const POST = async (req: NextRequest) => {
   const data = await req.json();
 
   const pool = await getDbPool();

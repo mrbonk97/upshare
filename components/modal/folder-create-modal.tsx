@@ -19,7 +19,6 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { usePathname } from "next/navigation";
 import { createFolderAction } from "@/app/actions/folder/create-folder-action";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -27,32 +26,33 @@ import { useState } from "react";
 import { Spinner } from "../spinner";
 
 const formSchema = z.object({
-  parentFolderId: z.string() || z.null(),
+  curFolderId: z.string() || z.null(),
   folderName: z
     .string()
     .min(2, { message: "2글자 이상을 입력해주세요" })
-    .max(30, { message: "30글자 이하를 입력해주세요" }),
+    .max(20, { message: "20글자 이하를 입력해주세요" }),
 });
 
 interface Props {
+  folderId: string | undefined;
   children: React.ReactNode;
 }
 
-export const FolderCreateModal = ({ children }: Props) => {
+export const FolderCreateModal = ({ folderId, children }: Props) => {
   const [open, setIsOpen] = useState(false);
-  let parentFolder = usePathname().split("/").at(-1);
+  console.log("폴더 만드는 모달 현재 폴더", folderId);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       folderName: "",
-      parentFolderId: parentFolder,
+      curFolderId: folderId,
     },
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     const result = await createFolderAction(
-      values.parentFolderId,
+      values.curFolderId,
       values.folderName
     );
 
@@ -77,7 +77,7 @@ export const FolderCreateModal = ({ children }: Props) => {
                 <>
                   <FormField
                     control={form.control}
-                    name="parentFolderId"
+                    name="curFolderId"
                     render={({ field }) => (
                       <FormItem className="hidden">
                         <FormControl>
