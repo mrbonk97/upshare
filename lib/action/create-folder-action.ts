@@ -46,7 +46,5 @@ export const createFolderAction = async (
     await transaction.rollback();
     console.error("폴더 생성 실패:", error);
     throw error;
-  } finally {
-    pool.close();
   }
 };

@@ -16,7 +16,6 @@ export const GET = auth(async function GET(req) {
   const request = pool.request();
   request.input("user_id", userId);
   const result = await request.query(query);
-  pool.close();
 
   return NextResponse.json(
     { message: "success", data: result.recordset },

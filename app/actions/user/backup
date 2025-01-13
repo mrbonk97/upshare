@@ -1,0 +1,57 @@
+"use server";
+import { getDbPool } from "@/lib/db";
+
+const query1 = `INSERT INTO upshare_user(username, password_hash, oauth_provider) 
+                OUTPUT INSERTED.user_id 
+                VALUES(@username, @password_hash, 'local')`;
+
+const query2 = `INSERT INTO upshare_folder(user_id, folder_name) 
+                OUTPUT INSERTED.folder_id 
+                VALUES(@user_id, '-')`;
+
+const query3 = `UPDATE upshare_user 
+                SET default_folder_id = @folder_id 
+                WHERE user_id = @user_id`;
+
+export const SignUpAction = async (username: string, password: string) => {
+  if (!username) throw new Error("유저 이름이 비어있습니다");
+  if (!password) throw new Error("패스워드가 비어있습니다");
+
+  const pool = await getDbPool();
+  const transaction = pool.transaction();
+
+  try {
+    await transaction.begin(); // 트랜잭션 시작
+
+    const request = transaction.request();
+    request.input("username", username);
+    request.input("password_hash", password);
+
+    // query1 실행: 사용자 생성
+    const result1 = await request.query(query1);
+    if (result1.rowsAffected[0] !== 1) throw new Error("회원가입 실패");
+    const userId = result1.recordset[0].user_id;
+
+    // query2 실행: 기본 폴더 생성
+    request.input("user_id", userId);
+    const result2 = await request.query(query2);
+    if (result2.rowsAffected[0] !== 1) throw new Error("폴더 생성 실패");
+    const folderId = result2.recordset[0].folder_id;
+
+    // query3 실행: 사용자 기본 폴더 ID 업데이트
+    request.input("folder_id", folderId);
+    const result3 = await request.query(query3);
+    if (result3.rowsAffected[0] !== 1) throw new Error("폴더 ID 업데이트 실패");
+
+    await transaction.commit();
+    console.log("회원가입 성공: ", username);
+
+    return { status: "success" };
+  } catch (error) {
+    await transaction.rollback();
+    console.error("회원가입 실패:", error);
+    throw error;
+  } finally {
+    pool.close();
+  }
+};

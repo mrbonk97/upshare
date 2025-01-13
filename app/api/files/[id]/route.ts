@@ -18,7 +18,6 @@ export const GET = auth(async function GET(req, { params }) {
   request.input("user_id", userId);
   request.input("folder_id", folderId);
   const result = await request.query(query);
-  pool.close();
 
   return NextResponse.json(
     { message: "success", data: result.recordset },
