@@ -31,8 +31,6 @@ export const createFolderAction = async (
     if (result1.rowsAffected[0] !== 1) throw new Error("폴더 생성 실패");
     const child_folder_id = result1.recordset[0].folder_id;
 
-    console.log(curFolderId);
-
     if (curFolderId != undefined) {
       // query2 실행: 기본 폴더 생성
       request.input("folder_id", curFolderId);
@@ -43,8 +41,7 @@ export const createFolderAction = async (
 
     await transaction.commit();
     console.log("폴더 생성 성공");
-
-    return { status: "success" };
+    return { message: "success" };
   } catch (error) {
     await transaction.rollback();
     console.error("폴더 생성 실패:", error);

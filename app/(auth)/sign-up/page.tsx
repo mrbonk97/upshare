@@ -13,7 +13,7 @@ import { Input } from "@/components/ui/input";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { SignUpAction } from "@/app/actions/user/sign-up-action";
+import { SignUpAction } from "@/lib/action/sign-up-action";
 
 const formSchema = z.object({
   username: z.string().min(2, {

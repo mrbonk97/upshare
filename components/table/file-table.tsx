@@ -1,13 +1,22 @@
+"use client";
+
+import useSWR from "swr";
 import { FileType, FolderType } from "@/constants/type";
-import { FolderList } from "./folder-list";
-import { FileList } from "./file-list";
+import { FolderList } from "@/components/table/folder-list";
+import { FileList } from "@/components/table/file-list";
+import { Fetcher } from "@/lib/utils";
 
 interface Props {
-  folderList: FolderType[];
-  fileList: FileType[];
+  folderId: string | undefined;
 }
 
-export const FileTable = ({ folderList, fileList }: Props) => {
+export const FileTable = ({ folderId }: Props) => {
+  const params = folderId ? `/${folderId}` : "";
+  const folderSWR = useSWR(`/api/folders${params}`, Fetcher);
+  const fileSWR = useSWR(`/api/files${params}`, Fetcher);
+
+  console.log(folderId);
+
   return (
     <div role="table" className="w-full font-medium opacity-80">
       <div role="tablehead" className="px-2 mt-5 border-y py-2">
@@ -33,21 +42,23 @@ export const FileTable = ({ folderList, fileList }: Props) => {
         </div>
       </div>
       <div role="tablebody">
-        {folderList.map((item) => (
-          <FolderList
-            key={`folder-${item.folder_id}`}
-            folderId={item.folder_id}
-            folderName={item.folder_name}
-          />
-        ))}
-        {fileList.map((item) => (
-          <FileList
-            key={`file-${item.file_id}`}
-            fileId={item.file_id}
-            fileName={item.file_name}
-            createdAt={item.created_at}
-          />
-        ))}
+        {folderSWR.data &&
+          folderSWR.data.data.map((item: FolderType) => (
+            <FolderList
+              key={`folder-${item.folder_id}`}
+              folderId={item.folder_id}
+              folderName={item.folder_name}
+            />
+          ))}
+        {fileSWR.data &&
+          fileSWR.data.data.map((item: FileType) => (
+            <FileList
+              key={`file-${item.file_id}`}
+              fileId={item.file_id}
+              fileName={item.file_name}
+              createdAt={item.created_at}
+            />
+          ))}
       </div>
     </div>
   );

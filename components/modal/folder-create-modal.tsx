@@ -19,14 +19,15 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { createFolderAction } from "@/app/actions/folder/create-folder-action";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { Spinner } from "../spinner";
+import { createFolderAction } from "@/lib/action/create-folder-action";
+import { mutate } from "swr";
 
 const formSchema = z.object({
-  curFolderId: z.string() || z.null(),
+  curFolderId: z.string().optional(),
   folderName: z
     .string()
     .min(2, { message: "2글자 이상을 입력해주세요" })
@@ -40,7 +41,6 @@ interface Props {
 
 export const FolderCreateModal = ({ folderId, children }: Props) => {
   const [open, setIsOpen] = useState(false);
-  console.log("폴더 만드는 모달 현재 폴더", folderId);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -56,7 +56,11 @@ export const FolderCreateModal = ({ folderId, children }: Props) => {
       values.folderName
     );
 
-    if (result.status == "success") setIsOpen(false);
+    if (result.message == "success") {
+      const params = folderId ? `/${folderId}` : "";
+      mutate(`/api/folders${params}`);
+      setIsOpen(false);
+    }
   }
 
   return (

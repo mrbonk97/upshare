@@ -26,11 +26,12 @@ CREATE TABLE upshare_file (
     folder_id INT NULL,
     user_id INT NOT NULL,
     file_name NVARCHAR(255) NOT NULL,
-    file_url NVARCHAR(MAX) NOT NULL,
-    file_size BIGINT NULL,
-    file_type NVARCHAR(50) NULL,
+    file_extension NVARCHAR(10),             -- 파일 확장자 (예: jpg, pdf 등)
+    file_size BIGINT,                        -- 파일 크기 (바이트 단위)
+    file_data VARBINARY(MAX) NOT NULL,       -- 파일 데이터 (최대 2GB)
+    UploadDate DATETIME DEFAULT GETDATE(),  -- 업로드 날짜 (기본값: 현재 시간)
     created_at DATETIME DEFAULT GETDATE(),
-    updated_at DATETIME DEFAULT GETDATE()
+    updated_at DATETIME DEFAULT GETDATE(),
 );
 
 CREATE TABLE upshare_folder_relation (
