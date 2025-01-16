@@ -1,50 +1,43 @@
 "use server";
 import { auth } from "@/auth";
-import { getDbPool } from "@/lib/db";
+import { getDb } from "../db";
+import oracledb from "oracledb";
+import { CustomError } from "../error";
 
-const query1 = `INSERT INTO upshare_folder(user_id, folder_name) 
-                OUTPUT INSERTED.folder_id
-                VALUES(@user_id, @folder_name)`;
+const SQL1 = `
+INSERT INTO upshare_folder(user_id, folder_name) 
+VALUES(:user_id, :folder_name)
+RETURNING folder_id INTO :folder_id`;
 
-const query2 = `INSERT INTO upshare_folder_relation(folder_id, child_folder_id)
-                VALUES(@folder_id, @child_folder_id)`;
+const SQL2 = `
+INSERT INTO upshare_folder_relation(folder_id, child_folder_id)
+VALUES(:folder_id, :child_folder_id)`;
 
-export const createFolderAction = async (
-  curFolderId: string | undefined,
-  folderName: string
-) => {
+export const createFolderAction = async (curFolderId: string | undefined, folderName: string) => {
   const session = await auth();
   if (!session) throw new Error("오류: [폴더] 로그인이 필요한 서비스");
+  const userId = session.user!.id;
 
-  const pool = await getDbPool();
-  const transaction = pool.transaction();
+  const conn = await getDb();
 
   try {
-    await transaction.begin(); // 트랜잭션 시작
+    const result1 = await conn.execute<{ folder_id: string }>(SQL1, {
+      user_id: userId,
+      folder_name: folderName,
+      folder_id: { type: oracledb.NUMBER, dir: oracledb.BIND_OUT },
+    });
 
-    const request = transaction.request();
-    request.input("user_id", session.user?.id);
-    request.input("folder_name", folderName);
+    if (result1.rowsAffected != 1) throw new CustomError("폴더 생성 오류", 500, "원인 불명의 오류");
+    const folderId = result1.outBinds!.folder_id[0];
+    if (curFolderId != undefined) await conn.execute(SQL2, [curFolderId, folderId]);
 
-    // query1 실행: 사용자 생성
-    const result1 = await request.query(query1);
-    if (result1.rowsAffected[0] !== 1) throw new Error("폴더 생성 실패");
-    const child_folder_id = result1.recordset[0].folder_id;
-
-    if (curFolderId != undefined) {
-      // query2 실행: 기본 폴더 생성
-      request.input("folder_id", curFolderId);
-      request.input("child_folder_id", child_folder_id);
-      const result2 = await request.query(query2);
-      if (result2.rowsAffected[0] !== 1) throw new Error("폴더 매핑 실패");
-    }
-
-    await transaction.commit();
-    console.log("폴더 생성 성공");
+    await conn.commit();
+    console.log("[INFO] 폴더 생성 성공: ", folderId);
     return { message: "success" };
   } catch (error) {
-    await transaction.rollback();
-    console.error("폴더 생성 실패:", error);
-    throw error;
+    await conn.rollback();
+    throw new CustomError("폴더 생성 오류", 500, "원인 불명의 오류");
+  } finally {
+    await conn.close();
   }
 };

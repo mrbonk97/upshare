@@ -9,128 +9,121 @@ import {
   DialogTrigger,
   DialogClose,
 } from "@/components/ui/dialog";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { z } from "zod";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
+import { useCallback } from "react";
+import { FileWithPath, useDropzone } from "react-dropzone";
 import { CloudUploadIcon, XIcon } from "lucide-react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+import Image from "next/image";
+import { convertByte } from "@/lib/utils";
+import { useMyFile } from "@/hooks/use-file";
 
 interface Props {
+  folderId: string | undefined;
   children: React.ReactNode;
 }
 
-const formSchema = z.object({
-  file: z.instanceof(FileList).optional(),
-});
+export const FileUploadModal = ({ folderId, children }: Props) => {
+  const [myFiles, setMyFiles, checkAndAppendFile] = useMyFile();
 
-export const FileUploadModal = ({ children }: Props) => {
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-  });
+  const onDrop = useCallback(
+    (acceptedFiles: FileWithPath[]) => checkAndAppendFile(acceptedFiles),
+    [checkAndAppendFile]
+  );
 
-  const fileRef = form.register("file");
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
-  }
-
-  const handleRemove = () => {
-    const dataTransfer = new DataTransfer(); // 새 FileList 생성
-    const fileList = form.getValues("file");
-    if (!fileList) return;
-
-    Array.from(fileList).forEach((file, index) => {
-      if (index !== 1) {
-        dataTransfer.items.add(file); // 제외할 파일을 건너뛰고 추가
-      }
-    });
-
-    form.setValue("file", dataTransfer.files);
+  const removeFile = (file: FileWithPath) => () => {
+    const newFiles = [...myFiles];
+    newFiles.splice(newFiles.indexOf(file), 1);
+    setMyFiles(newFiles);
   };
 
+  async function handleSubmit() {
+    const formData = new FormData();
+    if (folderId) formData.append("folder_id", folderId);
+    myFiles.map((item) => formData.append("files", item));
+    const result = await fetch("/api/files", {
+      method: "POST",
+      body: formData,
+    });
+    console.log(result);
+  }
+
+  const files = myFiles.map((file, idx) => (
+    <li
+      key={`${file.path}-file${idx}`}
+      className="relative p-2 px-4 flex gap-2 bg-secondary rounded-xl"
+    >
+      <Image
+        src={"/icons/004-disc.svg"}
+        alt="icon"
+        height={36}
+        width={36}
+        className="h-full"
+      />
+      <div className="w-0 flex-grow">
+        <p className="overflow-hidden text-ellipsis whitespace-nowrap text-sm font-medium opacity-80">
+          {file.name}
+        </p>
+        <p className="text-xs font-medium opacity-70">
+          {convertByte(file.size)}
+        </p>
+      </div>
+      <XIcon
+        role="button"
+        className="absolute top-2 right-2 hover:opacity-80"
+        size={18}
+        opacity={80}
+        onClick={removeFile(file)}
+      />
+    </li>
+  ));
+
   return (
-    <Dialog>
+    <Dialog
+      onOpenChange={() => {
+        setMyFiles([]);
+      }}
+    >
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>파일 업로드</DialogTitle>
           <DialogDescription>현재 경로에 파일을 추가합니다.</DialogDescription>
         </DialogHeader>
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-            <FormField
-              control={form.control}
-              name="file"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="w-full h-40 border-2 border-dashed rounded-xl cursor-pointer flex2 flex-col">
-                    <CloudUploadIcon size={72} className="text-blue-400" />
-                    <p className="text-center text-lg font-semibold opacity-80">
-                      파일을 선택해주세요
-                    </p>
-                    <p className="text-center text-xs font-medium opacity-60">
-                      최대 20MB까지 가능
-                    </p>
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      type="file"
-                      multiple
-                      aria-hidden
-                      className="hidden"
-                      {...fileRef}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <Button type="button" onClick={() => handleRemove()}>
-              히히
+        <div
+          {...getRootProps()}
+          className="w-full h-40 rounded-xl border-2 border-dashed flex2 flex-col gap-1 cursor-pointer"
+        >
+          <input {...getInputProps()} />
+          <CloudUploadIcon size={48} className="text-blue-400" />
+
+          <p className="font-medium opacity-70">
+            {isDragActive
+              ? "여기에 떨어트리세요"
+              : "파일을 드래그 하거나 클릭하세요"}
+          </p>
+          <p className="font-medium text-sm opacity-60">
+            파일별 20MB까지 업로드 가능
+          </p>
+        </div>
+
+        <ul className="max-h-52 overflow-y-auto space-y-2">{files}</ul>
+        <div className="grid grid-cols-5 gap-2">
+          <Button
+            onClick={() => handleSubmit()}
+            type="button"
+            className="py-6 col-span-4"
+            disabled={myFiles.length == 0}
+          >
+            업로드
+          </Button>
+          <DialogClose asChild>
+            <Button variant={"destructive"} className="py-6 col-span-1">
+              취소
             </Button>
-            <ul className="mt-5 space-y-2">
-              {form.getValues("file") &&
-                Array.from({ length: form.getValues("file").length }).map(
-                  (_, idx) => {
-                    return (
-                      <li
-                        key={idx}
-                        className="p-2 px-4 bg-blue-100 rounded-xl flex justify-between items-center"
-                      >
-                        <span className="font-medium opacity-80">
-                          {form.getValues("file")![idx].name}
-                        </span>
-                        <button className="p-1 bg-secondary rounded-full">
-                          <XIcon size={20} />
-                        </button>
-                      </li>
-                    );
-                  }
-                )}
-            </ul>
-            <div className="mt-5 grid grid-cols-5 gap-2">
-              <Button type="submit" className="py-6 col-span-4">
-                업로드
-              </Button>
-              <DialogClose asChild>
-                <Button variant={"destructive"} className="py-6 col-span-1">
-                  취소
-                </Button>
-              </DialogClose>
-            </div>
-          </form>
-        </Form>
+          </DialogClose>
+        </div>
       </DialogContent>
     </Dialog>
   );

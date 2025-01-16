@@ -1,20 +1,32 @@
+export type UpshareUserType = {
+  USER_ID: number;
+  USERNAME: string;
+  EMAIL: string | null;
+  IMAGE: string | null;
+  PASSWORD_HASH: string;
+  OAUTH_PROVIDER: string;
+  OAUTH_USER_ID: string | null;
+  CREATED_AT: Date;
+  UPDATED_AT: Date;
+  IS_ACTIVE: number;
+};
+
 export type FolderType = {
-  folder_id: string;
-  parent_folder_id: string | null;
-  user_id: string;
-  folder_name: string;
-  created_at: string;
-  updated_at: string;
+  FOLDER_ID: string;
+  PARENT_FOLDER_ID: string | null;
+  USER_ID: string;
+  FOLDER_NAME: string;
+  CREATED_AT: string;
+  UPDATED_AT: string;
 };
 
 export type FileType = {
-  file_id: string;
-  folder_id: string | null;
-  user_id: string;
-  file_name: string;
-  file_url: string;
-  file_size: string;
-  file_type: string;
-  created_at: string;
-  updated_at: string;
+  FILE_ID: string;
+  USER_ID: string;
+  FOLDER_ID: string;
+  FILE_NAME: string;
+  FILE_SIZE: number;
+  FILE_EXTENSION: string;
+  CREATED_AT: string;
+  UPDATED_AT: string;
 };

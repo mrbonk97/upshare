@@ -33,7 +33,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
               username: credentials.username,
               password: credentials.password,
             }),
-          }).then((res) => res.json());
+          })
+            .then((res) => res.json())
+            .then((res) => res.data.user);
 
           console.log("로그인 성공 유저:", user.id);
         } catch (e) {

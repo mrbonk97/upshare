@@ -1,39 +1,42 @@
-import { getDbPool } from "@/lib/db";
-import { User } from "next-auth";
+import { executeSql } from "@/lib/db";
+import { CustomError } from "@/lib/error";
+import { UpshareUserType } from "@/constants/type";
 import { NextRequest, NextResponse } from "next/server";
 
-const query = "SELECT * FROM upshare_user WHERE username = @username";
+const SQL = "SELECT * FROM upshare_user WHERE username = :username";
 
-export const POST = async (req: NextRequest) => {
+export async function POST(req: NextRequest) {
   const data = await req.json();
+  const username = data.username;
+  const password = data.password;
 
-  const pool = await getDbPool();
-  const request = pool.request();
+  if (!username) throw new CustomError("로그인 오류", 400, "username이 없습니다");
+  if (!password) throw new CustomError("로그인 오류", 400, "password가 없습니다");
 
-  request.input("username", data.username);
-  const result = await request.query(query);
+  const result = await executeSql<UpshareUserType>(SQL, [username]);
+  const user = result.rows![0];
 
-  if (result.rowsAffected[0] == 0)
-    throw new Error("오류: [로그인] 일치하는 계정이 없습니다.");
+  if (result.rows?.length == 0)
+    throw new CustomError("로그인 오류", 401, `일치하는 아이디가 없습니다. username: ${username}`);
+  if (user.IS_ACTIVE == 0)
+    throw new CustomError("로그인 오류", 401, `계정이 잠겨있습니다. ID: ${user.USER_ID}`);
+  if (user.OAUTH_PROVIDER != "local")
+    throw new CustomError("로그인 오류", 401, `로그인 방식이 잘못되었습니다. ID: ${user.USER_ID}`);
+  if (user.PASSWORD_HASH != data.password)
+    throw new CustomError("로그인 오류", 401, `패스워드가 일치하지 않습니다. ID: ${user.USER_ID}`);
 
-  if (result.rowsAffected[0] > 1)
-    throw new Error("오류: [로그인] 일치하는 계정이 너무 많습니다.");
-
-  if (!result.recordset[0].is_active)
-    throw new Error("오류: [로그인] 계정이 잠겨있습니다.");
-
-  if (result.recordset[0].oauth_provider != "local")
-    throw new Error("오류: [로그인] 로그인 방식이 잘못되었습니다.");
-
-  if (result.recordset[0].password_hash != data.password)
-    throw new Error("오류: [로그인] 패스워드가 일치하지 않습니다.");
-
-  const user: User = {
-    id: result.recordset[0].user_id,
-    name: result.recordset[0].username,
-    email: result.recordset[0].email,
-    image: result.recordset[0].image,
-  };
-
-  return NextResponse.json(user, { status: 200 });
-};
+  return NextResponse.json(
+    {
+      message: "success",
+      data: {
+        user: {
+          id: user.USER_ID,
+          name: user.USERNAME,
+          email: user.EMAIL,
+          image: user.IMAGE,
+        },
+      },
+    },
+    { status: 200 }
+  );
+}

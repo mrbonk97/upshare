@@ -12,14 +12,11 @@ interface Props {
 
 export const FileTable = ({ folderId }: Props) => {
   const params = folderId ? `/${folderId}` : "";
-  const folderSWR = useSWR(`/api/folders${params}`, Fetcher);
-  const fileSWR = useSWR(`/api/files${params}`, Fetcher);
-
-  console.log(folderId);
+  const result = useSWR(`/api/folders${params}`, Fetcher);
 
   return (
     <div role="table" className="w-full font-medium opacity-80">
-      <div role="tablehead" className="px-2 mt-5 border-y py-2">
+      <div role="tablehead" className="sticky px-2 mt-5 border-y py-2">
         <div role="row" className="grid grid-cols-10">
           <div role="columnheader" className="col-span-4">
             파일명
@@ -42,21 +39,23 @@ export const FileTable = ({ folderId }: Props) => {
         </div>
       </div>
       <div role="tablebody">
-        {folderSWR.data &&
-          folderSWR.data.data.map((item: FolderType) => (
+        {result.data &&
+          result.data.data.folders.map((item: FolderType) => (
             <FolderList
-              key={`folder-${item.folder_id}`}
-              folderId={item.folder_id}
-              folderName={item.folder_name}
+              key={`folder-${item.FOLDER_ID}`}
+              folderId={item.FOLDER_ID}
+              folderName={item.FOLDER_NAME}
             />
           ))}
-        {fileSWR.data &&
-          fileSWR.data.data.map((item: FileType) => (
+        {result.data &&
+          result.data.data.files.map((item: FileType) => (
             <FileList
-              key={`file-${item.file_id}`}
-              fileId={item.file_id}
-              fileName={item.file_name}
-              createdAt={item.created_at}
+              key={`file-${item.FILE_ID}`}
+              fileId={item.FILE_ID}
+              fileName={item.FILE_NAME}
+              fileSize={item.FILE_SIZE}
+              fileExtension={item.FILE_EXTENSION}
+              createdAt={item.CREATED_AT}
             />
           ))}
       </div>
