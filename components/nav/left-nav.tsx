@@ -17,7 +17,7 @@ export const Leftnav = ({ folderId }: Props) => {
         <Link href={"/folders"} className="flex justify-center">
           <Image src={"/file-share.svg"} alt="logo" height={128} width={128} />
         </Link>
-        <FileUploadModal>
+        <FileUploadModal folderId={folderId}>
           <button className="py-3 w-full rounded-xl bg-blue-400 text-background">
             <ApertureIcon className="inline mr-2 mb-1" />
             파일 업로드
