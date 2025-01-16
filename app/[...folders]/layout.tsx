@@ -21,8 +21,8 @@ const FolderLayout = async ({ children, params }: Props) => {
     <>
       <Topnav />
       <Leftnav folderId={folderId} />
-      <main className="pt-14 lg:pt-16 px-5 lg:pl-72 h-full w-full bg-secondary">
-        <section className="p-4 h-full w-full rounded-t-xl bg-background">
+      <main className="pt-14 lg:pt-16 px-5 lg:pl-72 bg-secondary">
+        <section className="p-4 min-h-[calc(100vh-4rem)] rounded-t-xl bg-background overflow-y-auto">
           {children}
         </section>
       </main>
