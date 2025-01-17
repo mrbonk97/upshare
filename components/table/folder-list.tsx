@@ -12,9 +12,9 @@ export const FolderList = ({ folderId, folderName }: Props) => {
     <Link
       href={`/folders/${folderId}`}
       role="row"
-      className="px-2 py-4 grid grid-cols-10 cursor-pointer hover:bg-blue-50 duration-150"
+      className="px-2 py-4 grid grid-cols-10 gap-5 cursor-pointer hover:bg-blue-50 duration-150"
     >
-      <div role="cell" className="col-span-4">
+      <div role="cell" className="px-1 col-span-3">
         <Image
           src={"/icons/001-folder.svg"}
           alt="folder"
@@ -24,19 +24,19 @@ export const FolderList = ({ folderId, folderName }: Props) => {
         />
         {folderName}
       </div>
-      <div role="cell" className="col-span-2 text-center">
+      <div role="cell" className="px-1 col-span-2 text-right">
         -
       </div>
-      <div role="cell" className="col-span-1 text-center">
+      <div role="cell" className="px-1 col-span-1 text-right">
         -
       </div>
-      <div role="cell" className="col-span-1 text-center">
+      <div role="cell" className="px-1 col-span-2 text-center">
         -
       </div>
-      <div role="cell" className="col-span-1 text-center">
-        6일 남음
+      <div role="cell" className="px-1 col-span-1 text-center">
+        -
       </div>
-      <div role="cell" className="text-right col-span-1">
+      <div role="cell" className="px-1 col-span-1 text-right">
         <EllipsisIcon className="inline" />
       </div>
     </Link>

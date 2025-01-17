@@ -1,5 +1,5 @@
 import { convertByte, getFileIcon } from "@/lib/utils";
-import { EllipsisIcon } from "lucide-react";
+import { EllipsisIcon, XIcon } from "lucide-react";
 import Image from "next/image";
 
 interface Props {
@@ -25,9 +25,9 @@ export const FileList = ({
     <div
       role="row"
       onClick={() => handleDownload()}
-      className="px-2 py-4 grid grid-cols-10 cursor-pointer hover:bg-blue-50 duration-150"
+      className="px-2 py-4 grid grid-cols-10 gap-5 cursor-pointer hover:bg-blue-50 duration-150"
     >
-      <div role="cell" className="col-span-4">
+      <div role="cell" className="px-1 col-span-3">
         <Image
           src={getFileIcon(fileExtension)}
           alt="folder"
@@ -37,19 +37,19 @@ export const FileList = ({
         />
         {fileName}
       </div>
-      <div role="cell" className="col-span-2 text-center">
+      <div role="cell" className="px-1 col-span-2 text-right">
         {new Date(createdAt).toISOString().split("T")[0]}
       </div>
-      <div role="cell" className="col-span-1 text-center">
+      <div role="cell" className="px-1 col-span-1 text-right">
         {convertByte(fileSize)}
       </div>
-      <div role="cell" className="col-span-1 text-center">
-        -
+      <div role="cell" className="px-1 col-span-2 flex2">
+        <XIcon opacity={0.8} size={20} />
       </div>
-      <div role="cell" className="col-span-1 text-center">
+      <div role="cell" className="px-1 col-span-1 text-center">
         6일 남음
       </div>
-      <div role="cell" className="text-right col-span-1">
+      <div role="cell" className="px-1 col-span-1 text-right">
         <EllipsisIcon className="inline" />
       </div>
     </div>

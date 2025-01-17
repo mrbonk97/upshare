@@ -15,7 +15,7 @@ const FolderPage = async ({ params }: Props) => {
   return (
     <>
       <div className="p-2 flex justify-between">
-        <FolderCrumb />
+        <FolderCrumb folderId={folderId} />
         <FerrisWheelIcon size={22} className="opacity-80" />
       </div>
       <FileTable folderId={folderId} />

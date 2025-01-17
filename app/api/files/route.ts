@@ -8,7 +8,10 @@ VALUES(:folder_id, :user_id, :file_name, :file_extension, :file_size, :file_data
 
 export const POST = auth(async function (req) {
   if (!req.auth || !req.auth.user)
-    return NextResponse.json({ message: "[오류] 로그인이 필요한 서비스" }, { status: 401 });
+    return NextResponse.json(
+      { message: "[오류] 로그인이 필요한 서비스" },
+      { status: 401 }
+    );
 
   const userId = req.auth.user.id;
   const formData = await req.formData();
@@ -34,7 +37,7 @@ export const POST = auth(async function (req) {
       });
     }
 
-    conn.commit();
+    await conn.commit();
 
     return NextResponse.json({ message: "success" }, { status: 201 });
   } catch (e) {
@@ -45,6 +48,6 @@ export const POST = auth(async function (req) {
       { status: 500 }
     );
   } finally {
-    conn.close();
+    await conn.close();
   }
 });

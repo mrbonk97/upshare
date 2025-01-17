@@ -18,7 +18,10 @@ AND user_id = :user_id`;
 
 export const GET = auth(async function GET(req, { params }) {
   if (!req.auth || !req.auth.user)
-    return NextResponse.json({ message: "[오류] 로그인이 필요한 서비스" }, { status: 401 });
+    return NextResponse.json(
+      { message: "[오류] 로그인이 필요한 서비스" },
+      { status: 401 }
+    );
 
   const folderId = (await params)!.id;
   const userId = req.auth.user.id;
