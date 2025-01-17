@@ -15,12 +15,18 @@ export async function getDb() {
 
 export async function executeSql<T>(sql: string, binds: any[]) {
   const conn = await getDb();
-  const result = await conn.execute<T>(sql, binds, { outFormat: oracledb.OUT_FORMAT_OBJECT });
-  conn.close();
+  const result = await conn.execute<T>(sql, binds, {
+    outFormat: oracledb.OUT_FORMAT_OBJECT,
+  });
+  await conn.close();
   return result;
 }
 
-export async function executeQuery(sql: string, bind: any[], resultOption: boolean) {
+export async function executeQuery(
+  sql: string,
+  bind: any[],
+  resultOption: boolean
+) {
   const conn = await getDb();
   const result = await conn.execute(sql, bind, {
     resultSet: resultOption,
