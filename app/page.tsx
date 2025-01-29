@@ -1,148 +1,107 @@
-"use client";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
-import { Footer } from "@/components/footer";
-import { Spinner } from "@/components/spinner";
-import { Logo } from "@/components/logo";
-import { Reviews } from "@/constants/review";
+import { Button } from "@/components/ui/button";
+import Image from "next/image";
+import {
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSlot,
+} from "@/components/ui/input-otp";
 import Link from "next/link";
-import { redirect } from "next/navigation";
-import { MoveRight, RabbitIcon } from "lucide-react";
-import { motion } from "framer-motion";
-import { useUser } from "@/hooks/useUser";
 
-const variants = {
-  initial: {
-    opacity: 0,
-    y: 20,
-    viewport: { once: true },
-  },
-  inView: {
-    opacity: 1,
-    y: 0,
-    ease: "easeIn",
-    viewport: { once: true },
-  },
-  buttonInitial: {
-    opacity: 0,
-    x: -200,
-    viewport: { once: true },
-  },
-  buttonInView: {
-    opacity: 1,
-    x: 0,
-    viewport: { once: true },
-  },
-};
-
-const LandingPage = () => {
-  const [isPending, isSuccess] = useUser();
-  if (isSuccess) redirect("/home");
-
-  if (isPending)
-    return (
-      <main className="h-full flex2">
-        <Spinner />
-      </main>
-    );
-
+const Home = () => {
   return (
-    <main className="w-full pt-40 flex items-center flex-col gap-40">
-      <motion.div
-        variants={variants}
-        whileInView="inView"
-        initial="initial"
-        transition={{ duration: 0.5 }}
-        viewport={{ once: true }}
-      >
-        <Logo />
-      </motion.div>
-      <hgroup className="space-y-5">
-        <motion.h1
-          className="text-blue-400 text-center text-3xl sm:text-6xl sm:text-left font-semibold tracking-wider"
-          variants={variants}
-          whileInView="inView"
-          initial="initial"
-          transition={{ duration: 0.5, delay: 0.2 }}
-          viewport={{ once: true }}
-        >
-          파일 공유 서비스
-        </motion.h1>
-        <motion.p
-          className="text-primary/50 text-center text-xl sm:text-left sm:text-3xl font-semibold"
-          variants={variants}
-          whileInView="inView"
-          initial="initial"
-          transition={{ duration: 0.5, delay: 0.4 }}
-          viewport={{ once: true }}
-        >
-          외부 PC에서 안전하게 접속할 수 있습니다.
-        </motion.p>
-      </hgroup>
-
-      <motion.section
-        className="w-full flex2 sm:block sm:w-80 relative group"
-        variants={variants}
-        initial="buttonInitial"
-        whileInView="buttonInView"
-        transition={{ duration: 0.5, delay: 0.7, ease: "circOut" }}
-        viewport={{ once: true }}
-      >
-        <Link href={"/sign-in"}>
-          <div className="bg-blue-400 static flex2 sm:block sm:absolute h-16 w-64 sm:w-16 rounded-full bg-pc-500 peer group-hover:w-64 left-0 group-hover:left-4 duration-500 ease-in-out shadow-lg">
-            <MoveRight className="text-secondary-foreground sm:absolute sm:mt-3 ml-3 h-10 w-10 duration-300" />
-            <button className="text-2xl font-bold text-primary-foreground ml-2 mr-5 sm:hidden">
-              바로 시작하기
-            </button>
-          </div>
-          <button className="group-hover:text-primary-foreground text-primary/80 hidden sm:block w-full h-16 text-center text-2xl relative duration-300 font-bold tracking-wider">
-            바로 시작하기
-          </button>
-        </Link>
-      </motion.section>
-
-      <section className="mt-20 w-[95%] overflow-hidden">
-        <div className="w-[290rem] space-x-20">
-          {Reviews.map((item, idx) => {
-            return (
-              <Card
-                className={`inline-block h-72 overflow-hidden box`}
-                key={idx}
-              >
-                <CardHeader className="flex flex-row items-center gap-5">
-                  <RabbitIcon className="w-12 h-12 rounded-full flex2 bg-primary-foreground p-2 text-secondary" />
-                  <CardTitle className="text-lg">{item.title}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <span>{item.name}</span>
-                  <Separator className="my-2" />
-                  <p className="text-zinc-600">{item.desc}</p>
-                </CardContent>
-              </Card>
-            );
-          })}
+    <main className="h-full">
+      <Image
+        src={"/images/bg5.svg"}
+        alt="bg"
+        height={4000}
+        width={2500}
+        className="fixed -z-10 h-full w-full object-cover opacity-80"
+      />
+      <header className="h-16 px-10 flex items-center justify-end">
+        <div className="space-x-2">
+          <Button className="rounded-full" variant={"secondary"}>
+            로그인
+          </Button>
+          <Button className="rounded-full">회원가입</Button>
         </div>
-      </section>
-      <Separator className="ml-[10%] w-4/5 my-10" />
-      <section className="w-full px-[10%] sm:px-[20%] xl:px-[25%]">
-        <motion.hgroup
-          className="text-primary/90 text-xl sm:text-4xl font-semibold mb-40"
-          variants={variants}
-          initial="initial"
-          whileInView="inView"
-          transition={{ duration: 0.5, delay: 0.3 }}
-          viewport={{ once: true }}
-        >
-          <p className="leading-normal break-keep">
-            제가 필요해서 만들어 보았습니다.
-            <br /> 외부 PC에서 OneDrive나 카카오톡으로 로그인하시기
-            불편하셨다면, 한번 무료로 사용해보세요!
-          </p>
-        </motion.hgroup>
-      </section>
-      <Footer />
+      </header>
+      <div className="grid grid-cols-2 h-[calc(100%-4rem)]">
+        <section className="pt-20 p-5 col-span-1 flex justify-center">
+          <div className="w-fit space-y-10">
+            <div className="space-x-5">
+              <Image
+                src={"/file-share.svg"}
+                alt="logo"
+                height={128}
+                width={128}
+                className="inline"
+              />
+              <h1 className="translate-y-2 inline-block text-5xl font-bold opacity-80">
+                UpShare
+              </h1>
+            </div>
+            <h2 className="text-xl font-medium opacity-70">
+              보안적으로 너무나도 취약한, 그렇기에 가벼운 클라우드 스토리지
+            </h2>
+            <div className="p-5 w-[650px] border-y">
+              <p className="font-medium opacity-80 break-keep">
+                &quot;요즘 로그인 절차가 너무 복잡하다고 느끼시죠? 그래서 저희는
+                2FA를 없앴습니다. 물론, 조금 위험할 수 있지만, 스릴을 즐기자는
+                게 저희의 모토입니다.&quot;
+              </p>
+              <div className="mt-10 flex gap-5 items-center">
+                <div className="bg-rose-200 h-14 aspect-square rounded-full" />
+                <div className="mb-1">
+                  <span className="block text-lg font-medium opacity-80">
+                    김현석
+                  </span>
+                  <span className="block text-sm font-medium opacity-70">
+                    Front / Back 개발자
+                  </span>
+                </div>
+              </div>
+            </div>
+            <Link
+              className="inline-block h-14 w-36 flex2 font-medium rounded-full bg-blue-400 text-background hover:opacity-80 duration-150"
+              href={"/sign-up"}
+            >
+              시작하기
+            </Link>
+          </div>
+        </section>
+        <section className="p-5 col-span-1 flex2 flex-col gap-16">
+          <form className="p-5 w-2/3 max-w-[450px] flex flex-col items-center gap-14 bg-background shadow-lg rounded-xl">
+            <h2 className="w-full text-2xl font-semibold opacity-80">
+              파일 다운로드
+            </h2>
+            <Image
+              src={"/icons/attorney.svg"}
+              alt="bear"
+              height={128}
+              width={128}
+            />
+            <InputOTP maxLength={6} className="w-full">
+              <InputOTPGroup>
+                <InputOTPSlot index={0} />
+                <InputOTPSlot index={1} />
+                <InputOTPSlot index={2} />
+                <InputOTPSlot index={3} />
+                <InputOTPSlot index={4} />
+                <InputOTPSlot index={5} />
+              </InputOTPGroup>
+            </InputOTP>
+            <button className="my-5 py-4 w-full bg-blue-400 hover:bg-blue-300 duration-150 text-xl font-bold rounded-full text-background">
+              다운로드
+            </button>
+          </form>
+          <div role="button" className="relative h-14 w-24 cursor-pointer">
+            <div className="h-full bg-blue-400 rounded-full"></div>
+            <div className="absolute top-1/2 -translate-y-1/2 left-2 h-2/3 aspect-square rounded-full bg-background" />
+          </div>
+        </section>
+      </div>
     </main>
   );
 };
 
-export default LandingPage;
+export default Home;

@@ -1,0 +1,73 @@
+<svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 5736 2862" width="5736" height="2862">
+	<title>asdasd</title>
+	<defs>
+		<clipPath clipPathUnits="userSpaceOnUse" id="cp1">
+			<path d="m616.38 2303.47c-206.81-199.11-156.15-612.36-616.88-593.24v1152.58h1297.37c-144.19-488.02-485.25-371.37-680.49-559.34z"/>
+		</clipPath>
+		<linearGradient id="g1" x2="1" gradientUnits="userSpaceOnUse" gradientTransform="matrix(1252.301,-1352.041,1357.322,1257.193,-520.268,2381.386)">
+			<stop offset="0" stop-color="#0049e6"/>
+			<stop offset="1" stop-color="#2dd9ff"/>
+		</linearGradient>
+		<clipPath clipPathUnits="userSpaceOnUse" id="cp2">
+			<path d="m-2.5 1710.23c460.73-19.12 410.07 394.13 616.88 593.24 195.24 187.97 536.3 71.32 680.49 559.34h1013.39c-159.1-556.87-665.25-504.19-1014.31-676.75-476.99-235.81-347.45-336.63-650.08-642.45-322.32-325.72-646.37-250.91-646.37-250.91z"/>
+		</clipPath>
+		<linearGradient id="g2" x2="1" gradientUnits="userSpaceOnUse" gradientTransform="matrix(1352.035,-1325.569,1321.166,1347.544,-33.263,1806.803)">
+			<stop offset="0" stop-color="#0049e6"/>
+			<stop offset="1" stop-color="#2dd9ff"/>
+		</linearGradient>
+		<clipPath clipPathUnits="userSpaceOnUse" id="cp3">
+			<path d="m641.87 1543.61c302.63 305.82 173.09 406.64 650.08 642.45 349.06 172.56 855.21 119.88 1014.31 676.75h917.72c-323.74-1187.03-1196.23-736.45-1687.25-1070.38-476.87-324.3-589.8-1093.01-1541.23-965.11v465.38c0 0 324.05-74.81 646.37 250.91z"/>
+		</clipPath>
+		<linearGradient id="g3" x2="1" gradientUnits="userSpaceOnUse" gradientTransform="matrix(907.073,-1666.006,1872.153,1019.311,205.513,1947.245)">
+			<stop offset="0" stop-color="#0131b8"/>
+			<stop offset="1" stop-color="#0463ee"/>
+		</linearGradient>
+		<clipPath clipPathUnits="userSpaceOnUse" id="cp4">
+			<path d="m5119.31 559.09c206.82 199.11 156.15 612.36 616.88 593.24v-1152.58h-1297.36c144.19 488.02 485.24 371.38 680.48 559.34z"/>
+		</clipPath>
+		<linearGradient id="g4" x2="1" gradientUnits="userSpaceOnUse" gradientTransform="matrix(-1252.29,1352.029,-1357.31,-1257.182,6255.96,481.174)">
+			<stop offset="0" stop-color="#0049e6"/>
+			<stop offset="1" stop-color="#2dd9ff"/>
+		</linearGradient>
+		<clipPath clipPathUnits="userSpaceOnUse" id="cp5">
+			<path d="m5738.19 1152.33c-460.73 19.12-410.06-394.13-616.88-593.24-195.24-187.96-536.29-71.32-680.48-559.34h-1013.4c159.11 556.87 665.25 504.19 1014.31 676.75 477 235.81 347.45 336.63 650.08 642.45 322.32 325.72 646.37 250.91 646.37 250.91z"/>
+		</clipPath>
+		<linearGradient id="g5" x2="1" gradientUnits="userSpaceOnUse" gradientTransform="matrix(-1352.036,1325.57,-1321.166,-1347.544,5768.926,1055.786)">
+			<stop offset="0" stop-color="#0049e6"/>
+			<stop offset="1" stop-color="#2dd9ff"/>
+		</linearGradient>
+		<clipPath clipPathUnits="userSpaceOnUse" id="cp6">
+			<path d="m5093.82 1318.95c-302.63-305.82-173.08-406.64-650.08-642.45-349.06-172.56-855.2-119.88-1014.31-676.75h-917.72c323.74 1187.03 1196.23 736.45 1687.25 1070.38 476.87 324.3 589.8 1093.01 1541.23 965.11v-465.38c0 0-324.05 74.81-646.37-250.91z"/>
+		</clipPath>
+		<linearGradient id="g6" x2="1" gradientUnits="userSpaceOnUse" gradientTransform="matrix(-907.073,1666.007,-1872.154,-1019.312,5534.16,915.348)">
+			<stop offset="0" stop-color="#0131b8"/>
+			<stop offset="1" stop-color="#0463ee"/>
+		</linearGradient>
+	</defs>
+	<style>
+		.s0 { fill: url(#g1) } 
+		.s1 { fill: url(#g2) } 
+		.s2 { fill: url(#g3) } 
+		.s3 { fill: url(#g4) } 
+		.s4 { fill: url(#g5) } 
+		.s5 { fill: url(#g6) } 
+	</style>
+	<g id="&lt;Clip Group&gt;" clip-path="url(#cp1)">
+		<path id="&lt;Path&gt;" class="s0" d="m-0.5 2862.8h1297.4v-1171.7h-1297.4z"/>
+	</g>
+	<g id="&lt;Clip Group&gt;" clip-path="url(#cp2)">
+		<path id="&lt;Path&gt;" class="s1" d="m-2.5 2862.8h2310.8v-1644.9h-2310.8z"/>
+	</g>
+	<g id="&lt;Clip Group&gt;" clip-path="url(#cp3)">
+		<path id="&lt;Path&gt;" class="s2" d="m-4.5 2862.8h3228.5v-2163.4h-3228.5z"/>
+	</g>
+	<g id="&lt;Clip Group&gt;" clip-path="url(#cp4)">
+		<path id="&lt;Path&gt;" class="s3" d="m4438.8 1171.4h1297.4v-1171.7h-1297.4z"/>
+	</g>
+	<g id="&lt;Clip Group&gt;" clip-path="url(#cp5)">
+		<path id="&lt;Path&gt;" class="s4" d="m3427.4 1644.7h2310.8v-1645h-2310.8z"/>
+	</g>
+	<g id="&lt;Clip Group&gt;" clip-path="url(#cp6)">
+		<path id="&lt;Path&gt;" class="s5" d="m2515.7 2163.1h3228.5v-2163.4h-3228.5z"/>
+	</g>
+</svg>

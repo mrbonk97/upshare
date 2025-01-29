@@ -1,35 +1,30 @@
-import { Blocks, HeartIcon, HomeIcon } from "lucide-react";
+import { BlendIcon, BlocksIcon, HeartIcon } from "lucide-react";
 
-export const PROFILE_MENU = [
+export const LEFT_MENU = [
   {
-    title: "프로필 수정",
-    url: "/profile",
-  },
-  {
-    title: "FAQ",
-    url: "/profile?mode=faq",
-  },
-
-  {
-    title: "개인정보 처리방침",
-    url: "/profile?mode=policy",
-  },
-];
-
-export const MENU = [
-  {
-    title: "홈",
-    link: "/home",
-    icon: <HomeIcon size={14} className="text-rose-400" />,
-  },
-  {
-    title: "즐겨찾기",
-    link: "/folders/favorite",
-    icon: <HeartIcon size={14} className="text-rose-400" />,
+    title: "전체파일",
+    url: "/folders/all",
+    icon: (
+      <BlendIcon
+        size={18}
+        className="inline ml-5 mb-1"
+        strokeOpacity={0}
+        fill="#fb7185"
+        // fill="#60a5fa"
+      />
+    ),
   },
   {
     title: "공유중",
-    link: "/folders/share",
-    icon: <Blocks size={14} className="text-rose-400" />,
+    url: "/folders/share",
+    icon: (
+      <BlocksIcon
+        size={18}
+        className="inline ml-5 mb-1"
+        strokeOpacity={0}
+        fill="#fb7185"
+        // fill="#c084fc"
+      />
+    ),
   },
 ];

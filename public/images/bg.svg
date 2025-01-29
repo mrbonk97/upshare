@@ -1,0 +1,40 @@
+<svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4000 2500" width="4000" height="2500">
+	<title>23847b19-1d5c-4249-9f22-8827c6017007</title>
+	<defs>
+		<clipPath clipPathUnits="userSpaceOnUse" id="cp1">
+			<path d="m3382.31 561.09c206.82 199.11 156.15 612.36 616.88 593.24v-1152.58h-1297.36c144.19 488.02 485.24 371.38 680.48 559.34z"/>
+		</clipPath>
+		<linearGradient id="g1" x2="1" gradientUnits="userSpaceOnUse" gradientTransform="matrix(-1252.29,1352.029,-1357.31,-1257.182,4518.96,483.174)">
+			<stop offset="0" stop-color="#0049e6"/>
+			<stop offset="1" stop-color="#2dd9ff"/>
+		</linearGradient>
+		<clipPath clipPathUnits="userSpaceOnUse" id="cp2">
+			<path d="m3999.19 1154.33c-460.73 19.12-410.06-394.13-616.88-593.24-195.24-187.96-536.29-71.32-680.48-559.34h-1013.4c159.11 556.87 665.25 504.19 1014.31 676.75 477 235.81 347.45 336.63 650.08 642.45 322.32 325.72 646.37 250.91 646.37 250.91z"/>
+		</clipPath>
+		<linearGradient id="g2" x2="1" gradientUnits="userSpaceOnUse" gradientTransform="matrix(-1352.036,1325.57,-1321.166,-1347.544,4029.926,1057.786)">
+			<stop offset="0" stop-color="#0049e6"/>
+			<stop offset="1" stop-color="#2dd9ff"/>
+		</linearGradient>
+		<clipPath clipPathUnits="userSpaceOnUse" id="cp3">
+			<path d="m3352.82 1320.95c-302.63-305.82-173.08-406.64-650.08-642.45-349.06-172.56-855.2-119.88-1014.31-676.75h-917.72c323.74 1187.03 1196.23 736.45 1687.25 1070.38 476.87 324.3 589.8 1093.01 1541.23 965.11v-465.38c0 0-324.05 74.81-646.37-250.91z"/>
+		</clipPath>
+		<linearGradient id="g3" x2="1" gradientUnits="userSpaceOnUse" gradientTransform="matrix(-907.073,1666.007,-1872.154,-1019.312,3789.16,917.348)">
+			<stop offset="0" stop-color="#0131b8"/>
+			<stop offset="1" stop-color="#0463ee"/>
+		</linearGradient>
+	</defs>
+	<style>
+		.s0 { fill: url(#g1) } 
+		.s1 { fill: url(#g2) } 
+		.s2 { fill: url(#g3) } 
+	</style>
+	<g id="&lt;Clip Group&gt;" clip-path="url(#cp1)">
+		<path id="&lt;Path&gt;" class="s0" d="m2701.8 1173.4h1297.4v-1171.7h-1297.4z"/>
+	</g>
+	<g id="&lt;Clip Group&gt;" clip-path="url(#cp2)">
+		<path id="&lt;Path&gt;" class="s1" d="m1688.4 1646.7h2310.8v-1645h-2310.8z"/>
+	</g>
+	<g id="&lt;Clip Group&gt;" clip-path="url(#cp3)">
+		<path id="&lt;Path&gt;" class="s2" d="m770.7 2165.1h3228.5v-2163.4h-3228.5z"/>
+	</g>
+</svg>
