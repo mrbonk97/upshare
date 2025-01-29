@@ -22,7 +22,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         if (typeof credentials.username != "string") throw new Error("아이디가 없음");
         if (typeof credentials.password != "string") throw new Error("패스워드가 없음");
 
-        const result = await fetch(`http://localhost:3000/api/users/sign-in`, {
+        const result = await fetch(`${process.env.API_URL}/api/users/sign-in`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
