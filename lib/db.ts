@@ -1,4 +1,4 @@
-import oracledb, { Pool, PoolAttributes, Result } from "oracledb";
+import oracledb, { Pool, PoolAttributes } from "oracledb";
 
 const dbConfig: PoolAttributes = {
   user: process.env.ORACLE_USER,
@@ -13,27 +13,13 @@ export async function getDb() {
   return pool.getConnection();
 }
 
-export async function executeSql<T>(sql: string, binds: any[]) {
+export async function executeSql<T>(sql: string, binds: string[], autoCommit?: boolean) {
   const conn = await getDb();
   const result = await conn.execute<T>(sql, binds, {
     outFormat: oracledb.OUT_FORMAT_OBJECT,
+    autoCommit: autoCommit,
   });
   await conn.close();
-  return result;
-}
-
-export async function executeQuery(
-  sql: string,
-  bind: any[],
-  resultOption: boolean
-) {
-  const conn = await getDb();
-  const result = await conn.execute(sql, bind, {
-    resultSet: resultOption,
-    outFormat: oracledb.OUT_FORMAT_OBJECT,
-  });
-  console.log("아오", result.rows);
-  conn.close();
   return result;
 }
 

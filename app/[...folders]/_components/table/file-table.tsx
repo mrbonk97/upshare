@@ -2,16 +2,21 @@
 
 import useSWR from "swr";
 import { FileType, FolderType } from "@/constants/type";
-import { FolderList } from "@/components/table/folder-list";
-import { FileList } from "@/components/table/file-list";
 import { Fetcher } from "@/lib/utils";
 import { TableSkeleton } from "./skeleton";
+import { useContext } from "react";
+import { FolderContext } from "../../folder-context";
+import { FolderList } from "./folder-list";
+import { FileList } from "./file-list";
 
-interface Props {
-  folderId: string | undefined;
-}
+export type DragItem = {
+  type: "FILE" | "FOLDER";
+  id: number;
+};
 
-export const FileTable = ({ folderId }: Props) => {
+export const FileTable = () => {
+  const context = useContext(FolderContext);
+  const folderId = context.getFolderId();
   const params = folderId ? `/${folderId}` : "";
   const result = useSWR(`/api/folders${params}`, Fetcher);
 
@@ -57,6 +62,8 @@ export const FileTable = ({ folderId }: Props) => {
               fileId={item.FILE_ID}
               fileName={item.FILE_NAME}
               fileSize={item.FILE_SIZE}
+              isShare={item.IS_SHARE == 1}
+              shareCode={item.SHARE_CODE}
               fileExtension={item.FILE_EXTENSION}
               createdAt={item.CREATED_AT}
             />

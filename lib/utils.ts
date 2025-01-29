@@ -16,6 +16,14 @@ export function convertByte(size: string | number) {
   return `${size}B`;
 }
 
+// 폴더 아이디로 루트인지 확인함
+export const checkIfRoot = (folderId: string | undefined) => {
+  if (!folderId) return true;
+  if (folderId == "all") return true;
+  if (folderId == "share") return true;
+  return false;
+};
+
 export function getFileIcon(type: string) {
   switch (type) {
     case "apk":

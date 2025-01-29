@@ -3,7 +3,7 @@ import { BlendIcon, BlocksIcon, HeartIcon } from "lucide-react";
 export const LEFT_MENU = [
   {
     title: "전체파일",
-    url: "/all",
+    url: "/folders/all",
     icon: (
       <BlendIcon
         size={18}
@@ -15,20 +15,8 @@ export const LEFT_MENU = [
     ),
   },
   {
-    title: "즐겨찾기",
-    url: "/favorite",
-    icon: (
-      <HeartIcon
-        size={18}
-        className="inline ml-5 mb-1"
-        strokeOpacity={0}
-        fill="#fb7185"
-      />
-    ),
-  },
-  {
     title: "공유중",
-    url: "/share",
+    url: "/folders/share",
     icon: (
       <BlocksIcon
         size={18}

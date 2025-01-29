@@ -3,18 +3,10 @@ import { executeSql } from "@/lib/db";
 import { CustomError } from "@/lib/error";
 import { NextResponse } from "next/server";
 
-const SQL1 = `
-SELECT * FROM upshare_folder f 
-WHERE NOT EXISTS ( 
-    SELECT 1 FROM upshare_folder_relation r 
-    WHERE f.folder_id = r.child_folder_id ) 
-AND f.user_id = :user_id`;
-
-const SQL2 = `
-SELECT file_id, folder_id, user_id, file_name, file_type, file_extension, file_size, is_share, share_code, is_favorite, created_at, updated_at 
+const SQL = `
+SELECT file_id, folder_id, user_id, file_name, file_type, file_extension, file_size, is_share, created_at, updated_at 
 FROM upshare_file 
-WHERE folder_id IS NULL 
-AND user_id = :user_id`;
+WHERE user_id = :user_id `;
 
 export const GET = auth(async function (req) {
   try {
@@ -25,22 +17,21 @@ export const GET = auth(async function (req) {
     const userId = req.auth.user.id;
 
     // SQL 실행
-    const folderResult = await executeSql(SQL1, [userId]);
-    const fileResult = await executeSql(SQL2, [userId]);
+    const fileResult = await executeSql(SQL, [userId]);
 
     // 성공 응답
     return NextResponse.json(
       {
         code: "success",
         data: {
-          folders: folderResult.rows,
+          folders: [],
           files: fileResult.rows,
         },
       },
       { status: 200 }
     );
   } catch (error) {
-    console.error("최상단 폴더 조회 중 오류 발생:", error);
+    console.error("전체 파일 조회 중 오류 발생:", error);
     if (error instanceof CustomError)
       return NextResponse.json({ code: "error", message: error.cause }, { status: error.code });
     return NextResponse.json(
