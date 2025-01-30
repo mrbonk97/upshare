@@ -21,6 +21,7 @@ export const checkIfRoot = (folderId: string | undefined) => {
   if (!folderId) return true;
   if (folderId == "all") return true;
   if (folderId == "share") return true;
+  if (folderId == "search") return true;
   return false;
 };
 

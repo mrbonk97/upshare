@@ -17,6 +17,7 @@ interface TableContextProps {
   onDrop: () => void;
   onDragLeave: () => void;
   getFolderId: () => string | undefined;
+  getQuery: () => string | undefined;
   revalidate: () => Promise<void>;
 }
 
@@ -31,21 +32,28 @@ export const FolderContext = createContext<TableContextProps>({
   getFolderId: () => {
     return "";
   },
+  getQuery: () => {
+    return "";
+  },
   revalidate: async () => {},
 });
 
 interface Props {
-  folderId: string;
+  folderId: string | undefined;
+  q: string | undefined;
   children: React.ReactNode;
 }
 
-export const FolderContextProvider = ({ folderId, children }: Props) => {
+export const FolderContextProvider = ({ folderId, q, children }: Props) => {
   const { toast } = useToast();
   const [hoverItem, setHoverItem] = useState<TableItemType | null>(null);
   const [dragItem, setDragItem] = useState<TableItemType | null>(null);
 
   const getFolderId = () => {
     return folderId;
+  };
+  const getQuery = () => {
+    return q;
   };
 
   const revalidate = async () => {
@@ -112,6 +120,7 @@ export const FolderContextProvider = ({ folderId, children }: Props) => {
         onDrop,
         onDragLeave,
         getFolderId,
+        getQuery,
         revalidate,
       }}
     >
