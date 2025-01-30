@@ -79,7 +79,7 @@ export const FileList = ({
         draggable
         role="row"
         aria-selected={hoverItem?.id == fileId}
-        className={`px-2 py-4 grid grid-cols-10 gap-5 hover:bg-blue-50 border-2 border-transparent aria-selected:border-blue-400 border-dashed`}
+        className={`px-2 py-4 grid grid-cols-6 lg:grid-cols-10 gap-5 hover:lg:bg-blue-50 border-2 border-transparent aria-selected:border-blue-400 border-dashed`}
         onDrop={context.onDrop}
         onDragEnd={context.onDragEnd}
         onDragLeave={context.onDragLeave}
@@ -89,27 +89,31 @@ export const FileList = ({
         <div
           onClick={() => handleDownload()}
           role="cell"
-          className="px-1 col-span-3 cursor-pointer"
+          className="px-1 col-span-3 cursor-pointer text-sm lg:text-base"
         >
           <Image
             src={getFileIcon(fileExtension)}
             alt="folder"
             height={24}
             width={24}
-            className="inline mr-2"
+            className="inline mr-2 h-4 w-4 lg:h-6 lg:w-6"
           />
           {fileName}
         </div>
-        <div role="cell" className="px-1 col-span-2 text-right">
+        <div role="cell" className="hidden lg:block px-1 col-span-2 text-right">
           {new Date(createdAt).toISOString().split("T")[0]}
         </div>
-        <div role="cell" className="px-1 col-span-1 text-right">
+        <div role="cell" className="hidden lg:block px-1 col-span-1 text-right">
           {convertByte(fileSize)}
         </div>
         <div role="cell" className="px-1 col-span-2 flex2 opacity-80">
-          {isShare ? <CircleIcon size={16} /> : <XIcon size={18} />}
+          {isShare ? (
+            <CircleIcon size={16} className="h-3 w-3 lg:h-4 lg:w-4" />
+          ) : (
+            <XIcon size={18} className="h-3 w-3 lg:h-4 lg:w-4" />
+          )}
         </div>
-        <div role="cell" className="px-1 col-span-1 text-center">
+        <div role="cell" className="hidden lg:block px-1 col-span-1 text-center">
           6일 남음
         </div>
         <div role="cell" className="px-1 col-span-1 text-right">

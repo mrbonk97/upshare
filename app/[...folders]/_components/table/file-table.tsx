@@ -26,23 +26,23 @@ export const FileTable = () => {
   return (
     <div role="table" className="w-full font-medium opacity-80">
       <div role="tablehead" className="sticky px-2 mt-5 border-y py-2">
-        <div role="row" className="grid grid-cols-10 gap-5">
-          <div role="columnheader" className="px-1 col-span-3">
+        <div role="row" className="grid grid-cols-6 lg:grid-cols-10 gap-5">
+          <div role="columnheader" className="px-1 col-span-3 text-sm lg:text-base">
             파일명
           </div>
-          <div role="columnheader" className="px-1 col-span-2 text-right">
+          <div role="columnheader" className="hidden lg:block px-1 col-span-2 text-right">
             등록 날짜
           </div>
-          <div role="columnheader" className="px-1 col-span-1 text-right">
+          <div role="columnheader" className="hidden lg:block px-1 col-span-1 text-right">
             파일 크기
           </div>
-          <div role="columnheader" className="px-1 col-span-2 text-center">
+          <div role="columnheader" className="px-1 col-span-2 text-center text-sm lg:text-base">
             공유 여부
           </div>
-          <div role="columnheader" className="px-1 col-span-1 text-center">
+          <div role="columnheader" className="hidden lg:block px-1 col-span-1 text-center">
             남은 시간
           </div>
-          <div role="columnheader" className="px-1 col-span-1 text-right">
+          <div role="columnheader" className="px-1 col-span-1 text-right text-sm lg:text-base">
             옵션
           </div>
         </div>

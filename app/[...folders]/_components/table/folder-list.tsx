@@ -45,27 +45,27 @@ export const FolderList = ({ folderId, folderName }: Props) => {
         role="row"
         href={`/folders/${folderId}`}
         aria-selected={hoverItem?.id == folderId}
-        className={`px-2 py-4 grid grid-cols-10 gap-5 hover:bg-blue-50 border-2 border-transparent aria-selected:border-blue-400 border-dashed`}
+        className={`px-2 py-4 grid grid-cols-6 lg:grid-cols-10 gap-5 hover:lg:bg-blue-50 border-2 border-transparent aria-selected:border-blue-400 border-dashed`}
         onDrop={context.onDrop}
         onDragEnd={context.onDragEnd}
         onDragLeave={context.onDragLeave}
         onDragStart={() => context.onDragStart({ type: "FOLDER", id: folderId })}
         onDragOver={() => context.onDragOver({ type: "FOLDER", id: folderId })}
       >
-        <div role="cell" className="px-1 col-span-3">
+        <div role="cell" className="px-1 col-span-3 text-sm lg:text-base">
           <Image
             src={"/icons/001-folder.svg"}
             alt="folder"
             height={24}
             width={24}
-            className="inline mr-2"
+            className="inline mr-2 h-4 w-4 lg:h-6 lg:w-6"
           />
           {folderName}
         </div>
-        <div role="cell" className="px-1 col-span-2 text-right" />
-        <div role="cell" className="px-1 col-span-1 text-right" />
+        <div role="cell" className="hidden lg:block px-1 col-span-2 text-right" />
+        <div role="cell" className="hidden lg:block px-1 col-span-1 text-right" />
         <div role="cell" className="px-1 col-span-2 text-center" />
-        <div role="cell" className="px-1 col-span-1 text-center" />
+        <div role="cell" className="hidden lg:block px-1 col-span-1 text-center" />
         <div role="cell" className="px-1 col-span-1 text-right">
           <DropdownMenu>
             <DropdownMenuTrigger>
