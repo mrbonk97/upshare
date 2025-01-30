@@ -1,7 +1,5 @@
 export const Spinner = () => {
   return (
-    <div className="flex justify-center">
-      <span className="loader" />
-    </div>
+    <span className="inline-block h-8 aspect-square rounded-full border-4 border-t-transparent border-background animate-spin"></span>
   );
 };

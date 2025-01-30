@@ -17,8 +17,11 @@ export type DragItem = {
 export const FileTable = () => {
   const context = useContext(FolderContext);
   const folderId = context.getFolderId();
-  const params = folderId ? `/${folderId}` : "";
-  const result = useSWR(`/api/folders${params}`, Fetcher);
+  const q = context.getQuery();
+
+  const params1 = folderId ? `/${folderId}` : "";
+  const params2 = q ? `?q=${q}` : "";
+  const result = useSWR(`/api/folders${params1}${params2}`, Fetcher);
 
   return (
     <div role="table" className="w-full font-medium opacity-80">

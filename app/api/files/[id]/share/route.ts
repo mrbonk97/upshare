@@ -8,7 +8,10 @@ SET is_share =  CASE
                 WHEN is_share = 1 THEN 0 
                 WHEN is_share = 0 THEN 1 
                 END, 
-share_code = (SELECT DBMS_RANDOM.STRING('x', 6) AS random_string FROM dual) 
+share_code   =  CASE
+                WHEN is_share = 0 THEN (SELECT DBMS_RANDOM.STRING('x', 6) AS random_string FROM dual) 
+                WHEN is_share = 1 THEN null
+                END
 WHERE file_id = :file_id AND user_id = :user_id`;
 
 export const GET = auth(async function (req, { params }) {
