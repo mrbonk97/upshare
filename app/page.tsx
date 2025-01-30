@@ -2,7 +2,6 @@ import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
 import { DownloadCard } from "@/components/download-card";
-import { Logo } from "@/components/logo";
 
 const Home = () => {
   return (
