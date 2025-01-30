@@ -46,6 +46,7 @@ const SharePage = () => {
       a.remove();
       window.URL.revokeObjectURL(url);
     } catch (e) {
+      console.log(e);
       toast({ title: "알수없는 오류가 발생했습니다." });
     }
   };
@@ -67,6 +68,7 @@ const SharePage = () => {
     try {
       if (code.length == 6) getData();
     } catch (e) {
+      console.log(e);
       setCode("");
       setError("알 수 없는 오류가 발생했습니다.");
     } finally {
