@@ -9,12 +9,16 @@ import { MoveLeftIcon } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
-export const DownloadCard = () => {
+interface Props {
+  defaultCode: string | undefined;
+}
+
+export const DownloadCard = ({ defaultCode }: Props) => {
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [file, setFile] = useState<FileType | null>(null);
-  const [code, setCode] = useState("");
+  const [code, setCode] = useState(defaultCode ? defaultCode : "");
 
   const handleReset = () => {
     setCode("");
@@ -23,6 +27,7 @@ export const DownloadCard = () => {
 
   const handleDownload = async () => {
     try {
+      setIsLoading(true);
       const response = await fetch(`/api/files/download?code=${code}`);
       const contentDisposition = response.headers.get("Content-Disposition");
 
@@ -46,6 +51,8 @@ export const DownloadCard = () => {
     } catch (e) {
       console.log(e);
       toast({ title: "알수없는 오류가 발생했습니다." });
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -115,12 +122,9 @@ export const DownloadCard = () => {
         <div className="p-5 flex h-full w-[50%] flex-col">
           {file && (
             <>
-              <MoveLeftIcon
-                role="button"
-                onClick={handleReset}
-                size={36}
-                className="p-1 rounded-lg text-blue-400 hover:bg-secondary"
-              />
+              <Button size={"icon"} variant={"ghost"} onClick={handleReset} disabled={isLoading}>
+                <MoveLeftIcon size={36} className="text-blue-400" />
+              </Button>
               <Image
                 src={getFileIcon(file.FILE_EXTENSION)}
                 alt="folder"

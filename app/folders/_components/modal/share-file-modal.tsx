@@ -22,13 +22,7 @@ interface Props {
   closeModal: () => void;
 }
 
-export const ShareFileModal = ({
-  fileId,
-  isShare,
-  shareCode,
-  isOpen,
-  closeModal,
-}: Props) => {
+export const ShareFileModal = ({ fileId, isShare, shareCode, isOpen, closeModal }: Props) => {
   const context = useContext(FolderContext);
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
@@ -53,7 +47,7 @@ export const ShareFileModal = ({
     const host = window.location.host;
 
     navigator.clipboard
-      .writeText(`${protocol}//${host}/share?code=123456`)
+      .writeText(`${protocol}//${host}/share?code=${shareCode}`)
       .then(() =>
         toast({
           title: "클립보드에 복사됨",
@@ -102,11 +96,7 @@ export const ShareFileModal = ({
                   닫기
                 </Button>
               </DialogClose>
-              <Button
-                disabled={isLoading}
-                onClick={() => handleShare()}
-                className="w-full"
-              >
+              <Button disabled={isLoading} onClick={() => handleShare()} className="w-full">
                 공유 중지
               </Button>
             </DialogFooter>
