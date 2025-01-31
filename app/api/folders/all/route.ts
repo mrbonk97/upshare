@@ -4,9 +4,22 @@ import { CustomError } from "@/lib/error";
 import { NextResponse } from "next/server";
 
 const SQL = `
-SELECT file_id, folder_id, user_id, file_name, file_type, file_extension, file_size, is_share, share_code, created_at, updated_at 
+SELECT 
+    file_id 
+  , folder_id 
+  , user_id 
+  , file_name 
+  , file_type 
+  , file_extension 
+  , file_size 
+  , is_share 
+  , share_code 
+  , is_favorite 
+  , created_at 
+  , updated_at 
+  , EXTRACT(DAY FROM (created_at + INTERVAL '7' DAY - CURRENT_TIMESTAMP AT TIME ZONE 'Asia/Seoul')) AS delete_at 
 FROM upshare_file 
-WHERE user_id = :user_id `;
+WHERE user_id = :user_id`;
 
 export const GET = auth(async function (req) {
   try {

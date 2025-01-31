@@ -6,6 +6,8 @@ const SQL = `
 INSERT INTO upshare_file(folder_id, user_id, file_name, file_type, file_extension, file_size, file_data)
 VALUES(:folder_id, :user_id, :file_name, :file_type, :file_extension, :file_size, :file_data)`;
 
+const regex = /^(.*)(\.[^.]+)$/; // 확장자를 분리하는 정규 표현식
+
 export const POST = auth(async function (req) {
   if (!req.auth || !req.auth.user)
     return NextResponse.json({ message: "[오류] 로그인이 필요한 서비스" }, { status: 401 });
@@ -35,16 +37,29 @@ export const POST = auth(async function (req) {
       const arrayBuffer = await file.arrayBuffer();
       const buffer = Buffer.from(arrayBuffer);
 
-      // SQL 실행
-      await conn.execute(SQL, {
-        folder_id: folderId,
-        user_id: userId,
-        file_name: file.name,
-        file_type: file.type,
-        file_extension: file.name.split(".").pop(),
-        file_size: file.size,
-        file_data: buffer,
-      });
+      const match = file.name.match(regex);
+
+      if (match) {
+        await conn.execute(SQL, {
+          folder_id: folderId,
+          user_id: userId,
+          file_name: match[1],
+          file_type: file.type,
+          file_extension: match[2],
+          file_size: file.size,
+          file_data: buffer,
+        });
+      } else {
+        await conn.execute(SQL, {
+          folder_id: folderId,
+          user_id: userId,
+          file_name: file.name,
+          file_type: file.type,
+          file_extension: null,
+          file_size: file.size,
+          file_data: buffer,
+        });
+      }
     }
 
     // 커밋

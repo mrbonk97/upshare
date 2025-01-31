@@ -35,4 +35,5 @@ export type FileType = {
   IS_FAVORITE: number;
   CREATED_AT: string;
   UPDATED_AT: string;
+  DELETE_AT: number;
 };

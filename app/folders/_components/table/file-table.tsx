@@ -69,6 +69,7 @@ export const FileTable = () => {
               shareCode={item.SHARE_CODE}
               fileExtension={item.FILE_EXTENSION}
               createdAt={item.CREATED_AT}
+              deleteAt={item.DELETE_AT}
             />
           ))}
       </div>

@@ -22,6 +22,7 @@ interface Props {
   isShare: boolean;
   shareCode: string | null;
   createdAt: string;
+  deleteAt: number;
 }
 
 export const FileList = ({
@@ -32,6 +33,7 @@ export const FileList = ({
   isShare,
   shareCode,
   createdAt,
+  deleteAt,
 }: Props) => {
   const context = useContext(FolderContext);
   const hoverItem = context.hoverItem;
@@ -115,7 +117,7 @@ export const FileList = ({
           )}
         </div>
         <div role="cell" className="hidden lg:block px-1 col-span-1 text-center">
-          6일 남음
+          {deleteAt}일 남음
         </div>
         <div role="cell" className="px-1 col-span-1 text-right">
           <DropdownMenu>

@@ -12,7 +12,20 @@ ON A.folder_id = B.child_folder_id
 WHERE A.user_id = :user_id`;
 
 const SQL2 = `
-SELECT file_id, folder_id, user_id, file_name, file_extension, file_size, is_share, is_favorite, created_at, updated_at 
+SELECT 
+    file_id 
+  , folder_id 
+  , user_id 
+  , file_name 
+  , file_type 
+  , file_extension 
+  , file_size 
+  , is_share 
+  , share_code 
+  , is_favorite 
+  , created_at 
+  , updated_at 
+  , EXTRACT(DAY FROM (created_at + INTERVAL '7' DAY - CURRENT_TIMESTAMP AT TIME ZONE 'Asia/Seoul')) AS delete_at 
 FROM upshare_file 
 WHERE folder_id = :folder_id 
 AND user_id = :user_id`;
