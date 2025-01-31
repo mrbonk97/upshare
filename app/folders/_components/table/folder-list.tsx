@@ -11,7 +11,7 @@ import Link from "next/link";
 import { useContext, useState } from "react";
 import { DeleteFileModal } from "../modal/delete-file-modal";
 import { ChangeNameModal } from "../modal/change-name-modal";
-import { FolderContext } from "@/app/[...folders]/folder-context";
+import { FolderContext } from "../folder-context";
 
 interface Props {
   folderId: number;

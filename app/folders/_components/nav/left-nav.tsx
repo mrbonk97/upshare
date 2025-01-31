@@ -1,16 +1,15 @@
 import { ApertureIcon, FolderPlusIcon } from "lucide-react";
 import { LEFT_MENU } from "@/constants";
-import { LinkList } from "./link-list";
 import Link from "next/link";
 import Image from "next/image";
-import { FolderCreateModal } from "@/app/[...folders]/_components/modal/folder-create-modal";
-import { FileUploadModal } from "@/app/[...folders]/_components/modal/file-upload-modal";
+import { FileUploadModal } from "../modal/file-upload-modal";
+import { FolderCreateModal } from "../modal/folder-create-modal";
 
 export const Leftnav = () => {
   return (
-    <aside className="fixed z-30 top-0 left-0 hidden lg:block pt-20 px-5 h-full w-72 font-semibold">
+    <aside className="fixed z-30 top-0 left-0 hidden lg:block pt-20 p-5 h-full w-72 font-semibold">
       <div className="space-y-5 text-xl">
-        <Link href={"/folders"} className="flex justify-center">
+        <Link href={"/folders"} className="block mx-auto w-fit">
           <Image src={"/file-share.svg"} alt="logo" height={128} width={128} />
         </Link>
         <FileUploadModal>
@@ -34,3 +33,21 @@ export const Leftnav = () => {
     </aside>
   );
 };
+
+interface LinkListProps {
+  title: string;
+  url: string;
+  icon: React.ReactNode;
+}
+
+const LinkList = ({ title, url, icon }: LinkListProps) => (
+  <li>
+    <Link
+      className="px-5 py-2 block rounded bg-background hover:opacity-80 duration-150"
+      href={url}
+    >
+      {title}
+      {icon}
+    </Link>
+  </li>
+);

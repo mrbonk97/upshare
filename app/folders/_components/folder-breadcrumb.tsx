@@ -11,14 +11,15 @@ import { checkIfRoot, Fetcher } from "@/lib/utils";
 import { Slash } from "lucide-react";
 import { Fragment, useContext } from "react";
 import useSWR from "swr";
-import { FolderContext } from "@/app/[...folders]/folder-context";
+import { FolderContext } from "./folder-context";
+import { Spinner } from "@/components/spinner";
 
 export const FolderBreadCrumb = () => {
   const context = useContext(FolderContext);
   const folderId = context.getFolderId();
   const hoverItem = context.hoverItem;
   const isRoot = checkIfRoot(folderId);
-  const result = useSWR(!isRoot ? `/api/folders/${folderId}/structure` : null, Fetcher);
+  const result = useSWR(isRoot ? null : `/api/folders/${folderId}/structure`, Fetcher);
 
   // 루트일 때는 홈밖에 없으니깐
   if (isRoot) {
@@ -28,9 +29,9 @@ export const FolderBreadCrumb = () => {
           aria-selected={hoverItem?.id == -1}
           className="px-1 border-2 border-transparent aria-selected:border-blue-400 border-dashed"
           onDragOver={() => context.onDragOver({ type: "FOLDER", id: -1 })}
-          onDragEnd={() => context.onDragEnd()}
-          onDrop={() => context.onDrop()}
           onDragLeave={context.onDragLeave}
+          onDragEnd={context.onDragEnd}
+          onDrop={context.onDrop}
         >
           <BreadcrumbLink href="/folders">홈</BreadcrumbLink>
         </BreadcrumbItem>
@@ -45,12 +46,21 @@ export const FolderBreadCrumb = () => {
           aria-selected={hoverItem?.id == -1}
           className="px-1 border-2 border-transparent aria-selected:border-blue-400 border-dashed"
           onDragOver={() => context.onDragOver({ type: "FOLDER", id: -1 })}
-          onDragEnd={() => context.onDragEnd()}
-          onDrop={() => context.onDrop()}
           onDragLeave={context.onDragLeave}
+          onDragEnd={context.onDragEnd}
+          onDrop={context.onDrop}
         >
           <BreadcrumbLink href="/folders">홈</BreadcrumbLink>
         </BreadcrumbItem>
+        {result.isLoading && (
+          <Fragment>
+            <BreadcrumbSeparator>
+              <Slash />
+            </BreadcrumbSeparator>
+            <Spinner className="h-3 border border-foreground border-t-transparent opacity-70" />
+          </Fragment>
+        )}
+
         {result.data?.data?.structure?.map((item: FolderType) => (
           <Fragment key={`crumb-${item.FOLDER_ID}`}>
             <BreadcrumbSeparator>

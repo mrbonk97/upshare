@@ -1,4 +1,3 @@
-import { FolderContext } from "@/app/[...folders]/folder-context";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -12,6 +11,7 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import { AlertTriangleIcon } from "lucide-react";
 import { useContext, useState } from "react";
+import { FolderContext } from "../folder-context";
 
 interface Props {
   type: "FILE" | "FOLDER";
@@ -21,7 +21,13 @@ interface Props {
   name: string;
 }
 
-export const DeleteFileModal = ({ type, isOpen, closeModal, id, name }: Props) => {
+export const DeleteFileModal = ({
+  type,
+  isOpen,
+  closeModal,
+  id,
+  name,
+}: Props) => {
   const context = useContext(FolderContext);
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
@@ -31,8 +37,10 @@ export const DeleteFileModal = ({ type, isOpen, closeModal, id, name }: Props) =
     let result = null;
     setIsLoading(true);
     try {
-      if (type == "FILE") result = await fetch(`/api/files/${id}`, { method: "DELETE" });
-      if (type == "FOLDER") result = await fetch(`/api/folders/${id}`, { method: "DELETE" });
+      if (type == "FILE")
+        result = await fetch(`/api/files/${id}`, { method: "DELETE" });
+      if (type == "FOLDER")
+        result = await fetch(`/api/folders/${id}`, { method: "DELETE" });
       if (result?.ok) {
         await context.revalidate();
         toast({ title: "파일 삭제 성공" });
@@ -60,7 +68,11 @@ export const DeleteFileModal = ({ type, isOpen, closeModal, id, name }: Props) =
           </div>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel className="py-6" onClick={closeModal} disabled={isLoading}>
+          <AlertDialogCancel
+            className="py-6"
+            onClick={closeModal}
+            disabled={isLoading}
+          >
             취소
           </AlertDialogCancel>
           <AlertDialogAction

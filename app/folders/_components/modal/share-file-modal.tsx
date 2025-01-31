@@ -11,8 +11,8 @@ import {
 import { useContext, useState } from "react";
 import { CopyIcon } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { FolderContext } from "@/app/[...folders]/folder-context";
 import { Button } from "@/components/ui/button";
+import { FolderContext } from "../folder-context";
 
 interface Props {
   fileId: number;
@@ -22,7 +22,13 @@ interface Props {
   closeModal: () => void;
 }
 
-export const ShareFileModal = ({ fileId, isShare, shareCode, isOpen, closeModal }: Props) => {
+export const ShareFileModal = ({
+  fileId,
+  isShare,
+  shareCode,
+  isOpen,
+  closeModal,
+}: Props) => {
   const context = useContext(FolderContext);
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
@@ -96,7 +102,11 @@ export const ShareFileModal = ({ fileId, isShare, shareCode, isOpen, closeModal 
                   닫기
                 </Button>
               </DialogClose>
-              <Button disabled={isLoading} onClick={() => handleShare()} className="w-full">
+              <Button
+                disabled={isLoading}
+                onClick={() => handleShare()}
+                className="w-full"
+              >
                 공유 중지
               </Button>
             </DialogFooter>

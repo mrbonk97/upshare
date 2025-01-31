@@ -12,7 +12,7 @@ import { useContext, useState } from "react";
 import { DeleteFileModal } from "../modal/delete-file-modal";
 import { ChangeNameModal } from "../modal/change-name-modal";
 import { ShareFileModal } from "../modal/share-file-modal";
-import { FolderContext } from "@/app/[...folders]/folder-context";
+import { FolderContext } from "../folder-context";
 
 interface Props {
   fileId: number;
@@ -99,6 +99,7 @@ export const FileList = ({
             className="inline mr-2 h-4 w-4 lg:h-6 lg:w-6"
           />
           {fileName}
+          {fileExtension}
         </div>
         <div role="cell" className="hidden lg:block px-1 col-span-2 text-right">
           {new Date(createdAt).toISOString().split("T")[0]}

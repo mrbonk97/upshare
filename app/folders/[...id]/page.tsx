@@ -1,25 +1,25 @@
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import { Topnav } from "@/components/nav/top-nav";
-import { Leftnav } from "@/components/nav/left-nav";
-import { FileTable } from "./_components/table/file-table";
-import { FolderContextProvider } from "./folder-context";
-import { FolderBreadCrumb } from "./_components/folder-breadcrumb";
+import { FileTable } from "../_components/table/file-table";
+import { FolderBreadCrumb } from "../_components/folder-breadcrumb";
+import { Leftnav } from "../_components/nav/left-nav";
+import { FolderContextProvider } from "../_components/folder-context";
 
 interface Props {
   params: Promise<{
-    folders: string[];
+    id: (string | undefined)[];
   }>;
   searchParams: Promise<{ q: string | undefined }>;
 }
 
-const FolderPage = async ({ params, searchParams }: Props) => {
+const FoldersIdPage = async ({ params, searchParams }: Props) => {
   const session = await auth();
   if (!session) redirect("/sign-in");
 
   const sp = await searchParams;
-  const { folders: folders } = await params;
-  const folderId = folders[1];
+  const { id } = await params;
+  const folderId = id[0];
 
   return (
     <>
@@ -39,4 +39,4 @@ const FolderPage = async ({ params, searchParams }: Props) => {
   );
 };
 
-export default FolderPage;
+export default FoldersIdPage;

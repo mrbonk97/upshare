@@ -27,45 +27,45 @@ export const checkIfRoot = (folderId: string | undefined) => {
 
 export function getFileIcon(type: string) {
   switch (type) {
-    case "apk":
+    case ".apk":
       return "/icons/002-apk.svg";
-    case "css":
+    case ".css":
       return "/icons/003-css.svg";
-    case "doc":
+    case ".doc":
       return "/icons/005-doc.svg";
-    case "xls":
+    case ".xls":
       return "/icons/006-excel.svg";
-    case "woff":
+    case ".woff":
       return "/icons/007-font file.svg";
-    case "iso":
+    case ".iso":
       return "/icons/008-iso.svg";
-    case "js":
+    case ".js":
       return "/icons/009-javascript.svg";
-    case "png":
+    case ".png":
       return "/icons/010-image.svg";
-    case "jpg":
+    case ".jpg":
       return "/icons/010-image.svg";
-    case "jpeg":
+    case ".jpeg":
       return "/icons/010-image.svg";
-    case "mp3":
+    case ".mp3":
       return "/icons/013-mp3.svg";
-    case "video":
+    case ".video":
       return "/icons/014-video.svg";
-    case "pdf":
+    case ".pdf":
       return "/icons/014-pdf.svg";
-    case "php":
+    case ".php":
       return "/icons/016-php.svg";
-    case "ppt":
+    case ".ppt":
       return "/icons/018-powerpoint.svg";
-    case "sql":
+    case ".sql":
       return "/icons/022-sql.svg";
-    case "svg":
+    case ".svg":
       return "/icons/023-svg.svg";
-    case "ttf":
+    case ".ttf":
       return "/icons/025-ttf.svg";
-    case "txt":
+    case ".txt":
       return "/icons/026-text.svg";
-    case "zip":
+    case ".zip":
       return "/icons/032-zip.svg";
     default:
       return "/icons/024-text.svg";

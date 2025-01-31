@@ -15,9 +15,9 @@ import { useForm } from "react-hook-form";
 import { useContext } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useToast } from "@/hooks/use-toast";
-import { FolderContext } from "@/app/[...folders]/folder-context";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { FolderContext } from "../folder-context";
 
 const formSchema = z.object({
   name: z
@@ -41,14 +41,11 @@ export const ChangeNameModal = ({ isOpen, closeModal, type, id, defaultName }: P
 
   const array = defaultName.split(".");
   const len = array.length;
-  // 확장자가 없을 경우 빈 문자열 처리
-  const extension = len > 1 ? array[len - 1] : "";
-  const name = type == "FILE" ? array.slice(0, len - 1).join(".") : defaultName;
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: name,
+      name: defaultName,
     },
   });
 
@@ -57,7 +54,7 @@ export const ChangeNameModal = ({ isOpen, closeModal, type, id, defaultName }: P
     try {
       if (type == "FILE") {
         result = await fetch(`/api/files/${id}`, {
-          body: JSON.stringify({ name: values.name + "." + extension }),
+          body: JSON.stringify({ name: values.name }),
           method: "PATCH",
         });
       }

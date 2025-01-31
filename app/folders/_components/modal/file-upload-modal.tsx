@@ -18,7 +18,7 @@ import Image from "next/image";
 import { convertByte } from "@/lib/utils";
 import { useMyFile } from "@/hooks/use-file";
 import { useToast } from "@/hooks/use-toast";
-import { FolderContext } from "@/app/[...folders]/folder-context";
+import { FolderContext } from "../folder-context";
 
 interface Props {
   children: React.ReactNode;
@@ -51,7 +51,10 @@ export const FileUploadModal = ({ children }: Props) => {
     myFiles.forEach((file) => formData.append("files", file));
 
     try {
-      const result = await fetch("/api/files", { method: "POST", body: formData });
+      const result = await fetch("/api/files", {
+        method: "POST",
+        body: formData,
+      });
       if (result.ok) {
         await context.revalidate();
         toast({ title: "파일 업로드 성공" });

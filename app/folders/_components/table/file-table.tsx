@@ -5,9 +5,9 @@ import { FileType, FolderType } from "@/constants/type";
 import { Fetcher } from "@/lib/utils";
 import { TableSkeleton } from "./skeleton";
 import { useContext } from "react";
-import { FolderContext } from "../../folder-context";
 import { FolderList } from "./folder-list";
 import { FileList } from "./file-list";
+import { FolderContext } from "../folder-context";
 
 export type DragItem = {
   type: "FILE" | "FOLDER";
