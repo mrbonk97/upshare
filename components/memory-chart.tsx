@@ -1,16 +1,8 @@
 "use client";
-import {
-  Label,
-  PolarGrid,
-  PolarRadiusAxis,
-  RadialBar,
-  RadialBarChart,
-} from "recharts";
+import { Label, PolarGrid, PolarRadiusAxis, RadialBar, RadialBarChart } from "recharts";
 import { ChartConfig, ChartContainer } from "@/components/ui/chart";
 
-const chartData = [
-  { browser: "safari", visitors: 80, fill: "var(--color-safari)" },
-];
+const chartData = [{ browser: "safari", visitors: 80, fill: "var(--color-safari)" }];
 
 const chartConfig = {
   visitors: {
@@ -24,10 +16,7 @@ const chartConfig = {
 
 export function MemoryChart() {
   return (
-    <ChartContainer
-      config={chartConfig}
-      className="aspect-square h-64 lg:border-r"
-    >
+    <ChartContainer config={chartConfig} className="aspect-square h-[180px]">
       <RadialBarChart
         data={chartData}
         startAngle={0}
@@ -48,12 +37,7 @@ export function MemoryChart() {
             content={({ viewBox }) => {
               if (viewBox && "cx" in viewBox && "cy" in viewBox) {
                 return (
-                  <text
-                    x={viewBox.cx}
-                    y={viewBox.cy}
-                    textAnchor="middle"
-                    dominantBaseline="middle"
-                  >
+                  <text x={viewBox.cx} y={viewBox.cy} textAnchor="middle" dominantBaseline="middle">
                     <tspan
                       x={viewBox.cx}
                       y={viewBox.cy}

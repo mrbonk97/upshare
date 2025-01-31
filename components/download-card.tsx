@@ -10,7 +10,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 
 interface Props {
-  defaultCode: string | undefined;
+  defaultCode?: string | undefined;
 }
 
 export const DownloadCard = ({ defaultCode }: Props) => {
