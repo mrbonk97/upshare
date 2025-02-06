@@ -14,6 +14,7 @@ INSERT INTO upshare_folder_relation(folder_id, child_folder_id)
 VALUES(:folder_id, :child_folder_id)`;
 
 export const POST = auth(async function GET(req) {
+  const conn = await getDb();
   try {
     if (!req.auth || !req.auth.user || !req.auth.user.id)
       throw new CustomError("로그인이 필요합니다.", 401);
@@ -26,7 +27,7 @@ export const POST = auth(async function GET(req) {
     if (typeof folderName != "string") throw new CustomError("폴더 이름이 없습니다.", 400);
 
     // SQL 실행
-    const conn = await getDb();
+
     const result1 = await conn.execute<{ folder_id: string }>(SQL1, {
       user_id: userId,
       folder_name: folderName,
@@ -37,10 +38,12 @@ export const POST = auth(async function GET(req) {
     const folderId = result1.outBinds!.folder_id[0];
     if (curFolderId != undefined) await conn.execute(SQL2, [curFolderId, folderId]);
     await conn.commit();
+    await conn.close();
 
     // 성공 응답
     return NextResponse.json({ code: "success" }, { status: 200 });
   } catch (error) {
+    await conn.close();
     console.error("폴더 생성 중 오류 발생:", error);
     if (error instanceof CustomError)
       return NextResponse.json({ code: "error", message: error.cause }, { status: error.code });

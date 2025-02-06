@@ -1,3 +1,4 @@
+"use client";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -21,27 +22,18 @@ interface Props {
   name: string;
 }
 
-export const DeleteFileModal = ({
-  type,
-  isOpen,
-  closeModal,
-  id,
-  name,
-}: Props) => {
+export const DeleteFileModal = ({ type, isOpen, closeModal, id, name }: Props) => {
   const context = useContext(FolderContext);
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const title = type == "FILE" ? "파일" : "폴더";
+  const apiUrl = type == "FILE" ? `/api/files/${id}` : `/api/folders/${id}`;
 
   const handleDelete = async () => {
-    let result = null;
     setIsLoading(true);
     try {
-      if (type == "FILE")
-        result = await fetch(`/api/files/${id}`, { method: "DELETE" });
-      if (type == "FOLDER")
-        result = await fetch(`/api/folders/${id}`, { method: "DELETE" });
-      if (result?.ok) {
+      const result = await fetch(apiUrl, { method: "DELETE" });
+      if (result.ok) {
         await context.revalidate();
         toast({ title: "파일 삭제 성공" });
         closeModal();
@@ -68,11 +60,7 @@ export const DeleteFileModal = ({
           </div>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel
-            className="py-6"
-            onClick={closeModal}
-            disabled={isLoading}
-          >
+          <AlertDialogCancel className="py-6" onClick={closeModal} disabled={isLoading}>
             취소
           </AlertDialogCancel>
           <AlertDialogAction

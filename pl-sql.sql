@@ -1,0 +1,80 @@
+CREATE OR REPLACE PROCEDURE DELETE_UPSHARE_FOLDER(p_folder_id IN NUMBER) AS
+BEGIN
+    -- 1. UPSHARE_FILE 테이블에서 해당 폴더 및 하위 폴더의 파일 삭제
+    DELETE FROM UPSHARE_FILE 
+    WHERE FOLDER_ID IN (
+        SELECT CHILD_FOLDER_ID 
+        FROM UPSHARE_FOLDER_RELATION
+        START WITH FOLDER_ID = p_folder_id
+        CONNECT BY PRIOR CHILD_FOLDER_ID = FOLDER_ID
+        UNION SELECT p_folder_id FROM DUAL
+    );
+
+    -- 2. UPSHARE_FOLDER_RELATION 테이블에서 관계 정보 삭제
+    DELETE FROM UPSHARE_FOLDER_RELATION 
+    WHERE RELATION_ID IN (
+        SELECT RELATION_ID 
+        FROM UPSHARE_FOLDER_RELATION
+        START WITH FOLDER_ID = p_folder_id
+        CONNECT BY PRIOR CHILD_FOLDER_ID = FOLDER_ID
+    );
+
+    -- 3. UPSHARE_FOLDER 테이블에서 폴더 삭제
+    DELETE FROM UPSHARE_FOLDER 
+    WHERE FOLDER_ID IN (
+        SELECT CHILD_FOLDER_ID 
+        FROM UPSHARE_FOLDER_RELATION
+        START WITH FOLDER_ID = p_folder_id
+        CONNECT BY PRIOR CHILD_FOLDER_ID = FOLDER_ID
+        UNION SELECT p_folder_id FROM DUAL
+    );
+
+    -- 변경사항 저장
+    COMMIT;
+    
+    DBMS_OUTPUT.PUT_LINE('Folder and related data deleted successfully.');
+EXCEPTION
+    WHEN OTHERS THEN
+        -- 오류 발생 시 롤백 및 오류 메시지 출력
+        ROLLBACK;
+        DBMS_OUTPUT.PUT_LINE('Error: ' || SQLERRM);
+END DELETE_UPSHARE_FOLDER;
+/
+
+
+CREATE OR REPLACE PROCEDURE DELETE_UPSHARE_FOLDER(p_folder_id IN NUMBER) AS
+    TYPE FolderTable IS TABLE OF NUMBER;
+    v_folder_ids FolderTable;
+BEGIN
+    -- 1. 하위 폴더 ID 목록을 BULK COLLECT로 가져오기
+    SELECT CHILD_FOLDER_ID 
+    BULK COLLECT INTO v_folder_ids
+    FROM (
+        SELECT CHILD_FOLDER_ID 
+        FROM UPSHARE_FOLDER_RELATION
+        START WITH FOLDER_ID = p_folder_id
+        CONNECT BY PRIOR CHILD_FOLDER_ID = FOLDER_ID
+        UNION SELECT p_folder_id FROM DUAL
+    );
+
+    -- 2. UPSHARE_FILE 삭제
+    FORALL i IN 1..v_folder_ids.COUNT
+        DELETE FROM UPSHARE_FILE WHERE FOLDER_ID = v_folder_ids(i);
+
+    -- 3. UPSHARE_FOLDER_RELATION 삭제
+    FORALL i IN 1..v_folder_ids.COUNT
+        DELETE FROM UPSHARE_FOLDER_RELATION WHERE FOLDER_ID = v_folder_ids(i);
+
+    -- 4. UPSHARE_FOLDER 삭제
+    FORALL i IN 1..v_folder_ids.COUNT
+        DELETE FROM UPSHARE_FOLDER WHERE FOLDER_ID = v_folder_ids(i);
+
+    -- 5. 변경사항 저장
+    COMMIT;
+
+EXCEPTION
+    WHEN OTHERS THEN
+        ROLLBACK;
+        DBMS_OUTPUT.PUT_LINE('Error: ' || SQLERRM);
+END DELETE_UPSHARE_FOLDER;
+/

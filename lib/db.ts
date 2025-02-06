@@ -1,4 +1,4 @@
-import oracledb, { Pool, PoolAttributes } from "oracledb";
+import oracledb, { BindParameters, Pool, PoolAttributes } from "oracledb";
 
 const dbConfig: PoolAttributes = {
   user: process.env.ORACLE_USER,
@@ -13,7 +13,7 @@ export async function getDb() {
   return pool.getConnection();
 }
 
-export async function executeSql<T>(sql: string, binds: string[], autoCommit?: boolean) {
+export async function executeSql<T>(sql: string, binds: BindParameters, autoCommit?: boolean) {
   const conn = await getDb();
   const result = await conn.execute<T>(sql, binds, {
     outFormat: oracledb.OUT_FORMAT_OBJECT,
