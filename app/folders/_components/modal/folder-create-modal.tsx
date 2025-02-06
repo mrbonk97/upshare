@@ -11,13 +11,7 @@ import {
   DialogClose,
   DialogFooter,
 } from "@/components/ui/dialog";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage,
-} from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
@@ -124,18 +118,11 @@ export const FolderCreateModal = ({ children }: Props) => {
             </>
             <DialogFooter className="mt-5">
               <DialogClose asChild>
-                <Button
-                  variant={"outline"}
-                  disabled={form.formState.isSubmitting}
-                >
+                <Button variant={"outline"} disabled={form.formState.isSubmitting}>
                   취소
                 </Button>
               </DialogClose>
-              <Button
-                type="submit"
-                className="w-full"
-                disabled={form.formState.isSubmitting}
-              >
+              <Button type="submit" className="w-full" disabled={form.formState.isSubmitting}>
                 생성
               </Button>
             </DialogFooter>
