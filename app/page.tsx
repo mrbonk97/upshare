@@ -2,8 +2,13 @@ import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
 import { DownloadCard } from "@/components/download-card";
+import { auth } from "@/auth";
+import { redirect } from "next/navigation";
 
-const Home = () => {
+const Home = async () => {
+  const session = await auth();
+  if (session) redirect("/folders");
+
   return (
     <main className="h-full">
       <Image

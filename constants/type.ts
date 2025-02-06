@@ -9,6 +9,7 @@ export type UpshareUserType = {
   CREATED_AT: Date;
   UPDATED_AT: Date;
   IS_ACTIVE: number;
+  MEMORY_USAGE: number;
 };
 
 export type FolderType = {

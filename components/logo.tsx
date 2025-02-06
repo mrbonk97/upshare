@@ -1,3 +1,4 @@
+import { cn } from "@/lib/utils";
 import Image from "next/image";
 
 interface Props {
@@ -11,6 +12,6 @@ export const Logo = ({ size = 80, className }: Props) => (
     height={size}
     width={size}
     alt="upshare"
-    className={`h-20 w-20 ${className}`}
+    className={cn("h-20 w-20", className)}
   />
 );
