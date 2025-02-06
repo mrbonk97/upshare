@@ -39,9 +39,6 @@ export const ChangeNameModal = ({ isOpen, closeModal, type, id, defaultName }: P
   const { toast } = useToast();
   const typeKorean = type == "FILE" ? "파일" : "폴더";
 
-  const array = defaultName.split(".");
-  const len = array.length;
-
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {

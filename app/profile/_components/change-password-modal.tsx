@@ -52,7 +52,7 @@ export const ChangePasswordModal = () => {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      const result = await fetch("/api/users/me", {
+      await fetch("/api/users/me", {
         method: "PATCH",
         body: JSON.stringify({ password: values.password }),
       });

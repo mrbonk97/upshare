@@ -30,11 +30,10 @@ const ProfilePage = async () => {
 export default ProfilePage;
 
 interface UserInfoProps {
-  id: string;
   name: string;
 }
 
-const UserInfoSection = ({ id, name }: UserInfoProps) => (
+const UserInfoSection = ({ name }: UserInfoProps) => (
   <section className="p-5 mx-auto max-w-[1200px]">
     <h4 className="mb-5 w-full font-medium opacity-80">기본정보</h4>
     <div className="flex gap-10">
@@ -88,11 +87,7 @@ const MemorySection = ({ memoryUsage, fileCount }: Props) => (
   </section>
 );
 
-interface DangerProps {
-  id: string;
-}
-
-const DangerSection = ({ id }: DangerProps) => (
+const DangerSection = () => (
   <section className="p-5 border-t mx-auto max-w-[1200px]">
     <h4 className="mb-5 inline-flex font-medium opacity-80">위험지역</h4>
     <div className="p-5 w-fit rounded-xl border flex items-center justify-center gap-10">
