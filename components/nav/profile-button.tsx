@@ -51,7 +51,7 @@ export const ProfileButton = async () => {
           <form
             action={async () => {
               "use server";
-              await signOut({ redirectTo: "/sign-out" });
+              await signOut({ redirectTo: "/" });
             }}
           >
             <button type="submit">로그아웃</button>

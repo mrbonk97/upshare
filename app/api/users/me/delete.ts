@@ -3,7 +3,7 @@ import { executeSql } from "@/lib/db";
 import { CustomError } from "@/lib/error";
 import { NextResponse } from "next/server";
 
-const SQL = "DELETE FROM FROM upshare_user WHERE id = :id";
+const SQL = "DELETE FROM upshare_user WHERE user_id = :user_id";
 
 export const DELETE = auth(async function GET(req) {
   try {
@@ -12,11 +12,24 @@ export const DELETE = auth(async function GET(req) {
 
     // 요청 데이터 파싱
     const userId = req.auth.user.id;
+    const protocol = req.nextUrl.protocol;
+    const host = req.nextUrl.host;
+
     // SQL 실행
     await executeSql(SQL, [userId], true);
 
+    const res = NextResponse.json(
+      {
+        code: "success",
+        data: {
+          redirectTo: `${protocol}//${host}`,
+        },
+      },
+      { status: 200 }
+    );
+
     // 성공 응답
-    return NextResponse.json({ code: "success" }, { status: 200 });
+    return res;
   } catch (error) {
     console.error("계절 탈퇴 중 오류 발생:", error);
     if (error instanceof CustomError)

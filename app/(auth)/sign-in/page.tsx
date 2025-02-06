@@ -17,7 +17,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
 import { Logo } from "@/components/logo";
-import { handleSignIn } from "@/lib/action/sign-in-action";
+import { handleSignIn } from "@/lib/action";
 import { useState } from "react";
 
 const formSchema = z.object({

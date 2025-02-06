@@ -3,7 +3,7 @@ import { executeSql } from "@/lib/db";
 import { CustomError } from "@/lib/error";
 import { NextResponse } from "next/server";
 
-const SQL = "UPDATE upshare_user SET password_hash = :password_hash WHERE id = :id";
+const SQL = "UPDATE upshare_user SET password_hash = :password_hash WHERE user_id = :user_id";
 
 export const PATCH = auth(async function GET(req) {
   try {
@@ -12,7 +12,12 @@ export const PATCH = auth(async function GET(req) {
 
     // 요청 데이터 파싱
     const userId = req.auth.user.id;
-    const passwordHash = "asd";
+    const { password } = await req.json();
+    const passwordHash = password;
+    if (typeof password != "string") throw new CustomError("패스워드가 문자열이 아닙니다.", 400);
+    if (password.length < 4) throw new CustomError("패스워드가 너무 짧습니다.", 400);
+    if (password.length > 30) throw new CustomError("패스워드가 너무 깁니다.", 400);
+
     // SQL 실행
     await executeSql(SQL, [passwordHash, userId], true);
 
