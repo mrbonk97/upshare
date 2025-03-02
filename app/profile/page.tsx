@@ -8,6 +8,11 @@ import { DeleteUserModal } from "./_components/delete-user-modal";
 import { ChangePasswordModal } from "./_components/change-password-modal";
 import { getMemoryUsage } from "@/lib/action";
 import { convertByte } from "@/lib/utils";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "프로필 -  UPSHARE",
+};
 
 const ProfilePage = async () => {
   const session = await auth();
@@ -19,9 +24,10 @@ const ProfilePage = async () => {
     <>
       <Topnav2 />
       <main className="pt-14 lg:pt-16 min-h-full space-y-5">
-        <UserInfoSection name={session.user!.name!} id={session.user!.id!} />
+        {/* @ts-expect-error auth.js를 바꿀 User property는 readonly, 억지로 넣어줬음 */}
+        <UserInfoSection name={session.user!.name!} createdAt={session.user!.createdAt!} />
         <MemorySection memoryUsage={memory.MEMORY_USAGE} fileCount={memory.FILE_COUNT} />
-        <DangerSection id={session.user!.id!} />
+        <DangerSection />
       </main>
     </>
   );
@@ -31,9 +37,10 @@ export default ProfilePage;
 
 interface UserInfoProps {
   name: string;
+  createdAt: string;
 }
 
-const UserInfoSection = ({ name }: UserInfoProps) => (
+const UserInfoSection = ({ name, createdAt }: UserInfoProps) => (
   <section className="p-5 mx-auto max-w-[1200px]">
     <h4 className="mb-5 w-full font-medium opacity-80">기본정보</h4>
     <div className="flex gap-10">
@@ -60,7 +67,7 @@ const UserInfoSection = ({ name }: UserInfoProps) => (
         </li>
         <li className="grid grid-cols-5 gap-2">
           <span className="col-span-2 text-right">가입 날짜</span>
-          <span className="col-span-3">: 2025-01-10</span>
+          <span className="col-span-3">: {createdAt.split("T")[0]}</span>
         </li>
         <li className="mt-5">
           <ChangePasswordModal />
@@ -78,9 +85,9 @@ const MemorySection = ({ memoryUsage, fileCount }: Props) => (
   <section className="p-5 border-t mx-auto max-w-[1200px]">
     <h4 className="mb-5 w-full font-medium opacity-80">메모리 사용량</h4>
     <div className="flex items-center gap-10">
-      <MemoryChart />
+      <MemoryChart memoryUsage={memoryUsage} />
       <hgroup>
-        <p className="text-2xl font-semibold opacity-80">{convertByte(memoryUsage)}/50mb 사용중</p>
+        <p className="text-2xl font-semibold opacity-80">{convertByte(memoryUsage)}/100mb 사용중</p>
         <p className="my-2 font-medium opacity-70">총 파일: {fileCount}개</p>
       </hgroup>
     </div>

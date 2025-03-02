@@ -35,6 +35,7 @@ export async function POST(req: NextRequest) {
             name: user.USERNAME,
             email: user.EMAIL,
             image: user.IMAGE,
+            createdAt: user.CREATED_AT,
           },
         },
       },

@@ -8,6 +8,7 @@ declare module "next-auth/jwt" {
   interface JWT {
     /** OpenID ID Token */
     id: string;
+    createdAt: string;
   }
 }
 
@@ -44,13 +45,25 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   ],
   callbacks: {
     jwt({ token, user }) {
-      if (user && user.id) token.id = user.id;
+      if (user) {
+        if (user.id) token.id = user.id;
+        if ("createdAt" in user && typeof user.createdAt == "string")
+          token.createdAt = user.createdAt;
+      }
+
       return token;
     },
 
+    // Auth.js는 createdAt을 추가할 수가 없어서 이렇게 해야함.
     session({ session, token }) {
-      session.user.id = token.id;
-      return session;
+      return {
+        ...session,
+        user: {
+          ...session.user,
+          id: token.id,
+          createdAt: token.createdAt,
+        },
+      };
     },
   },
   pages: {
