@@ -9,7 +9,7 @@ const notoSans = Noto_Sans_KR({
 });
 
 export const metadata: Metadata = {
-  title: "파일 공유",
+  title: "UPSHARE",
   description: "간편한 파일 공유 서비스",
 };
 

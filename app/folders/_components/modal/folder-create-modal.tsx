@@ -19,6 +19,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useContext, useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { FolderContext } from "../folder-context";
+import { Spinner } from "@/components/spinner";
 
 const formSchema = z.object({
   curFolderId: z.string().optional(),
@@ -107,6 +108,7 @@ export const FolderCreateModal = ({ children }: Props) => {
                       <Input
                         className="py-6"
                         placeholder="폴더 명을 입력해주세요"
+                        autoComplete="off"
                         disabled={form.formState.isSubmitting}
                         {...field}
                       />
@@ -123,7 +125,7 @@ export const FolderCreateModal = ({ children }: Props) => {
                 </Button>
               </DialogClose>
               <Button type="submit" className="w-full" disabled={form.formState.isSubmitting}>
-                생성
+                {form.formState.isSubmitting ? <Spinner /> : "생성"}
               </Button>
             </DialogFooter>
           </form>

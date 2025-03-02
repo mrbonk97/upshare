@@ -13,6 +13,7 @@ import { CopyIcon } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { FolderContext } from "../folder-context";
+import { Spinner } from "@/components/spinner";
 
 interface Props {
   fileId: number;
@@ -97,7 +98,7 @@ export const ShareFileModal = ({ fileId, isShare, shareCode, isOpen, closeModal 
                 </Button>
               </DialogClose>
               <Button disabled={isLoading} onClick={() => handleShare()} className="w-full">
-                공유 중지
+                {isLoading ? <Spinner /> : "공유 중지"}
               </Button>
             </DialogFooter>
           </>

@@ -13,6 +13,7 @@ import { useToast } from "@/hooks/use-toast";
 import { AlertTriangleIcon } from "lucide-react";
 import { useContext, useState } from "react";
 import { FolderContext } from "../folder-context";
+import { Spinner } from "@/components/spinner";
 
 interface Props {
   type: "FILE" | "FOLDER";
@@ -68,7 +69,7 @@ export const DeleteFileModal = ({ type, isOpen, closeModal, id, name }: Props) =
             onClick={() => handleDelete()}
             className="py-6 w-full bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90"
           >
-            삭제
+            {isLoading ? <Spinner /> : "삭제"}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

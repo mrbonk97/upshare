@@ -14,13 +14,17 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-export function MemoryChart() {
+interface Props {
+  memoryUsage: number;
+}
+
+export function MemoryChart({ memoryUsage }: Props) {
   return (
     <ChartContainer config={chartConfig} className="aspect-square h-[180px]">
       <RadialBarChart
         data={chartData}
         startAngle={0}
-        endAngle={(80 / 100) * 360}
+        endAngle={(memoryUsage / 100_000_000) * 360}
         innerRadius={80}
         outerRadius={110}
       >
@@ -43,7 +47,7 @@ export function MemoryChart() {
                       y={viewBox.cy}
                       className="fill-foreground text-4xl font-bold"
                     >
-                      {chartData[0].visitors.toLocaleString()}%
+                      {(memoryUsage / 1_000_000).toFixed(1)}%
                     </tspan>
                     <tspan
                       x={viewBox.cx}

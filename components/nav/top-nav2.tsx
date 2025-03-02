@@ -13,6 +13,7 @@ export const Topnav2 = () => {
       <form action={"/folders/search"} className="relative w-full lg:w-96">
         <input
           name="q"
+          autoComplete="off"
           className="pl-10 pr-5 h-8 w-full rounded lg:rounded-full focus:outline-none"
         />
         <button

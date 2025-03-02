@@ -20,6 +20,9 @@ import { Input } from "@/components/ui/input";
 
 const formSchema = z
   .object({
+    originalPassword: z.string().min(4, {
+      message: "패스워드는 최소 4글자 입니다.",
+    }),
     password: z.string().min(4, {
       message: "패스워드는 최소 4글자 입니다.",
     }),
@@ -45,6 +48,7 @@ export const ChangePasswordModal = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
+      originalPassword: "",
       password: "",
       confirmPassword: "",
     },
@@ -66,7 +70,13 @@ export const ChangePasswordModal = () => {
   };
 
   return (
-    <AlertDialog open={isOpen} onOpenChange={() => setIsOpen((cur) => !cur)}>
+    <AlertDialog
+      open={isOpen}
+      onOpenChange={() => {
+        form.reset();
+        setIsOpen((cur) => !cur);
+      }}
+    >
       <AlertDialogTrigger asChild>
         <Button className="py-5 w-full">패스워드 변경</Button>
       </AlertDialogTrigger>
@@ -78,6 +88,23 @@ export const ChangePasswordModal = () => {
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <FormField
               control={form.control}
+              name="originalPassword"
+              render={({ field }) => (
+                <FormItem className="mt-2">
+                  <FormControl>
+                    <Input
+                      disabled={form.formState.isSubmitting}
+                      type="password"
+                      placeholder="기존 패스워드"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
               name="password"
               render={({ field }) => (
                 <FormItem className="mt-2">
@@ -85,7 +112,7 @@ export const ChangePasswordModal = () => {
                     <Input
                       disabled={form.formState.isSubmitting}
                       type="password"
-                      placeholder="패스워드"
+                      placeholder="새로운 패스워드"
                       {...field}
                     />
                   </FormControl>

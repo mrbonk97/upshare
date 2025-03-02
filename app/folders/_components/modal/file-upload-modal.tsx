@@ -19,6 +19,7 @@ import { convertByte } from "@/lib/utils";
 import { useMyFile } from "@/hooks/use-file";
 import { useToast } from "@/hooks/use-toast";
 import { FolderContext } from "../folder-context";
+import { Spinner } from "@/components/spinner";
 
 interface Props {
   children: React.ReactNode;
@@ -127,7 +128,7 @@ export const FileUploadModal = ({ children }: Props) => {
             className="w-full"
             disabled={myFiles.length == 0 || isSubmitting}
           >
-            {isSubmitting ? "업로드 중..." : "업로드"}
+            {isSubmitting ? <Spinner /> : "업로드"}
           </Button>
         </DialogFooter>
       </DialogContent>
