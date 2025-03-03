@@ -17,6 +17,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
+import { AlertDialogDescription } from "@radix-ui/react-alert-dialog";
 
 const formSchema = z
   .object({
@@ -42,6 +43,7 @@ const formSchema = z
   });
 
 export const ChangePasswordModal = () => {
+  const [error, setError] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const { toast } = useToast();
 
@@ -55,14 +57,26 @@ export const ChangePasswordModal = () => {
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    setError("");
     try {
-      await fetch("/api/users/me", {
+      const result = await fetch("/api/users/me", {
         method: "PATCH",
-        body: JSON.stringify({ password: values.password }),
-      });
-      toast({ title: "패스워드 변경에 성공했습니다." });
-      form.reset();
-      setIsOpen(false);
+        body: JSON.stringify({
+          originalPassword: values.originalPassword,
+          password: values.password,
+        }),
+      }).then((res) => res.json());
+      if (result.code == "error") {
+        setError(result.message);
+        toast({ variant: "destructive", title: "패스워드 변경 실패" });
+        form.reset();
+      }
+
+      if (result.code == "success") {
+        toast({ title: "패스워드 변경에 성공했습니다." });
+        form.reset();
+        setIsOpen(false);
+      }
     } catch (e) {
       if (e instanceof Error)
         toast({ variant: "destructive", title: "패스워드 변경 실패", description: e.message });
@@ -74,6 +88,7 @@ export const ChangePasswordModal = () => {
       open={isOpen}
       onOpenChange={() => {
         form.reset();
+        setError("");
         setIsOpen((cur) => !cur);
       }}
     >
@@ -83,6 +98,7 @@ export const ChangePasswordModal = () => {
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>패스워드 변경</AlertDialogTitle>
+          <AlertDialogDescription>사용자의 패스워드를 변경할 수 있습니다.</AlertDialogDescription>
         </AlertDialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
@@ -137,6 +153,7 @@ export const ChangePasswordModal = () => {
                 </FormItem>
               )}
             />
+            <p className="mt-5 font-medium text-sm text-center text-destructive">{error}</p>
             <AlertDialogFooter className="pt-5">
               <AlertDialogCancel disabled={form.formState.isSubmitting}>취소</AlertDialogCancel>
               <Button type="submit" disabled={form.formState.isSubmitting} className="w-full">

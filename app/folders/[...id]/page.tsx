@@ -14,13 +14,15 @@ interface Props {
   searchParams: Promise<{ q: string | undefined }>;
 }
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata({ params, searchParams }: Props): Promise<Metadata> {
   // read route params
   const { id } = await params;
   const folderId = id[0];
+  const sp = await searchParams;
 
   if (folderId == "all") return { title: "전체 폴더 - UPSHARE" };
   if (folderId == "share") return { title: "공유중인 폴더 - UPSHARE" };
+  if (typeof sp.q == "string") return { title: `검색: ${sp.q} - UPSHARE` };
   return { title: "폴더 - UPSHARE" };
 }
 

@@ -8,6 +8,7 @@ export function cn(...inputs: ClassValue[]) {
 export const Fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 export function convertByte(size: string | number) {
+  if (!size) return "0B";
   if (typeof size == "string") size = parseInt(size);
 
   if (size >= 1_000_000_000) return `${(size / 1_000_000_000).toFixed(2)}GB`;
