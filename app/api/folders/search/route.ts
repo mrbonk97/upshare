@@ -36,8 +36,6 @@ export const GET = auth(async function (req) {
     const userId = req.auth.user.id;
     const q = req.nextUrl.searchParams.get("q") || "";
 
-    console.log(q);
-
     // // SQL 실행
     const fileResult = await executeSql(SQL1, [userId, q]);
     const folderResult = await executeSql(SQL2, [userId, q]);
