@@ -44,10 +44,10 @@ export const ProfileButton = async () => {
       <DropdownMenuContent>
         <DropdownMenuLabel>{session.user.name}</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>
+        <DropdownMenuItem className="cursor-pointer" asChild>
           <Link href={"/profile"}>프로필</Link>
         </DropdownMenuItem>
-        <DropdownMenuItem>
+        <DropdownMenuItem className="cursor-pointer" asChild>
           <form
             action={async () => {
               "use server";
