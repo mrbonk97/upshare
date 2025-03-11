@@ -42,16 +42,29 @@ export const FileList = ({
   const closeModal = () => setIsModalOpen("NONE");
 
   const handleDownload = async () => {
-    const response = await fetch(`/api/files/${fileId}`);
-    const blob = await response.blob();
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = fileName;
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    window.URL.revokeObjectURL(url);
+    try {
+      const response = await fetch(`/api/files/${fileId}`);
+      const contentDisposition = response.headers.get("Content-Disposition");
+
+      let filename = "downloaded-file"; // 기본 파일명
+      if (contentDisposition) {
+        const match = contentDisposition.match(/filename="(.+)"/);
+        if (match && match[1]) {
+          filename = match[1];
+        }
+      }
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      window.URL.revokeObjectURL(url);
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   return (
