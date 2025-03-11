@@ -10,7 +10,7 @@ export const Leftnav = () => {
     <aside className="fixed z-30 top-0 left-0 hidden lg:block pt-20 p-5 h-full w-72 font-semibold">
       <div className="space-y-5 text-xl">
         <Link href={"/folders"} className="block mx-auto w-fit">
-          <Image src={"/file-share.svg"} alt="logo" height={128} width={128} />
+          <Image src={"/file-share.svg"} alt="logo" height={88.05} width={128} />
         </Link>
         <FileUploadModal>
           <button className="py-3 w-full rounded-xl bg-blue-400 text-background">
