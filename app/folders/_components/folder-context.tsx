@@ -92,6 +92,7 @@ export const FolderContextProvider = ({ folderId, q, children }: Props) => {
     if (!state.dragItem) return;
     if (!state.hoverItem) return;
     if (state.dragItem.id == state.hoverItem.id) return;
+    if (state.hoverItem.type == "FILE") return;
 
     try {
       if (state.dragItem.type == "FILE" && state.hoverItem.type == "FOLDER") {
