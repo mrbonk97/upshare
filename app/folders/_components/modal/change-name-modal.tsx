@@ -18,6 +18,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { FolderContext } from "../folder-context";
+import { Spinner } from "@/components/spinner";
 
 const formSchema = z.object({
   name: z
@@ -105,7 +106,7 @@ export const ChangeNameModal = ({ isOpen, closeModal, type, id, defaultName }: P
                 취소
               </AlertDialogCancel>
               <Button disabled={form.formState.isSubmitting} type="submit" className="w-full">
-                변경
+                {form.formState.isSubmitting ? <Spinner /> : "변경"}
               </Button>
             </AlertDialogFooter>
           </form>
