@@ -17,8 +17,8 @@ export const ProfileButton = async () => {
     return (
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Avatar className="h-8 w-8 hidden lg:block cursor-pointer">
-            <AvatarImage src="/user.png" className="bg-background" />
+          <Avatar className="h-8 w-8 cursor-pointer">
+            <AvatarImage src="/user.png" className="bg-secondary lg:bg-background" />
             <AvatarFallback>CN</AvatarFallback>
           </Avatar>
         </DropdownMenuTrigger>
@@ -36,8 +36,8 @@ export const ProfileButton = async () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Avatar className="h-8 w-8 hidden lg:block cursor-pointer">
-          <AvatarImage src="/user.png" className="bg-background" />
+        <Avatar className="h-8 w-8 cursor-pointer">
+          <AvatarImage src="/user.png" className="bg-secondary lg:bg-background" />
           <AvatarFallback>{session.user.name}</AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>

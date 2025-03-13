@@ -1,16 +1,20 @@
 import { SearchIcon } from "lucide-react";
 import { ProfileButton } from "./profile-button";
 import Image from "next/image";
+import Link from "next/link";
+import { MobileSearchIcon } from "./mobile-search-icon";
 
 export const Topnav = () => {
   return (
-    <nav className="fixed z-20 top-0 left-0 px-5 lg:px-10 h-14 lg:h-16 w-full flex items-center justify-between gap-2 bg-secondary">
-      <div className="hidden lg:block" />
-      <form action={"/folders/search"} className="relative w-full lg:w-96">
+    <nav className="fixed z-20 top-0 left-0 px-5 lg:px-10 h-14 lg:h-16 w-full flex items-center justify-between gap-2 bg-background lg:bg-secondary">
+      <Link href={"/folders"}>
+        <Image src={"/file-share.svg"} alt="logo" height={46} width={46} className="lg:hidden" />
+      </Link>
+      <form action={"/folders/search"} className="hidden lg:block relative w-full lg:w-96">
         <input
           name="q"
           autoComplete="off"
-          className="pl-10 pr-5 h-8 w-full rounded lg:rounded-full focus:outline-none"
+          className="pl-10 pr-5 h-8 w-full rounded-full focus:outline-none"
         />
         <button
           type="submit"
@@ -19,10 +23,10 @@ export const Topnav = () => {
           <SearchIcon />
         </button>
       </form>
-      <ProfileButton />
-      <button className="lg:hidden">
-        <Image src={"/file-share.svg"} alt="logo" height={40} width={40} />
-      </button>
+      <div className="flex items-center gap-2">
+        <MobileSearchIcon />
+        <ProfileButton />
+      </div>
     </nav>
   );
 };

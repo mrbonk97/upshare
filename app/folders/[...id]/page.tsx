@@ -39,7 +39,7 @@ const FoldersIdPage = async ({ params, searchParams }: Props) => {
       <Topnav />
       <FolderContextProvider folderId={folderId} q={sp.q}>
         <Leftnav />
-        <main className="pt-14 lg:pt-16 px-5 lg:pl-72 bg-secondary">
+        <main className="pt-16 px-5 lg:pl-72 bg-secondary">
           <section className="p-4 min-h-[calc(100vh-4rem)] rounded-t-xl bg-background overflow-y-auto">
             <div className="p-2">
               <FolderBreadCrumb />
