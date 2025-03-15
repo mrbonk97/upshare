@@ -1,6 +1,5 @@
 import { SearchIcon } from "lucide-react";
 import { ProfileButton } from "./profile-button";
-import Image from "next/image";
 import Link from "next/link";
 import { Logo } from "@/components/logo";
 

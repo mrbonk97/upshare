@@ -118,7 +118,7 @@ export const FolderCreateModal = ({ children }: Props) => {
                 )}
               />
             </>
-            <DialogFooter className="mt-5">
+            <DialogFooter className="mt-5 gap-5 sm:gap-0">
               <DialogClose asChild>
                 <Button variant={"outline"} disabled={form.formState.isSubmitting}>
                   취소

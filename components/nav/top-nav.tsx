@@ -8,7 +8,14 @@ export const Topnav = () => {
   return (
     <nav className="fixed z-20 top-0 left-0 px-5 lg:px-10 h-14 lg:h-16 w-full flex items-center justify-between gap-2 bg-background lg:bg-secondary">
       <Link href={"/folders"}>
-        <Image src={"/file-share.svg"} alt="logo" height={46} width={46} className="lg:hidden" />
+        <Image
+          src={"/file-share.svg"}
+          alt="logo"
+          height={0}
+          width={0}
+          className="lg:hidden w-12 h-auto"
+          priority
+        />
       </Link>
       <form action={"/folders/search"} className="hidden lg:block relative w-full lg:w-96">
         <input

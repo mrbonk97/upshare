@@ -118,7 +118,7 @@ export const FileUploadModal = ({ children }: Props) => {
           <p className="font-medium text-sm opacity-60">파일별 20MB까지 업로드 가능</p>
         </div>
         {files.length > 0 && <ul className="max-h-52 overflow-y-auto space-y-2">{files}</ul>}
-        <DialogFooter>
+        <DialogFooter className="gap-5 sm:gap-0">
           <DialogClose asChild>
             <Button variant={"outline"}>취소</Button>
           </DialogClose>

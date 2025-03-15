@@ -6,6 +6,7 @@ import { FolderBreadCrumb } from "../_components/folder-breadcrumb";
 import { Leftnav } from "../_components/nav/left-nav";
 import { FolderContextProvider } from "../_components/folder-context";
 import { Metadata } from "next";
+import { MobileUploadButton } from "@/components/mobile-upload-button";
 
 interface Props {
   params: Promise<{
@@ -39,8 +40,8 @@ const FoldersIdPage = async ({ params, searchParams }: Props) => {
       <Topnav />
       <FolderContextProvider folderId={folderId} q={sp.q}>
         <Leftnav />
-        <main className="pt-16 px-5 lg:pl-72 bg-secondary">
-          <section className="p-4 min-h-[calc(100vh-4rem)] rounded-t-xl bg-background overflow-y-auto">
+        <main className="pt-16 px-5 lg:pl-72 lg:bg-secondary">
+          <section className="p-0 lg:p-4 min-h-[calc(100vh-4rem)] lg:rounded-t-xl bg-background overflow-y-auto">
             <div className="p-2">
               <FolderBreadCrumb />
             </div>
@@ -48,6 +49,7 @@ const FoldersIdPage = async ({ params, searchParams }: Props) => {
           </section>
         </main>
       </FolderContextProvider>
+      <MobileUploadButton />
     </>
   );
 };

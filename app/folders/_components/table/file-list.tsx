@@ -108,7 +108,7 @@ export const FileList = ({
         >
           <Image
             src={getFileIcon(fileExtension)}
-            alt="folder"
+            alt={fileExtension.substring(1)}
             height={24}
             width={24}
             className="inline mr-2 h-4 w-4 lg:h-6 lg:w-6"

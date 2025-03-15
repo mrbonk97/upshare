@@ -53,7 +53,7 @@ export function getFileIcon(type: string) {
     case ".video":
       return "/icons/014-video.svg";
     case ".pdf":
-      return "/icons/014-pdf.svg";
+      return "/icons/016-pdf.svg";
     case ".php":
       return "/icons/016-php.svg";
     case ".ppt":
