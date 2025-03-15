@@ -52,6 +52,10 @@ export const SignUpForm = () => {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
+      if (document.activeElement instanceof HTMLElement) {
+        document.activeElement.blur();
+      }
+
       const result = await fetch("/api/users/sign-up", {
         method: "POST",
         body: JSON.stringify(values),
@@ -95,6 +99,7 @@ export const SignUpForm = () => {
                   disabled={form.formState.isSubmitting}
                   placeholder="아이디"
                   {...field}
+                  autoCapitalize="none"
                   className="py-6 rounded-none border-x-0 border-t-0 border-b shadow-none focus-visible:ring-0"
                 />
               </FormControl>

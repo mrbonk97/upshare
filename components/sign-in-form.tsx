@@ -37,6 +37,10 @@ export const SignInForm = () => {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
+      if (document.activeElement instanceof HTMLElement) {
+        document.activeElement.blur();
+      }
+
       const formData = new FormData();
       formData.append("username", values.username);
       formData.append("password", values.password);
@@ -70,6 +74,7 @@ export const SignInForm = () => {
                 <Input
                   placeholder="아이디"
                   {...field}
+                  autoCapitalize="none"
                   className="py-6 rounded-none border-x-0 border-t-0 border-b shadow-none focus-visible:ring-0"
                 />
               </FormControl>

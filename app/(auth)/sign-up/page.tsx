@@ -10,8 +10,8 @@ export const metadata: Metadata = {
 
 const SignUpPage = () => {
   return (
-    <main className="p-5 h-full md:min-h-[800px] flex2 md:bg-blue-400">
-      <section className="p-5 h-full w-full md:max-h-[700px] max-w-[1000px] bg-background md:bg-secondary rounded-xl flex justify-between gap-5">
+    <main className="pt-0 md:pt-5 p-5 h-full md:min-h-[800px] flex2 md:bg-blue-400">
+      <section className="pt-0 md:pt-5 p-5 h-full w-full md:max-h-[700px] max-w-[1000px] md:bg-secondary rounded-xl flex justify-between gap-5">
         <div className="hidden md:flex w-full relative items-center justify-center">
           <Link href={"/"} className="absolute top-2 left-2">
             <Logo />
