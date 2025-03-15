@@ -24,9 +24,6 @@ export const Topnav2 = () => {
         </button>
       </form>
       <ProfileButton />
-      <button className="lg:hidden">
-        <Image src={"/file-share.svg"} alt="logo" height={40} width={40} />
-      </button>
     </nav>
   );
 };

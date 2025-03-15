@@ -9,6 +9,7 @@ import { ChangePasswordModal } from "./_components/change-password-modal";
 import { getMemoryUsage } from "@/lib/action";
 import { convertByte } from "@/lib/utils";
 import { Metadata } from "next";
+import { Footer } from "@/components/nav/footer";
 
 export const metadata: Metadata = {
   title: "프로필 -  UPSHARE",
@@ -23,12 +24,13 @@ const ProfilePage = async () => {
   return (
     <>
       <Topnav2 />
-      <main className="pt-14 lg:pt-16 min-h-full space-y-5">
+      <main className="pt-14 lg:pt-16 min-h-full space-y-20 xl:space-y-5">
         {/* @ts-expect-error auth.js를 바꿀 User property는 readonly, 억지로 넣어줬음 */}
         <UserInfoSection name={session.user!.name!} createdAt={session.user!.createdAt!} />
         <MemorySection memoryUsage={memory.MEMORY_USAGE} fileCount={memory.FILE_COUNT} />
         <DangerSection />
       </main>
+      <Footer />
     </>
   );
 };
@@ -41,9 +43,9 @@ interface UserInfoProps {
 }
 
 const UserInfoSection = ({ name, createdAt }: UserInfoProps) => (
-  <section className="p-5 mx-auto max-w-[1200px]">
+  <section className="p-5 mx-auto max-w-[600px] xl:max-w-[1200px]">
     <h4 className="mb-5 w-full font-medium opacity-80">기본정보</h4>
-    <div className="flex gap-10">
+    <div className="flex flex-col lg:flex-row items-center lg:items-start gap-10">
       <div className="relative h-36 w-36">
         <Image
           src={"/user.png"}
@@ -56,7 +58,7 @@ const UserInfoSection = ({ name, createdAt }: UserInfoProps) => (
           <PencilIcon size={20} />
         </button>
       </div>
-      <ul className="px-5 border-l font-medium opacity-80">
+      <ul className="px-5 lg:border-l font-medium opacity-80">
         <li className="grid grid-cols-5 gap-2">
           <span className="col-span-2">아이디</span>
           <span className="col-span-3">: {name}</span>
@@ -82,9 +84,9 @@ interface Props {
   fileCount: number;
 }
 const MemorySection = ({ memoryUsage, fileCount }: Props) => (
-  <section className="p-5 border-t mx-auto max-w-[1200px]">
+  <section className="p-5 border-t mx-auto max-w-[600px] xl:max-w-[1200px]">
     <h4 className="mb-5 w-full font-medium opacity-80">메모리 사용량</h4>
-    <div className="flex items-center gap-10">
+    <div className="flex flex-col lg:flex-row items-center gap-10">
       <MemoryChart memoryUsage={memoryUsage} />
       <hgroup>
         <p className="text-2xl font-semibold opacity-80">{convertByte(memoryUsage)}/100mb 사용중</p>
@@ -95,7 +97,7 @@ const MemorySection = ({ memoryUsage, fileCount }: Props) => (
 );
 
 const DangerSection = () => (
-  <section className="p-5 border-t mx-auto max-w-[1200px]">
+  <section className="p-5 border-t mx-auto max-w-[600px] xl:max-w-[1200px]">
     <h4 className="mb-5 inline-flex font-medium opacity-80">위험지역</h4>
     <div className="p-5 w-fit rounded-xl border flex items-center justify-center gap-10">
       <div className="font-medium opacity-80">

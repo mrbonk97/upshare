@@ -24,25 +24,28 @@ export const FileTable = () => {
   const result = useSWR(`/api/folders${params1}${params2}`, Fetcher);
 
   return (
-    <div role="table" className="w-full font-medium opacity-80">
+    <div role="table" className="w-full font-medium opacity-80 text-sm">
       <div role="tablehead" className="sticky px-2 mt-5 border-y py-2">
-        <div role="row" className="grid grid-cols-6 lg:grid-cols-10 gap-5">
-          <div role="columnheader" className="px-1 col-span-3 text-sm lg:text-base">
+        <div role="row" className="grid grid-cols-8 xl:grid-cols-10 gap-2">
+          <div role="columnheader" className="px-1 col-span-7 sm:col-span-5">
             파일명
           </div>
-          <div role="columnheader" className="hidden lg:block px-1 col-span-2 text-right">
+          <div
+            role="columnheader"
+            className="hidden sm:block col-span-2 md:col-span-1 px-1 text-right"
+          >
             등록 날짜
           </div>
-          <div role="columnheader" className="hidden lg:block px-1 col-span-1 text-right">
+          <div role="columnheader" className="hidden md:block px-1 col-span-1 text-right">
             파일 크기
           </div>
-          <div role="columnheader" className="px-1 col-span-2 text-center text-sm lg:text-base">
+          <div role="columnheader" className="hidden xl:block px-1 col-span-1 text-center">
             공유 여부
           </div>
-          <div role="columnheader" className="hidden lg:block px-1 col-span-1 text-center">
+          <div role="columnheader" className="hidden xl:block px-1 col-span-1 text-center">
             남은 시간
           </div>
-          <div role="columnheader" className="px-1 col-span-1 text-right text-sm lg:text-base">
+          <div role="columnheader" className="px-1 col-span-1 text-right">
             옵션
           </div>
         </div>
